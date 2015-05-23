@@ -1,0 +1,349 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>扯淡窝</title>
+  <meta name="author" content="hellovigoss">
+
+  
+  
+
+  <link rel="alternate" href="/atom.xml" title="扯淡窝" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><nav>
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+</nav></header>
+  <div id="content" class="inner">
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <header>
+    
+  
+    <h1 class="title"><a href="/2015/05/23/ftb/">ftb</a></h1>
+  
+
+    <time datetime="2015-05-23T11:48:43.000Z">
+  <span class="day">23</span><span class="month">May</span>
+</time>
+  </header>
+  <div class="entry-content">
+    
+      <h3 id="ftb项目设计">ftb项目设计</h3><p>全称 frontend to backend，是一款用来贯穿前端与后端的项目。</p>
+<h3 id="项目背景">项目背景</h3><p>随着web开发的多元性，最基本的特征就是面向用户的前端开发与面向业务逻辑的后端开发职责分离、各司其职。<br>但终究还是在同一个项目中进行数据交互。前后端交互的两种方案是：采取模板引擎同步渲染；类似富客户端前后端分离，采取ajax、websocket等方案与后端进行数据交互。<br>第二种方案还是不免使得前端开发人员与后端开发人员商量接口，约束调用url、变量等信息。<br>ftb即为了打通前后端所做的努力。</p>
+<h3 id="使用方法">使用方法</h3><ul>
+<li>git clone </li>
+<li>安装运行时环境</li>
+<li>编写全局配置</li>
+<li>后端直接进行业务开发</li>
+<li>按ftb注释规范进行注释</li>
+<li>扫描系统生成javascript交互代码</li>
+<li>前端引入使用</li>
+</ul>
+<h3 id="联系">联系</h3><p>hellovigoss@gmail.com</p>
+
+    
+    
+    <footer class="meta">
+      
+  <div class="cats">
+<a href="/categories/design/">design</a></div>
+
+      
+      
+    </footer>
+    
+  </div>
+  
+</article>
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <header>
+    
+  
+    <h1 class="title"><a href="/2015/05/23/secrect-behind-performance-testing/">性能测试背后的秘密</a></h1>
+  
+
+    <time datetime="2015-05-23T07:49:58.000Z">
+  <span class="day">23</span><span class="month">May</span>
+</time>
+  </header>
+  <div class="entry-content">
+    
+      <blockquote>
+<p>“跑个并发测试撒～”这句话在高并发高吞吐服务开发已经传为佳话。从撸阿撸的不服sala，到杂粮的不服跑个分，再到swooler的不服比比qps</p>
+</blockquote>
+<p>有图有丁日：<br><img src="/2015/05/23/secrect-behind-performance-testing/1.jpg" alt="1.jpg" title=""><br> 上图是swoole框架在两百路并发十万个请求的性能测试结果，可以看到qps为每秒1w6,总耗时6.140秒<br><img src="/2015/05/23/secrect-behind-performance-testing/2.jpg" alt="2.jpg" title=""><br> 这儿是同样的机器，同样的配置，同样的并发量下nodejs表现，被swoole秒成渣了～<em>可怜的6k不到qps和17s的总耗时</em>  </p>
+<p>这是什么gui～  </p>
+<p> 在上个图，nodejs输出hello world的耗时<br><img src="/2015/05/23/secrect-behind-performance-testing/3.jpg" alt="3.jpg" title=""><br> php如下<br><img src="/2015/05/23/secrect-behind-performance-testing/4.jpg" alt="4.jpg" title=""></p>
+<p>一目了然，平均一个请求耗费在输出这上面的时间就差了这么多，总数10W的请求数，总时间下降是必然的了～～<br> so，真的不是swoole比nodejs吞吐量高<br> 从另一方面说，单纯的helloworld测试真的有那么大说服力么？<strong>摆脱了业务逻辑的性能测试</strong>放大了这微妙数，加上了业务逻辑，这部分瓶颈必然被掩盖，似乎hello world真的不能证明什么吧</p>
+<p>这是在swoole加了一次redis操作之后测出的qps.发现下降了近三倍之多,下面是测试代码</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Requests per second:    8260.25 [#/sec] (mean)&#10;Time per request:       0.121 [ms] (mean, across all concurrent requests)</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="variable">$http</span> = <span class="keyword">new</span> swoole_http_server(<span class="string">"0.0.0.0"</span>, <span class="number">8083</span>, <span class="number">4</span>); </span><br><span class="line"><span class="variable">$http</span>-&gt;set([</span><br><span class="line">		<span class="string">'worker_num'</span> =&gt; <span class="number">1</span></span><br><span class="line">		]);</span><br><span class="line"><span class="variable">$redis</span> = <span class="keyword">new</span> Redis();</span><br><span class="line"><span class="variable">$redis</span>-&gt;connect(<span class="string">'127.0.0.1'</span>, <span class="number">6379</span>);</span><br><span class="line"><span class="variable">$http</span>-&gt;on(<span class="string">'request'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(swoole_http_request <span class="variable">$request</span>, swoole_http_response <span class="variable">$response</span>)</span> <span class="title">use</span><span class="params">(<span class="variable">$redis</span>)</span></span>&#123;</span><br><span class="line">		<span class="variable">$ret</span> = <span class="variable">$redis</span>-&gt;get(<span class="string">'test-key'</span>);</span><br><span class="line">		<span class="variable">$response</span>-&gt;header(<span class="string">'Content-Type'</span>, <span class="string">'text/html'</span>);</span><br><span class="line">		<span class="variable">$response</span>-&gt;end(<span class="variable">$ret</span>);</span><br><span class="line">		&#125;); </span><br><span class="line"><span class="variable">$http</span>-&gt;start();</span><br></pre></td></tr></table></figure>
+<p>这是nodejs加了一次redis操作之后的qps,原来三倍的差距一下就拉近了。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Requests per second:    4900.73 [#/sec] (mean)&#10;Time per request:       0.204 [ms] (mean, across all concurrent requests)</span><br></pre></td></tr></table></figure>
+<p>似乎连2倍都不到了？？原来的3倍差距也仅仅是因为不同的实现导致的，swoole纯c实现，而nodejs需要透过v8来运行js代码，一个简单的write操作变得非常复杂，在swoole里单个请求耗时50微秒，而nodejs需要150左右，看似真有三倍的性能提升。但是如果再加上更多的业务逻辑，比如业务逻辑耗时10毫秒，20毫秒，，那他们之间相差的那100多或者再多点200乃至300微秒的差距，真的有意义吗？？<br> 本文目的不是为了做性能测试，也不是为了喷swoole,而是让大家正确对待“hello world”式的测试，一切抛开业务逻辑的测试都是在耍流氓，提醒以后大家遇到此类hello wrold式的测试就绕道而行吧！真的毫无意义。<br> 非黑非粉，有理无言对～</p>
+
+    
+    
+    <footer class="meta">
+      
+  <div class="cats">
+<a href="/categories/Technology/">Technology</a></div>
+
+      
+      
+    </footer>
+    
+  </div>
+  
+</article>
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <header>
+    
+  
+    <h1 class="title"><a href="/2015/05/23/hexo/">hexo</a></h1>
+  
+
+    <time datetime="2015-05-23T05:06:22.000Z">
+  <span class="day">23</span><span class="month">May</span>
+</time>
+  </header>
+  <div class="entry-content">
+    
+      <p>更新了新的电脑，换到了MAC系统，也准备重新拾起blog，无奈jekyll怎么都没法正常运行。  </p>
+<p>于是考虑新的替换方案，前提一样，还是采取github的page完成线下编译部署发布的完整静态博客。  </p>
+<p><strong> hexo </strong> 走进了我的视野，台湾人写的一套类似jekyll的静态博客系统，<a href="http://hexo.io/。" target="_blank" rel="external">http://hexo.io/。</a> </p>
+<ul>
+<li>nodejs编写，超快的文章生成速度</li>
+<li>一键部署至目标网站（不仅是github）</li>
+<li>Markdown完美支持</li>
+<li><p>丰富的可用插件  </p>
+<p>以上几点已经完全满足我的需求，果断进行迁移。事实也证明完全没有问题。<br>done</p>
+</li>
+</ul>
+
+    
+    
+    <footer class="meta">
+      
+  <div class="cats">
+<a href="/categories/花样炸鸡/">花样炸鸡</a></div>
+
+      
+      
+    </footer>
+    
+  </div>
+  
+</article>
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <header>
+    
+  
+    <h1 class="title"><a href="/2015/02/14/about-IO/">关于IO</a></h1>
+  
+
+    <time datetime="2015-02-14T02:43:00.000Z">
+  <span class="day">14</span><span class="month">Feb</span>
+</time>
+  </header>
+  <div class="entry-content">
+    
+      <p>好久没有写博文了，感觉markdown都要看着手册来。都怪坑爹的新浪。<br>快过年了，也得空写一些东西，前些时间与人讨论IO相关技术，刚好在这儿发散一下。一点点心得，做个记录</p>
+<p>列举几个IO相关专业名词：   </p>
+<ul>
+<li>blockingIO 阻塞式IO</li>
+<li>non-blockingIO 非阻塞式IO</li>
+<li>Synchronous 同步</li>
+<li>Asynchronous 异步</li>
+</ul>
+<p>很多人可能很简单的把其中的阻塞式理解成同步，非阻塞式就理解成异步，其实这是有偏差的。  </p>
+<ol>
+<li><p>阻塞：linux系统中，默认所有的socket操作都是阻塞的，当用户进程接受了一次socket请求，会进行kernel的系统调用也就是recvfrom这个系统调用，这时候内核就开始为这次的io进行数据准备，对于网络io来说，数据是并不一定此刻完全请求到达服务端。所以kernel就要等待足够的数据到来。<br>而在用户进程看来，kernel并没有给出任何响应，所以就一直等待。因而这个请求就是阻塞的请求。直至kernel完全准备好数据并且拷贝至用户内存，才会返回此次系统调用的结果，用户进程才会继续往下走，接着运行。  </p>
+</li>
+<li><p>非阻塞：linux系统中，可以通过设置使得socket变成非阻塞形式，这时候，如果用户进程发起recvfrom系统调用，如果kernel数据尚未准备完毕，也会立即返回，返回的是一个error。此时用户进程就不被阻塞，它可以立即向下执行。<br>但是需要注意的是：<strong>用户进程需要不断的主动询问kernel是否准备就绪，也就是不断的发送recvfrom进行check，一旦发现数据准备就绪，则立即发送read操作，完成请求</strong>  </p>
+</li>
+<li><p>事件驱动：现在种种高吞吐、高并发、高性能服务器采取的方案，譬如select、epoll。与前面的IO不同点在于，多个连接被放在同一个进程中。这个进程会发起一个叫做select的系统调用，系统依然被阻塞，内核会对所有socket进行监控，一旦其中的任意一个socket数据被准备好的时候，kernel就会给出成功的信号。然后用户进程就可以开始第一步或者第二步完全一样的调用。可以想像，此时必定有一条socket数据以及准备完毕。剩下的n-1条数据是未准备好的，因此设置被管理的socket IO类型为non-blocking的就可以避免系统被阻塞。<br>在select处看来，还是一个阻塞式的调用。虽然内部管理的各个socket也可以设置为blocking或者non-blocking，但是明显应该设置为non-blocking，将阻塞的操作交由它们的事件管理者来做。<br><strong>它的优点在于：能够一次性管理更多的连接。但是在很少量的连接，事件驱动型IO确显的更加低效，因为它比普通的阻塞/非阻塞IO多了一步select的系统调用</strong></p>
+</li>
+<li><p>异步IO：流程是：用户进程发起一次asynchronous_read请求后便立刻开始其他的逻辑。kernel收到了这个异步读取的请求之后，会立刻返回，不会对用户进程产生block，然后开始准备数据，进行拷贝，等拷贝完成之后，主动发送一个信号量告诉用户进程请求已经完成。<strong>这才是完全的异步</strong></p>
+</li>
+</ol>
+<blockquote>
+<p>是不是漏了同步IO？<br> 其实1、2、3着三种IO模型，都是同步的或者只是从外部看来是异步的！<br>  <strong>仔细想一下，异步在于请求之后完全撒手不管了，后面的事情托管给别人来通知我</strong></p>
+</blockquote>
+<p>上面讲的如果还是不够容易理解，下面举几个通俗一点的例子：</p>
+<ul>
+<li><em>一个人去买票，来到售票窗口，问：“有今天下午合肥到安庆的火车么？”，售票员同志开始查看电脑，乘客也等着售票员的答复，大概等了10分钟后。售票员告诉乘客，“有，买吧”，然后进行交易。在实际交易开始之前，这个乘客一直在等待售票员的回应，不能干别的事儿，这就是阻塞式，特征就是两头都卡住了</em>  </li>
+<li><em>这个人又来买票了，这次换了个窗口，他问：“今儿下午到安庆的车票有么？”，售票员同志跟他说：“等等，我查查”。这哥们一边等，一边开始吃着火锅唱着哥，然后每隔1分钟问一次售票员：“票可查到了？”，第三遍的时候，售票员告诉他：“有票”，然后他就交钱买票。这就是非阻塞，最明显的就是立马响应和再次发起主动询问</em></li>
+<li><em>这个哥们儿又来买票了，这次又换了个窗口，窗口外头站了个黄牛贩子，他跑去问黄牛贩子，“我要买张合肥到安庆的火车票”。黄牛说：“好，包在我身上。您去忙您的吧”。然后哥们出去吃火锅唱歌去了。黄牛贩子就把收集到的一批要买的票一起扔到售票口，然后隔几分钟问问售票员，可有出票。一旦有一张票出来了，贩子一声吼，“有票了~来拿票撒。”，哥们跟一堆人跑去问是不是自己的。最后总有一个家伙开始给钱领票，剩下的继续出去吃火锅。等黄牛再叫。这就叫事件驱动或者多路复用IO，特点就是由黄牛统一管理</em></li>
+<li><em>经过了三次抢票后，这个哥们不想去火车站了。然后他上网找了个跑腿的，给了他佣金，让他去帮忙跑腿买票。自己就在家吃火锅了。过了半天，票送来了。这就是完全异步，自己都不知道票咋就来了～</em></li>
+</ul>
+
+    
+    
+    <footer class="meta">
+      
+  <div class="cats">
+<a href="/categories/Technology/">Technology</a></div>
+
+      
+      
+    </footer>
+    
+  </div>
+  
+</article>
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <header>
+    
+  
+    <h1 class="title"><a href="/2015/02/08/first-blood/">blog再次搬家</a></h1>
+  
+
+    <time datetime="2015-02-08T06:47:27.000Z">
+  <span class="day">8</span><span class="month">Feb</span>
+</time>
+  </header>
+  <div class="entry-content">
+    
+      <blockquote>
+<p>从cnblog到sinaappengine上架设的wordpress再到点点<br>换到github.io上了，用jekyll来写文章，看看效果<br>顺便擦一下sina，把老子好几年的博客数据搞没了。。。qnmb</p>
+</blockquote>
+
+    
+    
+    <footer class="meta">
+      
+  <div class="cats">
+<a href="/categories/杂乱无章/">杂乱无章</a></div>
+
+      
+      
+    </footer>
+    
+  </div>
+  
+</article>
+
+
+<nav id="pagenavi">
+  
+  
+  <div class="clearfix"></div>
+</nav></div>
+  <footer id="footer" class="inner"><div class="social alignright">
+  
+  
+  
+  
+  <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+</div>
+<p>
+  
+  &copy; 2015 hellovigoss
+  
+</p>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<div id="phasebeam">
+  <canvas></canvas>
+  <canvas></canvas>
+  <canvas></canvas>
+</div>
+<script src="/js/phasebeam.js"></script>
+</body>
+</html>
