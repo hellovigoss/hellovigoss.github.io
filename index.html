@@ -43,6 +43,70 @@
   <header>
     
   
+    <h1 class="title"><a href="/2015/06/23/http-cache-header/">http cache头那些事</a></h1>
+  
+
+    <time datetime="2015-06-23T13:41:49.000Z">
+  <span class="day">23</span><span class="month">Jun</span>
+</time>
+  </header>
+  <div class="entry-content">
+    
+      <blockquote>
+<p>http协议里面有一项约定是为节约带宽，提高客户端响应效率，即http缓存头，今天就来聊聊这个响应头  </p>
+</blockquote>
+<p>众所周知，在http的世界是没有状态的。每次的请求响应都是独立的个体，为了标识一次会话，服务端客户端引入了session－cookie这个token。同理，为了知道某个资源到底需不需要下发、是否已经存于服务端缓存中，http协议引入了几个响应头。<br>废话不多说，直接上两个http请求以及响应数据（已知该网站已经在服务端引入了响应缓存机制）：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">GET <span class="regexp">/css/</span><span class="keyword">default</span><span class="regexp">/common.css?version=20140812 HTTP/</span><span class="number">1.1</span></span><br><span class="line"><span class="string">Host:</span> www.xfyun.cn</span><br><span class="line"><span class="string">Connection:</span> keep-alive</span><br><span class="line"><span class="string">Pragma:</span> no-cache</span><br><span class="line">Cache-<span class="string">Control:</span> no-cache</span><br><span class="line"><span class="string">Accept:</span> text<span class="regexp">/css,*/</span>*;q=<span class="number">0.1</span></span><br><span class="line">User-<span class="string">Agent:</span> Mozilla<span class="regexp">/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/</span><span class="number">537.36</span> (KHTML, like Gecko) Chrome<span class="regexp">/42.0.2311.90 Safari/</span><span class="number">537.36</span></span><br><span class="line"><span class="string">Referer:</span> <span class="string">http:</span><span class="comment">//www.xfyun.cn/</span></span><br><span class="line">Accept-<span class="string">Encoding:</span> gzip, deflate, sdch</span><br><span class="line">Accept-<span class="string">Language:</span> zh-CN,zh;q=<span class="number">0.8</span>,en;q=<span class="number">0.6</span></span><br><span class="line"><span class="string">Cookie:</span> PHPSESSID=<span class="number">50</span>ijvaqs49alhf2cqknm3ktj14; pgv_si=s1594306560; firstuserFlag=<span class="number">1</span>; Hm_lvt_d03ed1a731e60802878268783785f9e8=<span class="number">1431780676</span>; Hm_lpvt_d03ed1a731e60802878268783785f9e8=<span class="number">1431782216</span>; Hm_lvt_db1cea5992153fcca7eb8301296a9498=<span class="number">1432861145</span>,<span class="number">1432882508</span>,<span class="number">1433120026</span>,<span class="number">1433219219</span>; Hm_lpvt_db1cea5992153fcca7eb8301296a9498=<span class="number">1433229093</span>; tc_env_demo=<span class="literal">true</span>; tz_env_demo=<span class="literal">true</span>; pgv_pvi=<span class="number">5372320768</span>; pgv_info=ssi=s2803939576; token=<span class="number">00</span>fc6e57-fbed-<span class="number">4785</span>-a52d-<span class="number">00</span>dcd0ef5b55; account_id=empty; Hm_lvt_83a57cc9e205b0add91afc6c4f0babcc=<span class="number">1433985780</span>,<span class="number">1434073945</span>,<span class="number">1434424771</span>,<span class="number">1435065641</span>; Hm_lpvt_83a57cc9e205b0add91afc6c4f0babcc=<span class="number">1435067383</span></span><br><span class="line">RA-<span class="string">Ver:</span> <span class="number">2.10</span>.4</span><br><span class="line">RA-<span class="string">Sid:</span> <span class="number">7</span>C71A5A7-<span class="number">20150516</span>-<span class="number">085033</span>-<span class="number">351</span>f9b-<span class="number">351</span>aee</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">HTTP/<span class="number">1.1</span> <span class="number">200</span> OK</span><br><span class="line"><span class="string">Server:</span> nginx</span><br><span class="line"><span class="string">Date:</span> Tue, <span class="number">23</span> Jun <span class="number">2015</span> <span class="number">13</span>:<span class="number">51</span>:<span class="number">05</span> GMT</span><br><span class="line">Content-<span class="string">Type:</span> text/css</span><br><span class="line">Last-<span class="string">Modified:</span> Mon, <span class="number">15</span> Jun <span class="number">2015</span> <span class="number">07</span>:<span class="number">23</span>:<span class="number">55</span> GMT</span><br><span class="line">Transfer-<span class="string">Encoding:</span> chunked</span><br><span class="line"><span class="string">Connection:</span> keep-alive</span><br><span class="line"><span class="string">Vary:</span> Accept-Encoding</span><br><span class="line"><span class="string">Expires:</span> Tue, <span class="number">23</span> Jun <span class="number">2015</span> <span class="number">14</span>:<span class="number">51</span>:<span class="number">05</span> GMT</span><br><span class="line">Cache-<span class="string">Control:</span> max-age=<span class="number">3600</span></span><br><span class="line">Content-<span class="string">Encoding:</span> gzip</span><br></pre></td></tr></table></figure>
+<p>上面这一段是首次打开某个网站点某一个css资源请求响应头，这边可以看到请求头中有几个跟cache相关的key，其中：</p>
+<ul>
+<li><strong>Pragma</strong> 为兼容http1.0的请求头，no-cache表示本地暂时没有相关文件的缓存数据</li>
+<li><strong>Cache-Control</strong> 为http1.1客户端缓存请求头，no-cache并不是表示客户端不接受缓存，也是告知服务端目前本地没有相关资源的缓存数据</li>
+</ul>
+<p>ok，服务端收到了该请求头，知道这是第一次完全新鲜的访问，所以将受访资源输出响应给客户端，因而给出了一个200 ok的响应码。“ok，你可以读取了”，因为服务端的缓存机制配置，它在响应头中也给出了本次响应关乎此资源cache的相关说明：</p>
+<ul>
+<li><strong>Last-Modified</strong> 本文件最后更改时间</li>
+<li><strong>Expires</strong> 为兼容http1.0的响应头，为本地缓存过期时间（一个gmt的绝对时间）</li>
+<li><strong>Cache-Control</strong> http1.1后新引入的响应头，它是一个以秒为单位的相对时间，是为了克服Expires头仅仅依赖服务端时间，在客户端时间有较大差异的时候会导致出现一直不可以缓存或者长时间缓存不过期的问题。在支持http1.1的服务器内expires每次响应都会被重写为当前时间+cache－control中定义的时间段</li>
+</ul>
+<p>接下来，客户端就可以进行读取body，以及根据响应头进行本地缓存等操作了。那么我们按下f5，再次对刚刚相同的资源进行抓包</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">GET <span class="regexp">/css/</span><span class="keyword">default</span><span class="regexp">/common.css?version=20140812 HTTP/</span><span class="number">1.1</span></span><br><span class="line"><span class="string">Host:</span> www.xfyun.cn</span><br><span class="line"><span class="string">Connection:</span> keep-alive</span><br><span class="line">Cache-<span class="string">Control:</span> max-age=<span class="number">0</span></span><br><span class="line"><span class="string">Accept:</span> text<span class="regexp">/css,*/</span>*;q=<span class="number">0.1</span></span><br><span class="line">If-Modified-<span class="string">Since:</span> Mon, <span class="number">15</span> Jun <span class="number">2015</span> <span class="number">07</span>:<span class="number">23</span>:<span class="number">55</span> GMT</span><br><span class="line">User-<span class="string">Agent:</span> Mozilla<span class="regexp">/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/</span><span class="number">537.36</span> (KHTML, like Gecko) Chrome<span class="regexp">/42.0.2311.90 Safari/</span><span class="number">537.36</span></span><br><span class="line"><span class="string">Referer:</span> <span class="string">http:</span><span class="comment">//www.xfyun.cn/</span></span><br><span class="line">Accept-<span class="string">Encoding:</span> gzip, deflate, sdch</span><br><span class="line">Accept-<span class="string">Language:</span> zh-CN,zh;q=<span class="number">0.8</span>,en;q=<span class="number">0.6</span></span><br><span class="line"><span class="string">Cookie:</span> PHPSESSID=<span class="number">50</span>ijvaqs49alhf2cqknm3ktj14; pgv_si=s1594306560; firstuserFlag=<span class="number">1</span>; Hm_lvt_d03ed1a731e60802878268783785f9e8=<span class="number">1431780676</span>; Hm_lpvt_d03ed1a731e60802878268783785f9e8=<span class="number">1431782216</span>; Hm_lvt_db1cea5992153fcca7eb8301296a9498=<span class="number">1432861145</span>,<span class="number">1432882508</span>,<span class="number">1433120026</span>,<span class="number">1433219219</span>; Hm_lpvt_db1cea5992153fcca7eb8301296a9498=<span class="number">1433229093</span>; tc_env_demo=<span class="literal">true</span>; tz_env_demo=<span class="literal">true</span>; pgv_pvi=<span class="number">5372320768</span>; pgv_info=ssi=s2803939576; token=<span class="number">00</span>fc6e57-fbed-<span class="number">4785</span>-a52d-<span class="number">00</span>dcd0ef5b55; account_id=empty; Hm_lvt_83a57cc9e205b0add91afc6c4f0babcc=<span class="number">1433985780</span>,<span class="number">1434073945</span>,<span class="number">1434424771</span>,<span class="number">1435065641</span>; Hm_lpvt_83a57cc9e205b0add91afc6c4f0babcc=<span class="number">1435067569</span></span><br><span class="line">RA-<span class="string">Ver:</span> <span class="number">2.10</span>.4</span><br><span class="line">RA-<span class="string">Sid:</span> <span class="number">7</span>C71A5A7-<span class="number">20150516</span>-<span class="number">085033</span>-<span class="number">351</span>f9b-<span class="number">351</span>aee</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">HTTP/<span class="number">1.1</span> <span class="number">304</span> Not Modified</span><br><span class="line"><span class="string">Server:</span> nginx</span><br><span class="line"><span class="string">Date:</span> Tue, <span class="number">23</span> Jun <span class="number">2015</span> <span class="number">13</span>:<span class="number">53</span>:<span class="number">13</span> GMT</span><br><span class="line">Last-<span class="string">Modified:</span> Mon, <span class="number">15</span> Jun <span class="number">2015</span> <span class="number">07</span>:<span class="number">23</span>:<span class="number">55</span> GMT</span><br><span class="line"><span class="string">Connection:</span> keep-alive</span><br><span class="line"><span class="string">ETag:</span> <span class="string">"557e7d8b-4737"</span></span><br><span class="line"><span class="string">Expires:</span> Tue, <span class="number">23</span> Jun <span class="number">2015</span> <span class="number">14</span>:<span class="number">53</span>:<span class="number">13</span> GMT</span><br><span class="line">Cache-<span class="string">Control:</span> max-age=<span class="number">3600</span></span><br></pre></td></tr></table></figure>
+<p>可以看到请求头中新增了一个If-Modified-Since的变量，可以与刚刚一次请求的响应头中Last－Modified进行比对。一模一样，此时服务端给出的响应头就是304 not Modified，告诉你，不要在请求了，此次请求的数据时没有变化的，你从你本地缓存中拿吧。然后就响应了，也不会把内容输出到响应body中。</p>
+<p>细心的同志肯定发现为啥第二次客户端请求的Cache－control还是max－age＝0，其实这个事浏览器的机制，f5的时候，默认会进行cache－control为0的http请求。</p>
+<p>如果想探索一下，试试用鼠标点击跳转链接的方式刷新额面。在看看抓包结果，会发现请求头中Cache-Control:max-age=3600，响应还是个200，如果用的是chrome，你会发现后面有个(from cache)，其实这次请求完全没有发。  </p>
+<p>done。就酱</p>
+
+    
+    
+    <footer class="meta">
+      
+  <div class="cats">
+<a href="/categories/Technology/">Technology</a></div>
+
+      
+      
+    </footer>
+    
+  </div>
+  
+</article>
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <header>
+    
+  
     <h1 class="title"><a href="/2015/05/27/days-without-mobile/">不用手机的日子</a></h1>
   
 
