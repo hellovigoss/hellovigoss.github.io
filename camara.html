@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<body>
+    <!-- <input type="button" value="Start" id="start">
+    <input type="button" value="Call" id="call"> -->
+    <video autoplay></video>
+    <video id="remote" autoplay></video>
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <script>
+        (async() => {
+            let stream = await navigator.mediaDevices.getUserMedia({
+                video: true
+            })
+            server = {iceServers:[{urls: "stun:42.192.18.81:3478"}]};
+            let pc1 = new RTCPeerConnection(server)
+            let pc2 = new RTCPeerConnection(server)
+
+            pc1.onicecandidate = (e) => {
+                if (e.candidate) {
+                    pc2.addIceCandidate(e.candidate)
+                }
+            }
+            pc1.onnegotiationneeded = async() => {
+                let offer = await pc1.createOffer()
+                pc1.setLocalDescription(offer)
+                pc2.setRemoteDescription(offer)
+                let answer = await pc2.createAnswer()
+                pc2.setLocalDescription(answer)
+                pc1.setRemoteDescription(answer)
+            }
+
+            stream.getTracks().forEach(track => pc1.addTrack(track, stream))
+            pc2.ontrack = (e) => {
+                console.log(e)
+                document.getElementById('remote').srcObject = e.streams[0]
+            }
+        })();
+    </script>
+</body>
+
+</html>
