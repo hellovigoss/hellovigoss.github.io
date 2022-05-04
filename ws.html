@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<body>
+    <video id="share-v" muted autoplay></video>
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+    <script>
+    const socket = io("ws://42.192.18.81:3001")
+    const params = queryURLparams(window.location.href)
+    let isSender = true
+    if(params.socketid != undefined) {
+        isSender = false
+    }
+
+    socket.on("connect", () => {
+        console.log("connected")
+        if(isSender) {
+            document.querySelector("#url").innerHTML = "http://hellovigoss.github.io/ws.html?socketid=" + socket.id
+        }
+        else {
+            socket.emit("pair", params.socketid)
+            console.log("pair with socketid " + params.socketid)
+        }
+    })
+
+    socket.on("ready", () => {
+        let configuration = { iceServers: [{ urls: "stun:42.192.18.81:3478" }] }
+        let pcLocal = new RTCPeerConnection(configuration)
+
+        pcLocal.onicecandidate = (event) => {
+            if(event.candidate) {
+                socket.emit("candidate", event.candidate)
+            }
+        }
+        socket.on("message/candidate", (data) => {
+            console.log("got candidate" + data)
+            pcLocal.addIceCandidate(data)
+        })
+
+        socket.on("message/offer", (offer) => {
+            console.log("got offer " + offer)
+            pcLocal.setRemoteDescription(offer)
+            pcLocal.createAnswer().then(answer => {
+                pcLocal.setLocalDescription(answer)
+                socket.emit("message/offer", answer)
+            })
+        })
+
+        pcLocal.ontrack = (e) => {
+            console.log("got stream")
+            document.querySelector("#share-v").srcObject = e.streams[0]
+            document.querySelector("#share-v").play()
+        }
+        
+    })
+
+
+
+    function queryURLparams(url) {
+        let obj = {}
+        if (url.indexOf('?') < 0) return obj
+        let arr = url.split('?')
+        url = arr[1]
+        let array = url.split('&')
+        for (let i = 0; i < array.length; i++) {
+            let arr2 = array[i]
+            let arr3 = arr2.split('=')
+            obj[arr3[0]] = arr3[1]
+        }
+        return obj
+    }
+    </script>
+</body>
+
+</html>
