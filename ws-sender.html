@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<body>
+    <span id="url"></span>
+    <video id="share-v" muted autoplay></video>
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+    <script type="module" src="./constant.js"></script>
+    <script type="module" src="./msg.js"></script>
+    <script type="module">
+        import msg from './msg.js'
+        import constants from './constant.js'
+
+        const urlEle = document.querySelector("#url")
+        const vedio = document.querySelector("#share-v")
+
+        let pc = new RTCPeerConnection({
+            iceServers: [
+                {
+                    urls: constants.stun
+                }
+            ]
+        })
+
+        ;(async () => {
+            let socket = await msg.connect(constants.ws)
+            urlEle.innerHTML = socket.id
+            msg.listen(data => {
+                switch (data.action) {
+                    case "pair":
+                        (async () => {
+                            let offer = await pc.createOffer()
+                            pc.setLocalDescription(offer)
+                            msg.send("offer", { offer: offer })
+                        })()
+                        break;
+                    case "answer":
+                        pc.setRemoteDescription(data.answer)
+                        break;
+                    default:
+                        break;
+                }
+            })
+
+            pc.onicecandidate = e => {
+                if (e.candidate) {
+                    msg.send("candidate", { candidate: e.candidate })
+                }
+            }
+
+            pc.onnegotiationneeded = async () => {
+                let offer = await pc.createOffer()
+                pc.setLocalDescription(offer)
+                msg.send("offer", { offer: offer })
+            }
+
+            let stream = await navigator.mediaDevices.getUserMedia({
+                video: true,
+                audio: false
+            })
+            vedio.srcObject = stream
+            stream.getTracks().forEach(track => pc.addTrack(track, stream))
+        })()
+    </script>
+</body>
+
+</html>
