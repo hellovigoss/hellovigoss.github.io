@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<body>
+    <span id="url"></span>
+    <video id="share-v" muted autoplay></video>
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+    <script type="module" src="./msg.js"></script>
+    <script type="module">
+        import msg from './msg.js'
+        import constants from './constant.js'
+
+        const vedio = document.querySelector("#share-v")
+        const params = queryURLparams(window.location.href)
+        let pc = new RTCPeerConnection({
+            iceServers: [
+                {
+                    urls: constants.stun
+                }
+            ]
+        })
+
+        ;(async () => {
+            let socket = await msg.connect(constants.ws)
+            await msg.pair(params.socketid)
+            msg.listen(data => {
+                switch (data.action) {
+                    case "offer":
+                        (async () => {
+                            pc.setRemoteDescription(data.offer)
+                            let answer = await pc.createAnswer()
+                            pc.setLocalDescription(answer)
+                            msg.send("answer", { answer: answer })
+                        })()
+                        break;
+                    case "candidate":
+                        pc.addIceCandidate(data.candidate)
+                        break;
+                    default:
+                        break;
+                }
+            })
+            pc.ontrack = e => {
+                vedio.srcObject = e.streams[0]
+            }
+        })()
+
+        function queryURLparams(url) {
+            let obj = {}
+            if (url.indexOf('?') < 0) return obj
+            let arr = url.split('?')
+            url = arr[1]
+            let array = url.split('&')
+            for (let i = 0; i < array.length; i++) {
+                let arr2 = array[i]
+                let arr3 = arr2.split('=')
+                obj[arr3[0]] = arr3[1]
+            }
+            return obj
+        }
+    </script>
+</body>
+
+</html>
