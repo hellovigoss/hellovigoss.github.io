@@ -1,17 +1,2387 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>从 AI Coding 到 Harness 工程</title><style>
-:root{--bg:#080b0c;--panel:#111719;--panel2:#172124;--ink:#f5f0e6;--muted:#a7b3ad;--dim:#65736e;--line:rgba(245,240,230,.16);--cyan:#22d3ee;--acid:#b6f26a;--amber:#ffb86b;--red:#ff6b6b;--mono:"JetBrains Mono","SFMono-Regular",Consolas,monospace;--sans:"Noto Sans SC","PingFang SC",system-ui,sans-serif;--serif:"Noto Serif SC","Songti SC",serif}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050606;color:var(--ink);font-family:var(--sans)}.deck-viewport{width:100vw;height:100vh;position:relative;background:radial-gradient(circle at 20% 10%,rgba(34,211,238,.14),transparent 28%),radial-gradient(circle at 80% 80%,rgba(182,242,106,.10),transparent 30%),#050606}.deck-stage{width:1920px;height:1080px;position:absolute;left:50%;top:50%;overflow:hidden;transform-origin:center center}.slide{position:absolute;inset:0;padding:76px 92px;background:linear-gradient(120deg,#090d0e,#101718 58%,#091011);visibility:hidden;opacity:0;pointer-events:none;transition:opacity .35s ease,visibility .35s ease;overflow:hidden}.slide.visible{visibility:visible;opacity:1;pointer-events:auto}.slide:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.026) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.026) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(180deg,rgba(0,0,0,.8),transparent);pointer-events:none}.slide-num{position:absolute;right:72px;top:48px;font:900 28px var(--mono);color:var(--cyan);z-index:4}.slide-num span{color:var(--dim);font-size:18px}.section-tag{position:absolute;left:72px;top:50px;font:800 18px var(--mono);letter-spacing:.16em;color:var(--acid);text-transform:uppercase;z-index:4}.slide-header{position:relative;z-index:2;margin:64px 0 42px}.slide-header p{font:900 18px var(--mono);letter-spacing:.18em;color:var(--cyan);margin:0 0 14px;text-transform:uppercase}.slide-header h2{font:900 66px/1.08 var(--serif);letter-spacing:0;margin:0;max-width:1280px}.slide-header h3{font:500 28px/1.38 var(--sans);color:var(--muted);max-width:1180px;margin:22px 0 0}.cover{padding:54px 68px}.cover-grid{position:absolute;inset:0;background:linear-gradient(90deg,rgba(182,242,106,.06),transparent 32%,rgba(34,211,238,.06));}.filetree{position:absolute;left:70px;top:120px;width:300px;height:790px;border:1px solid var(--line);background:rgba(11,16,17,.82);padding:28px;border-radius:10px;z-index:2}.filetree b{font:800 20px var(--mono);color:var(--cyan)}.filetree ul{list-style:none;padding:22px 0 0;margin:0;display:grid;gap:20px}.filetree li{font:600 20px var(--mono);color:var(--muted);padding:12px 14px;border-radius:8px;background:rgba(255,255,255,.04)}.cover-editor{position:absolute;left:92px;right:68px;top:78px;bottom:70px;border:1px solid var(--line);background:rgba(12,17,18,.92);border-radius:12px;box-shadow:0 24px 80px rgba(0,0,0,.45);padding:58px}.editorbar{position:absolute;left:0;right:0;top:0;height:42px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;padding-left:18px;color:var(--dim);font:700 15px var(--mono)}.editorbar span,.term-head i{width:11px;height:11px;border-radius:50%;background:var(--red);display:inline-block}.editorbar span:nth-child(2),.term-head i:nth-child(3){background:var(--amber)}.editorbar span:nth-child(3),.term-head i:nth-child(4){background:var(--acid)}.codeblock{border:1px solid var(--line);background:#0d1315;border-radius:10px;padding:50px 22px 24px;font:600 22px/1.8 var(--mono);color:#d9e3df;position:relative}.code-title{position:absolute;top:14px;left:20px;color:var(--dim);font-size:14px}.codeblock div:not(.code-title) span{display:inline-block;width:42px;color:var(--dim)}.hero-copy{position:absolute;left:545px;right:86px;top:330px;width:auto;z-index:2}.hero-copy p{font:900 19px var(--mono);color:var(--acid);letter-spacing:.16em;text-transform:uppercase;margin:0}.hero-copy h1{font:900 84px/1.02 var(--serif);margin:16px 0 18px;color:var(--ink);max-width:1040px}.hero-copy h4{font:600 28px/1.35 var(--sans);color:var(--muted);margin:0}.terminal{border:1px solid rgba(34,211,238,.28);background:#071012;border-radius:12px;overflow:hidden;box-shadow:0 0 0 1px rgba(34,211,238,.08) inset}.cover .terminal{position:absolute;left:58px;right:58px;bottom:50px;z-index:2}.term-head{height:44px;background:rgba(255,255,255,.05);display:flex;align-items:center;gap:10px;padding:0 16px}.term-head b{margin-right:auto;font:800 15px var(--mono);color:var(--cyan)}.term-body{padding:24px 28px;font:700 23px/1.75 var(--mono);color:#dff7ef}.term-body span{color:var(--acid);margin-right:12px}.agenda{display:grid;grid-template-columns:560px 1fr;gap:80px;align-items:center}.agenda-left{border-left:10px solid var(--acid);padding-left:44px}.agenda-left p{font:900 20px var(--mono);color:var(--cyan);letter-spacing:.18em}.agenda-left h2{font:900 78px/1.08 var(--serif);margin:18px 0}.agenda-left small{font:500 28px/1.45 var(--sans);color:var(--muted)}.agenda-right{display:grid;gap:18px}.agenda-row{display:grid;grid-template-columns:100px 1fr 300px;align-items:center;gap:24px;border:1px solid var(--line);background:rgba(245,240,230,.065);border-radius:10px;padding:28px 30px}.agenda-row span{font:900 42px var(--mono);color:var(--amber)}.agenda-row b{font:900 34px var(--serif)}.agenda-row em{font:600 22px/1.35 var(--sans);color:var(--muted);font-style:normal}.chapter{display:grid;place-items:center}.chapter-index{position:absolute;left:120px;top:120px;font:900 240px var(--mono);color:rgba(34,211,238,.18)}.chapter-copy{width:1180px}.chapter-copy p{font:900 24px var(--mono);letter-spacing:.18em;color:var(--acid)}.chapter-copy h2{font:900 94px/1.05 var(--serif);margin:24px 0}.chapter-copy h3{font:500 34px/1.4 var(--sans);color:var(--muted)}.chapter-line{position:absolute;right:0;top:55%;width:620px;height:1px;background:linear-gradient(90deg,var(--cyan),transparent)}.cards,.problem-grid,.mini-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.cards{grid-template-columns:repeat(2,1fr)}.card{min-height:138px;border:1px solid var(--line);border-radius:10px;background:linear-gradient(180deg,rgba(245,240,230,.08),rgba(245,240,230,.035));padding:24px 26px;display:flex;gap:20px}.card span{font:900 22px var(--mono);color:var(--cyan)}.card p{margin:0;font:500 25px/1.36 var(--sans);color:var(--ink)}.card b{color:var(--acid)}.visual-layout{position:relative;z-index:2;display:grid;grid-template-columns:360px 1fr;gap:42px}.asset-panel{height:594px;border:1px solid var(--line);border-radius:12px;background:radial-gradient(circle,rgba(34,211,238,.22),rgba(34,211,238,.03) 48%,transparent 70%);display:grid;place-items:center;position:relative}.key-visual{width:250px;height:250px;filter:drop-shadow(0 0 32px rgba(34,211,238,.18))}.asset-panel span{position:absolute;inset:26px;border:1px dashed rgba(182,242,106,.28);border-radius:50%}.harness-visual .harness-layout{position:relative;z-index:2;display:grid;grid-template-columns:1.35fr .65fr;gap:32px;align-items:stretch}.harness-visual .harness-image{height:590px;border:1px solid rgba(245,240,230,.18);border-radius:10px;background:#f7f5f1;padding:18px;display:grid;place-items:center;box-shadow:0 18px 60px rgba(0,0,0,.28)}.harness-visual .harness-image img{width:100%;height:100%;object-fit:contain;display:block}.harness-visual .harness-points{display:grid;gap:18px}.harness-visual .harness-point{border:1px solid var(--line);border-left:6px solid var(--acid);border-radius:10px;background:rgba(245,240,230,.06);padding:28px 30px}.harness-visual .harness-point span{font:900 18px var(--mono);letter-spacing:.16em;color:var(--cyan);text-transform:uppercase}.harness-visual .harness-point b{display:block;font:900 34px/1.15 var(--serif);margin:18px 0 12px;color:var(--ink)}.harness-visual .harness-point p{font:500 24px/1.36 var(--sans);color:var(--muted);margin:0}.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:34px;position:relative;z-index:2}.pane{min-height:560px;border:1px solid var(--line);border-radius:12px;padding:40px;background:rgba(245,240,230,.055)}.pane.old{border-color:rgba(255,107,107,.32)}.pane.new{border-color:rgba(182,242,106,.36)}.pane p{font:900 18px var(--mono);letter-spacing:.16em;color:var(--dim);text-transform:uppercase}.pane h3{font:900 44px var(--serif);margin:18px 0 30px;color:var(--cyan)}.pane.new h3{color:var(--acid)}.pane li{font:500 28px/1.42 var(--sans);margin:18px 0;color:var(--ink)}.flowline{position:relative;z-index:2;display:grid;grid-template-columns:repeat(5,1fr);gap:18px;align-items:stretch}.flow-node{min-height:440px;border:1px solid var(--line);background:rgba(245,240,230,.06);border-radius:10px;padding:28px;position:relative}.flow-node:not(:last-child):after{content:"→";position:absolute;right:-24px;top:50%;transform:translateY(-50%);font:900 42px var(--mono);color:var(--amber);z-index:3}.flow-node i{font:900 60px var(--mono);font-style:normal;color:var(--cyan)}.flow-node b{display:block;font:900 34px/1.12 var(--serif);margin:28px 0 20px}.flow-node p{font:500 23px/1.4 var(--sans);color:var(--muted);margin:0}.slide[data-title="Agent Loop：第二阶段是规划、行动、观察"] .flowline{display:grid;grid-template-columns:1fr;gap:18px;margin-top:8px}.slide[data-title="Agent Loop：第二阶段是规划、行动、观察"] .flow-node{min-height:112px;display:grid;grid-template-columns:110px 340px 1fr;align-items:center;gap:28px;padding:26px 34px;background:rgba(245,240,230,.06);border-color:rgba(245,240,230,.18)}.slide[data-title="Agent Loop：第二阶段是规划、行动、观察"] .flow-node:not(:last-child):after{display:none}.slide[data-title="Agent Loop：第二阶段是规划、行动、观察"] .flow-node i{font-size:44px;color:var(--amber)}.slide[data-title="Agent Loop：第二阶段是规划、行动、观察"] .flow-node b{font:900 38px/1.12 var(--serif);margin:0;color:var(--ink)}.slide[data-title="Agent Loop：第二阶段是规划、行动、观察"] .flow-node p{font:500 28px/1.35 var(--sans);color:var(--muted)}.slide[data-title="Agent Loop：第二阶段是规划、行动、观察"] .flow-node:nth-child(even){background:rgba(34,211,238,.055)}.slide[data-title="Agent Loop：第二阶段是规划、行动、观察"] .flow-node::before{content:"";position:absolute;left:0;top:18px;bottom:18px;width:5px;border-radius:5px;background:linear-gradient(180deg,var(--cyan),var(--acid))}.two-col{display:grid;grid-template-columns:1.25fr .75fr;gap:42px;position:relative;z-index:2}.side-notes{border-left:8px solid var(--acid);padding:36px 0 36px 34px}.side-notes b{font:900 48px/1.12 var(--serif);display:block;margin-bottom:30px}.side-notes p{font:500 28px/1.46 var(--sans);color:var(--muted)}.pit-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;position:relative;z-index:2}.pit-card{min-height:224px;border:1px solid var(--line);border-radius:10px;background:linear-gradient(180deg,rgba(255,107,107,.09),rgba(245,240,230,.04));padding:28px 30px;position:relative;overflow:hidden}.pit-card:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 15% 10%,rgba(255,184,107,.16),transparent 34%);pointer-events:none}.pit-card span{position:relative;font:900 20px var(--mono);letter-spacing:.14em;color:var(--amber)}.pit-card b{position:relative;display:block;font:900 36px/1.12 var(--serif);color:var(--acid);margin:18px 0 14px}.pit-card p{position:relative;margin:0;font:500 24px/1.36 var(--sans);color:var(--ink)}.pit-reflection{position:relative;z-index:2;margin-top:20px;border-left:8px solid var(--amber);background:rgba(245,240,230,.06);border-radius:10px;padding:22px 28px;font:700 27px/1.35 var(--sans);color:var(--ink)}.problem-grid{grid-template-columns:repeat(3,1fr)}.problem-grid .card{min-height:230px;display:block}.problem-grid .card span{display:block;font-size:42px;margin-bottom:20px;color:var(--amber)}.stack-wrap{display:grid;gap:10px;position:relative;z-index:2}.stack-row{display:grid;grid-template-columns:100px 330px 1fr;align-items:center;gap:24px;border:1px solid var(--line);background:rgba(245,240,230,.06);border-radius:10px;padding:18px 24px}.stack-row span{font:900 34px var(--mono);color:var(--cyan)}.stack-row b{font:900 30px var(--serif);color:var(--acid)}.stack-row em{font:500 24px/1.34 var(--sans);font-style:normal;color:var(--ink)}.stack-row em:empty{display:none}.slide[data-title="小结"] .stack-wrap{grid-template-columns:repeat(4,1fr);gap:18px;margin-top:8px}.slide[data-title="小结"] .stack-row{min-height:340px;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:22px;padding:34px;border-color:rgba(34,211,238,.24);background:linear-gradient(180deg,rgba(34,211,238,.11),rgba(245,240,230,.045))}.slide[data-title="小结"] .stack-row span{font-size:52px;color:var(--cyan)}.slide[data-title="小结"] .stack-row b{font:900 36px/1.18 var(--serif);color:var(--ink)}.slide[data-title="小结"] .stack-row em{font:700 30px/1.35 var(--sans);color:var(--acid)}.slide[data-title="小结"] .stack-row:not(:last-child)::after{content:"";position:absolute;right:-26px;top:50%;width:34px;height:2px;background:linear-gradient(90deg,var(--amber),transparent)}.slide[data-title="小结"] .stack-row:nth-child(5){grid-column:1/-1;min-height:148px;display:grid;grid-template-columns:120px 260px 1fr;align-items:center;background:linear-gradient(90deg,rgba(182,242,106,.16),rgba(34,211,238,.08));border-color:rgba(182,242,106,.42)}.slide[data-title="小结"] .stack-row:nth-child(5)::after{display:none}.slide[data-title="五条实践法则：售前可复述的方法论"] .stack-wrap{grid-template-columns:repeat(5,1fr);gap:18px;margin-top:8px}.slide[data-title="五条实践法则：售前可复述的方法论"] .stack-row{min-height:470px;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;padding:32px 28px;background:linear-gradient(180deg,rgba(245,240,230,.09),rgba(34,211,238,.055));border-color:rgba(245,240,230,.2)}.slide[data-title="五条实践法则：售前可复述的方法论"] .stack-row span{font:900 58px var(--mono);color:var(--amber)}.slide[data-title="五条实践法则：售前可复述的方法论"] .stack-row b{font:900 34px/1.2 var(--serif);color:var(--ink)}.slide[data-title="五条实践法则：售前可复述的方法论"] .stack-row::before{content:"";width:54px;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--cyan),var(--acid));order:2}.slide[data-title="五条实践法则：售前可复述的方法论"] .stack-row:nth-child(even){transform:translateY(28px);background:linear-gradient(180deg,rgba(182,242,106,.105),rgba(245,240,230,.045))}.formula-slide{display:grid;place-items:center}.formula{display:flex;align-items:center;gap:30px}.formula span{font:900 76px var(--serif);background:var(--ink);color:#091011;border-radius:14px;padding:28px 44px}.formula em{font:900 84px var(--mono);font-style:normal;color:var(--amber)}.formula-sub{font:500 34px var(--sans);color:var(--muted);margin-top:-70px}.formula-notes{position:absolute;left:220px;right:220px;bottom:100px}.mini-cards{grid-template-columns:repeat(3,1fr)}.mini-cards .card{min-height:112px}.maturity-ladder{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;position:relative;z-index:2}.ladder-step{min-height:500px;border:1px solid var(--line);border-radius:10px;background:rgba(245,240,230,.06);padding:34px}.ladder-step i{font:900 72px var(--mono);font-style:normal;color:var(--amber)}.ladder-step b{display:block;font:900 42px var(--serif);margin:42px 0 24px;color:var(--cyan)}.ladder-step p{font:500 25px/1.42 var(--sans);color:var(--muted)}.maturity-signal{margin-top:24px;border:1px dashed rgba(182,242,106,.35);padding:20px 26px;border-radius:10px;font:700 26px var(--sans);color:var(--acid)}.route-head,.route-row{display:grid;grid-template-columns:1.1fr .72fr .9fr 1.32fr;gap:14px;align-items:center;position:relative;z-index:2}.route-head{font:900 18px var(--mono);color:var(--dim);letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px;padding:0 20px}.route-row{border:1px solid var(--line);background:rgba(245,240,230,.065);border-radius:10px;padding:23px 20px;margin-bottom:12px}.route-row span{font:700 23px/1.28 var(--sans);color:var(--cyan)}.route-row b{font:900 27px var(--serif);color:var(--acid)}.route-row strong{font:800 24px/1.28 var(--sans);color:var(--ink)}.route-row em{font:500 23px/1.32 var(--sans);color:var(--muted);font-style:normal}.talk-path,.objection-row{display:grid;gap:18px;position:relative;z-index:2}.talk-path{grid-template-columns:repeat(4,1fr);margin-bottom:24px}.objection-row{grid-template-columns:repeat(3,1fr)}.talk-step,.objection{border:1px solid var(--line);background:rgba(245,240,230,.06);border-radius:10px;padding:28px;min-height:220px}.talk-step b,.objection b{font:900 36px var(--serif);color:var(--acid)}.talk-step p,.objection p{font:500 25px/1.38 var(--sans);color:var(--muted)}.quote{display:grid;place-items:center}.quote-mark{position:absolute;left:110px;top:80px;font:900 260px var(--mono);color:rgba(34,211,238,.14)}.quote-copy{width:1320px;border-left:12px solid var(--acid);padding-left:54px}.quote-copy p{font:900 22px var(--mono);letter-spacing:.16em;color:var(--cyan);text-transform:uppercase}.quote-copy h2{font:900 86px/1.14 var(--serif);margin:28px 0 38px}.quote-copy ul{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.quote-copy li{border:1px solid var(--line);border-radius:10px;padding:24px;font:600 25px/1.35 var(--sans);background:rgba(245,240,230,.06)}.action-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;position:relative;z-index:2}.action-step{min-height:430px;border:1px solid var(--line);border-radius:10px;background:rgba(245,240,230,.06);padding:34px;display:flex;flex-direction:column;justify-content:space-between}.action-step span{font:900 92px var(--mono);color:var(--amber)}.action-step p{font:800 31px/1.35 var(--serif);margin:0}.reveal{animation:rise .55s ease both}.d2{animation-delay:.08s}.d3{animation-delay:.16s}.d4{animation-delay:.24s}.d5{animation-delay:.32s}.d6{animation-delay:.4s}@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}.progress-track{position:fixed;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.08);z-index:20}.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--acid));transition:width .25s ease}.nav-hint{position:fixed;right:16px;bottom:14px;color:rgba(245,240,230,.45);font:600 12px var(--mono);z-index:21}.edit-toggle{position:fixed;left:14px;bottom:14px;z-index:21;background:rgba(245,240,230,.1);color:var(--ink);border:1px solid rgba(245,240,230,.22);border-radius:6px;padding:7px 10px;font:700 12px var(--mono)}[contenteditable="true"]{outline:2px dashed rgba(34,211,238,.8);outline-offset:4px}@media (prefers-reduced-motion:reduce){.reveal{animation:none}.slide{transition:none}}
-</style><style>
-.cover .cover-editor{padding:84px 58px 48px;display:grid;grid-template-columns:minmax(520px,.95fr) minmax(0,1fr);grid-template-rows:auto 1fr auto;gap:32px 56px;align-items:start}
-.cover .codeblock{grid-column:1;grid-row:1 / span 2;max-width:100%;font:600 20px/1.72 var(--mono)}
-.cover .hero-copy{position:relative;left:auto;right:auto;top:auto;width:auto;grid-column:2;grid-row:1 / span 2;align-self:center;z-index:2}
-.cover .hero-copy p{margin:0 0 20px;font-size:20px}
-.cover .hero-copy h1{margin:0 0 22px;font-size:84px}
-.cover .hero-copy h4{font-size:32px}
-.cover .hero-copy h5{margin:18px 0 0;font:700 22px/1.35 var(--sans);color:var(--acid)}
-.cover .terminal{position:relative;left:auto;right:auto;bottom:auto;grid-column:1 / -1;grid-row:3}
-</style></head><body><div class="deck-viewport"><main class="deck-stage" id="deckStage"><section class="slide cover visible" data-title="标题页：从 AI Coding 到 Harness 工程"><!-- Speaker notes: 今天不讲单个工具的功能清单，而讲一个趋势：企业客户正在从“让 AI 帮个人写代码”，走向“让 AI 稳定参与团队研发交付”。 --><div class="slide-num">01<span>/43</span></div><div class="section-tag">开场</div><div class="cover-grid"></div><main class="cover-editor"><div class="editorbar"><span></span><span></span><span></span><b>ai-coding-harness.training</b></div><div class="codeblock reveal"><div class="code-title">session.ts</div><div><span>01</span>const topic = &quot;AI Coding -&gt; Harness&quot;;</div><div><span>02</span>audience.role = [&quot;商务&quot;, &quot;售前&quot;];</div><div><span>03</span>goal = diagnose(customer.maturity);</div><div><span>04</span>recommend(TRAE_2_0, enterprise_path);</div></div><div class="hero-copy reveal d2"><p>Internal Enablement · AI Coding</p><h1>从 AI Coding<br>到 Harness 工程</h1><h4>研发提效的新范式与 TRAE 企业化推荐</h4><h5>分享人：泛互行业解决方案 - 戴烨</h5></div><div class="terminal reveal"><div class="term-head"><b>boot</b><i></i><i></i><i></i></div><div class="term-body"><div><span>$</span> prepare audience: business + pre-sales</div><div><span>$</span> scope: evolution / practice / recommendation</div><div><span>$</span> output: customer diagnostic playbook</div></div></div></main></section><section class="slide agenda" data-title="参与者收益：一起建立诊断视角"><!-- Speaker notes: 商务和售前不需要成为代码专家，但要成为“研发提效问题的问诊者”：听懂客户的痛点，判断成熟度，再把方案讲到客户当前最在意的位置。 --><div class="slide-num">02<span>/43</span></div><div class="section-tag">开场</div><div class="agenda-left reveal"><p>SECTION 01</p><h2>AICoding<br>趋势</h2><small>从工具能力看清企业级研发提效的演进路径。</small></div><div class="agenda-right"><div class="agenda-row reveal d1"><span>01</span><b>AI Coding 与 Harness 工程的进化</b><em>建立趋势共识</em></div><div class="agenda-row reveal d2"><span>02</span><b>某团队真实项目实践复盘</b><em>证明可落地</em></div><div class="agenda-row reveal d3"><span>03</span><b>客户成熟度诊断与 TRAE 推荐</b><em>转成客户问诊</em></div><div class="agenda-row reveal d4"><span>04</span><b>行动建议</b><em>带走可复述表达</em></div></div></section><section class="slide visual" data-title="核心判断：从写代码工具到研发生产系统"><!-- Speaker notes: 客户最初会问“这个工具写代码准不准”，但真正决定企业落地的是“它能不能在我的工程流程里稳定产生结果”。这也是本次分享希望一起建立的核心判断。 --><div class="slide-num">03<span>/43</span></div><div class="section-tag">开场</div><header class="slide-header reveal"><p>开场</p><h2>核心判断：从写代码工具到研发生产系统</h2><h3>AI Coding 的竞争焦点正在从“模型会不会写”转向“系统能不能交付”。</h3></header><div class="visual-layout"><aside class="asset-panel reveal d2"><svg class="key-visual" viewBox="0 0 360 360" role="img" aria-label="abstract harness diagram"><defs><radialGradient id="g0" cx="50%" cy="50%"><stop offset="0" stop-color="rgba(34,211,238,.34)"/><stop offset="1" stop-color="rgba(34,211,238,0)"/></radialGradient></defs><rect width="360" height="360" rx="28" fill="url(#g0)"/><circle cx="180" cy="180" r="118" fill="none" stroke="rgba(34,211,238,.28)" stroke-width="3"/><path d="M94 190h172M180 104v172" stroke="rgba(182,242,106,.62)" stroke-width="4" stroke-linecap="round"/><rect x="120" y="128" width="120" height="104" rx="14" fill="rgba(245,240,230,.06)" stroke="rgba(245,240,230,.22)"/><path d="M142 158h76M142 184h52M142 210h84" stroke="rgba(245,240,230,.62)" stroke-width="8" stroke-linecap="round"/></svg><span></span></aside><main><div class="cards"><article class="card reveal d1"><span>01</span><p><b>第一层</b>：补全代码，提高个人输入效率</p></article><article class="card reveal d2"><span>02</span><p><b>第二层</b>：理解任务，拆解步骤，调用工具</p></article><article class="card reveal d3"><span>03</span><p><b>第三层</b>：进入工程环境，修改、运行、验证、修复</p></article><article class="card reveal d4"><span>04</span><p><b>下一层</b>：形成组织可复用的 Harness 能力</p></article></div></main></div></section><section class="slide compare" data-title="客户眼中的 AI Coding：从补全到执行"><!-- Speaker notes: 面向客户时，不要把 AI Coding 讲成“更聪明的自动补全”。更有力量的表达是：它正在接近一个可协作的执行单元，能进入真实工程任务。 --><div class="slide-num">04<span>/43</span></div><div class="section-tag">进化</div><header class="slide-header reveal"><p>进化</p><h2>客户眼中的 AI Coding：从补全到执行</h2><h3>客户对 AI Coding 的认知正在从“智能补全”升级到“任务执行”。</h3></header><div class="compare-grid"><article class="pane old reveal d2"><p>Before / Risk</p><h3>停留在单点工具</h3><ul><li>过去：写一段函数、补一段代码、解释一段报错</li><li>现在：读需求、看工程、改文件、跑命令、修问题</li></ul></article><article class="pane new reveal d3"><p>After / Harness</p><h3>进入可交付系统</h3><ul><li>客户关心点：不是炫技，而是节省时间、降低返工、缩短交付</li><li>售前表达：AI Coding 不是键盘插件，而是研发流程参与者</li></ul></article></div></section><section class="slide visual" data-title="Prompt Engineering：第一阶段是把需求说清楚"><!-- Speaker notes: 这个阶段的关键能力是“会问、会写、会约束”。它能提升个人效率，但还没有真正改变团队研发系统，因为很多知识仍然留在人的脑子里。 --><div class="slide-num">05<span>/43</span></div><div class="section-tag">进化</div><header class="slide-header reveal"><p>进化</p><h2>Prompt Engineering：第一阶段是把需求说清楚</h2><h3>Prompt Engineering 的本质是需求表达优化，但它仍然高度依赖人。</h3></header><div class="visual-layout"><aside class="asset-panel reveal d2"><svg class="key-visual" viewBox="0 0 360 360" role="img" aria-label="abstract harness diagram"><defs><radialGradient id="g1" cx="50%" cy="50%"><stop offset="0" stop-color="rgba(34,211,238,.34)"/><stop offset="1" stop-color="rgba(34,211,238,0)"/></radialGradient></defs><rect width="360" height="360" rx="28" fill="url(#g1)"/><path d="M78 252c54-92 110-138 168-138 24 0 45 6 64 18" fill="none" stroke="rgba(34,211,238,.34)" stroke-width="10" stroke-linecap="round"/><path d="M78 252c58-34 116-36 174-6 24 12 44 15 60 9" fill="none" stroke="rgba(182,242,106,.72)" stroke-width="8" stroke-linecap="round"/><circle cx="96" cy="252" r="12" fill="#22d3ee"/><circle cx="246" cy="114" r="12" fill="#b6f26a"/><circle cx="312" cy="255" r="12" fill="#ffb86b"/><path d="M128 248l48-58 52 38 42-90" fill="none" stroke="rgba(245,240,230,.55)" stroke-width="3" stroke-dasharray="8 10"/></svg><span></span></aside><main><div class="cards"><article class="card reveal d1"><span>01</span><p><b>人负责拆任务、补背景、给约束</b></p></article><article class="card reveal d2"><span>02</span><p><b>模型负责生成答案、代码或建议</b></p></article><article class="card reveal d3"><span>03</span><p><b>价值</b>：把模糊需求变成更清晰的输入</p></article><article class="card reveal d4"><span>04</span><p><b>局限</b>：上下文断裂、结果难复用、验证仍靠人工</p></article></div></main></div></section><section class="slide flow" data-title="Agent Loop：第二阶段是规划、行动、观察"><!-- Speaker notes: 这是 AI Coding 能力跃迁的重要分水岭。模型不再只是“说答案”，而是开始通过工具和反馈循环接近真实任务完成。 --><div class="slide-num">06<span>/43</span></div><div class="section-tag">进化</div><header class="slide-header reveal"><p>进化</p><h2>Agent Loop：第二阶段是规划、行动、观察</h2><h3>Agent Loop 让模型从一次性回答进入持续迭代。</h3></header><div class="flowline"><div class="flow-node reveal d1"><i>1</i><b>Plan</b><p>理解目标并拆解步骤</p></div><div class="flow-node reveal d2"><i>2</i><b>Act</b><p>调用工具、读取资料、执行命令</p></div><div class="flow-node reveal d3"><i>3</i><b>Observe</b><p>观察结果、日志、错误和反馈</p></div><div class="flow-node reveal d4"><i>4</i><b>Iterate</b><p>根据反馈调整下一步</p></div></div></section><section class="slide terminal-slide" data-title="Coding Agent：第三阶段是进入真实工程环境"><!-- Speaker notes: 这一步让客户的期待发生变化：不是“给我一段代码”，而是“帮我把这个任务推进到可验证状态”。售前要把“验证”作为核心词讲出来。 --><div class="slide-num">07<span>/43</span></div><div class="section-tag">进化</div><header class="slide-header reveal"><p>进化</p><h2>Coding Agent：第三阶段是进入真实工程环境</h2><h3>Coding Agent 的关键变化是能在真实仓库和运行环境中工作。</h3></header><div class="two-col"><div><div class="terminal reveal"><div class="term-head"><b>Coding Agent：第三阶段是进入真实工程环境</b><i></i><i></i><i></i></div><div class="term-body"><div><span>$</span> 读取代码结构、配置、文档和测试</div><div><span>$</span> 修改文件并保持上下文一致</div><div><span>$</span> 运行命令、查看日志、定位失败</div><div><span>$</span> 通过验证把“生成代码”变成“交付结果”</div></div></div></div><div class="side-notes reveal d3"><b>Coding Agent 的关键变化是能在真实仓库和运行环境中工作。</b><p>这一步让客户的期待发生变化：不是“给我一段代码”，而是“帮我把这个任务推进到可验证状态”。售前要把“验证”作为核心词讲出来。</p></div></div></section><section class="slide terminal-slide" data-title="代表性 Coding Agent 的启发：系统工程更关键"><!-- Speaker notes: 如果只比较“谁的模型更强”，客户很容易陷入参数和榜单。但企业落地更关心的是：这个 Agent 如何理解我的工程，如何不越权，如何出错后恢复。 --><div class="slide-num">08<span>/43</span></div><div class="section-tag">进化</div><header class="slide-header reveal"><p>进化</p><h2>代表性 Coding Agent 的启发：系统工程更关键</h2><h3>代表性 Coding Agent 的价值不只来自模型能力，更来自系统工程设计。</h3></header><div class="two-col"><div><div class="terminal reveal"><div class="term-head"><b>代表性 Coding Agent 的启发：系统工程更关键</b><i></i><i></i><i></i></div><div class="term-body"><div><span>$</span> 公开行业样例 -&gt; Claude Code 等产品验证了 Agent 式研发协作方向</div><div><span>$</span> 关键启发 -&gt; 上下文组织、工具调用、权限边界、恢复机制同样重要</div><div><span>$</span> 对客户的翻译 -&gt; 模型是发动机，工程系统决定能不能上路</div><div><span>$</span> 对售前的提示 -&gt; 少讲神奇，多讲可控、可管、可复用</div></div></div></div><div class="side-notes reveal d3"><b>代表性 Coding Agent 的价值不只来自模型能力，更来自系统工程设计。</b><p>如果只比较“谁的模型更强”，客户很容易陷入参数和榜单。但企业落地更关心的是：这个 Agent 如何理解我的工程，如何不越权，如何出错后恢复。</p></div></div></section><section class="slide stack" data-title="共性能力：六件事决定能否落地"><!-- Speaker notes: 这六类能力就是客户诊断的入口。客户说“AI 不稳定”，往往不是模型单点问题，而是工具、上下文、权限和验证体系没有搭起来。 --><div class="slide-num">09<span>/43</span></div><div class="section-tag">进化</div><header class="slide-header reveal"><p>进化</p><h2>共性能力：六件事决定能否落地</h2><h3>成熟 Coding Agent 共有六类工程能力。</h3></header><div class="stack-wrap"><div class="stack-row reveal d1"><span>01</span><b>Tools</b><em>能使用文件、终端、搜索、浏览器、接口等工具</em></div><div class="stack-row reveal d2"><span>02</span><b>Context</b><em>能组织任务、代码、历史和约束</em></div><div class="stack-row reveal d3"><span>03</span><b>Memory</b><em>能沉淀项目偏好、团队规则和复用经验</em></div><div class="stack-row reveal d4"><span>04</span><b>Permission</b><em>能控制可读、可写、可执行边界</em></div><div class="stack-row reveal d5"><span>05</span><b>Verification</b><em>能运行测试、检查结果、验证改动</em></div><div class="stack-row reveal d6"><span>06</span><b>Recovery</b><em>能从失败、冲突、误判中恢复</em></div></div></section><section class="slide harness-visual" data-title="Harness 工程：把原始能力变成可靠执行"><!-- Speaker notes: 这页用一个形象比喻帮助大家理解 Harness：LLM 像一匹能力很强但还不稳定的马，Harness System 是缰绳、路径、工具和反馈系统，工程师通过控制界面把能力约束到可交付路径上。 --><div class="slide-num">10<span>/43</span></div><div class="section-tag">进化</div><header class="slide-header reveal"><p>进化</p><h2>Harness 工程：把原始能力变成可靠执行</h2><h3>LLM 提供原始能力，Harness 负责约束、引导、验证和纠正。</h3></header><div class="harness-layout"><figure class="harness-image reveal d1"><img src="assets/harness-system-illustration.jpg" alt="Harness System illustration: LLM, tools, constraints, validation and operator"/></figure><aside class="harness-points"><div class="harness-point reveal d2"><span>01 / Raw Capability</span><b>模型像强马</b><p>能力很强，但需要边界和路线，才能稳定进入工程任务。</p></div><div class="harness-point reveal d3"><span>02 / Harness System</span><b>系统给出缰绳</b><p>通过约束、工具、记忆、验证和反馈循环，把能力组织起来。</p></div><div class="harness-point reveal d4"><span>03 / Operator</span><b>人负责控制</b><p>工程师定义目标、观察信号、校准方向，让结果可控、可复用。</p></div></aside></div></section><section class="slide terminal-slide" data-title="Harness Engineering 定义：让 AI 变得可交付"><!-- Speaker notes: Harness 可以理解为“给 AI 装上工作台、轨道、仪表盘和安全边界”。它不是替代模型，而是让模型在企业环境里更稳定地发挥。 --><div class="slide-num">11<span>/43</span></div><div class="section-tag">进化</div><header class="slide-header reveal"><p>进化</p><h2>Harness Engineering 定义：让 AI 变得可交付</h2><h3>Harness Engineering 是把 AI 能力转化为稳定交付能力的工程体系。</h3></header><div class="two-col"><div><div class="terminal reveal"><div class="term-head"><b>Harness Engineering 定义：让 AI </b><i></i><i></i><i></i></div><div class="term-body"><div><span>$</span> 目标 -&gt; 可控、可用、可复用、可交付</div><div><span>$</span> 对象 -&gt; 模型、工具、知识、流程、权限、评估</div><div><span>$</span> 方法 -&gt; 把不确定的智能行为纳入工程约束</div><div><span>$</span> 结果 -&gt; 从“个人会用 AI”走向“组织能驾驭 AI”</div></div></div></div><div class="side-notes reveal d3"><b>Harness Engineering 是把 AI 能力转化为稳定交付能力的工程体系。</b><p>Harness 可以理解为“给 AI 装上工作台、轨道、仪表盘和安全边界”。它不是替代模型，而是让模型在企业环境里更稳定地发挥。</p></div></div></section><section class="slide stack" data-title="Harness 五大模块：工具、知识、观察、控制、评估"><!-- Speaker notes: 这五个模块特别适合售前做诊断。客户卡在不同模块，推荐路径就不同：有的缺工具接入，有的缺知识沉淀，有的缺权限治理，有的缺验证标准。 --><div class="slide-num">12<span>/43</span></div><div class="section-tag">进化</div><header class="slide-header reveal"><p>进化</p><h2>Harness 五大模块：工具、知识、观察、控制、评估</h2><h3>Harness 可以拆成五个客户容易理解的模块。</h3></header><div class="stack-wrap"><div class="stack-row reveal d1"><span>01</span><b>Tools</b><em>Agent 能做什么</em></div><div class="stack-row reveal d2"><span>02</span><b>Knowledge</b><em>Agent 知道什么</em></div><div class="stack-row reveal d3"><span>03</span><b>Observation</b><em>Agent 如何看见过程和结果</em></div><div class="stack-row reveal d4"><span>04</span><b>Control</b><em>企业如何设定边界和权限</em></div><div class="stack-row reveal d5"><span>05</span><b>Evaluation</b><em>如何判断结果是否可靠</em></div></div></section><section class="slide formula-slide" data-title="Agent = Model + Harness"><!-- Speaker notes: 这页是本次分享很重要的公式之一。客户买的不是一个孤立模型，而是一套让模型在企业研发流程中稳定工作的系统能力。 --><div class="slide-num">13<span>/43</span></div><div class="section-tag">进化</div><div class="formula reveal"><span>Agent</span><em>=</em><span>Model</span><em>+</em><span>Harness</span></div><div class="formula-sub reveal d2">企业级 Agent 不是模型本身，而是模型和 Harness 的组合。</div><div class="formula-notes"><div class="mini-cards"><article class="card reveal d1"><span>01</span><p><b>没有 Harness</b>：能力强但不稳定</p></article><article class="card reveal d2"><span>02</span><p><b>没有好模型</b>：流程完整但智能不足</p></article><article class="card reveal d3"><span>03</span><p><b>真正价值</b>：两者相互放大</p></article></div></div></section><section class="slide compare" data-title="Harness 壁垒：模型跃迁，工程沉淀"><!-- Speaker notes: 售前可以这样讲：模型升级像换发动机，Harness 像企业自己的道路、规则和驾驶系统。发动机越强，越需要配套系统承接。 --><div class="slide-num">14<span>/43</span></div><div class="section-tag">进化</div><header class="slide-header reveal"><p>进化</p><h2>Harness 壁垒：模型跃迁，工程沉淀</h2><h3>模型会持续跃迁，但 Harness 会形成组织连续沉淀。</h3></header><div class="compare-grid"><article class="pane old reveal d2"><p>Before / Risk</p><h3>停留在单点工具</h3><ul><li>模型能力会快速升级，也会快速被追平</li><li>企业知识、流程、权限、验证标准难以复制</li></ul></article><article class="pane new reveal d3"><p>After / Harness</p><h3>进入可交付系统</h3><ul><li>好的 Harness 能承接新模型红利</li><li>组织壁垒来自“把经验变成系统”</li></ul></article></div></section><section class="slide compare" data-title="企业客户意义：从个人效率到团队能力"><!-- Speaker notes: 企业客户不会只为“某个工程师快一点”买单。他们会为“团队整体交付更稳、质量更可控、知识不随人流失”买单。 --><div class="slide-num">15<span>/43</span></div><div class="section-tag">进化</div><header class="slide-header reveal"><p>进化</p><h2>企业客户意义：从个人效率到团队能力</h2><h3>企业客户真正需要的是团队级、可治理的研发能力提升。</h3></header><div class="compare-grid"><article class="pane old reveal d2"><p>Before / Risk</p><h3>停留在单点工具</h3><ul><li>个人层：写得更快，查得更快</li><li>团队层：协作更顺，知识更可复用</li></ul></article><article class="pane new reveal d3"><p>After / Harness</p><h3>进入可交付系统</h3><ul><li>交付层：验证更完整，返工更少</li><li>治理层：权限、审计、质量和风险可控</li></ul></article></div></section><section class="slide stack" data-title="小结"><!-- Speaker notes: 到这里，我们完成第一层共识：AI Coding 的主战场已经从“生成”走向“交付”。下一部分看它在真实项目里如何被组织起来。 --><div class="slide-num">16<span>/43</span></div><div class="section-tag">进化</div><header class="slide-header reveal"><p>进化</p><h2>小结</h2><h3>AI Coding 的下一站不是更会写代码，而是更稳定地产生结果。</h3></header><div class="stack-wrap"><div class="stack-row reveal d1"><span>01</span><b>Prompt 解决表达问题</b><em></em></div><div class="stack-row reveal d2"><span>02</span><b>Agent Loop 解决行动问题</b><em></em></div><div class="stack-row reveal d3"><span>03</span><b>Coding Agent 解决工程进入问题</b><em></em></div><div class="stack-row reveal d4"><span>04</span><b>Harness Engineering 解决企业落地问题</b><em></em></div><div class="stack-row reveal d5"><span>05</span><b>结论</b><em>客户要的是可交付的 AI 研发生产力</em></div></div></section><section class="slide chapter" data-title="某团队claw-like产品实践"><!-- Speaker notes: 这部分不是案例炫耀，而是方法论提炼。我们关心的是哪些机制能复用到客户场景，哪些坑要提前告诉客户。 --><div class="slide-num">17<span>/43</span></div><div class="section-tag">实践</div><div class="chapter-index reveal">02</div><div class="chapter-copy reveal d2"><p>实践</p><h2>某团队claw-like产品实践</h2><h3>团队实践证明 Harness 不是概念，而是可以被工程化运行的机制。</h3></div><div class="chapter-line"></div></section><section class="slide visual" data-title="实践项目概况：桌面客户端与协作模式"><!-- Speaker notes: 这类项目的代表性在于复杂度：有客户端、有调试、有跨模块协作，也有交付节奏压力。它比“写一个 demo”更接近客户真实研发现场。脱敏之后不讲具体产品名，但要讲清楚复杂度来自哪里。 --><div class="slide-num">18<span>/43</span></div><div class="section-tag">实践</div><header class="slide-header reveal"><p>实践</p><h2>实践项目概况：桌面客户端与协作模式</h2><h3>实践发生在复杂工程环境中，而不是简单脚本场景。</h3></header><div class="visual-layout"><aside class="asset-panel reveal d2"><svg class="key-visual" viewBox="0 0 360 360" role="img" aria-label="abstract harness diagram"><defs><radialGradient id="g3" cx="50%" cy="50%"><stop offset="0" stop-color="rgba(34,211,238,.34)"/><stop offset="1" stop-color="rgba(34,211,238,0)"/></radialGradient></defs><rect width="360" height="360" rx="28" fill="url(#g3)"/><circle cx="180" cy="180" r="114" fill="rgba(245,240,230,.045)" stroke="rgba(245,240,230,.18)"/><path d="M180 82v196" stroke="rgba(34,211,238,.45)" stroke-width="4"/><path d="M82 180h196" stroke="rgba(34,211,238,.45)" stroke-width="4"/><circle cx="180" cy="180" r="42" fill="rgba(182,242,106,.18)" stroke="#b6f26a" stroke-width="5"/><circle cx="180" cy="82" r="16" fill="#22d3ee"/><circle cx="278" cy="180" r="16" fill="#ffb86b"/><circle cx="180" cy="278" r="16" fill="#22d3ee"/><circle cx="82" cy="180" r="16" fill="#ffb86b"/></svg><span></span></aside><main><div class="cards"><article class="card reveal d1"><span>01</span><p><b>场景</b>：某团队围绕某桌面客户端开展复杂工程提效实践</p></article><article class="card reveal d2"><span>02</span><p><b>任务类型</b>：产品体验打磨、工程改造、问题修复、调试验证、协作流程优化</p></article><article class="card reveal d3"><span>03</span><p><b>协作形态</b>：一个核心人员同时协调多个 Agent，按任务粒度分工推进</p></article><article class="card reveal d4"><span>04</span><p><b>工作闭环</b>：需求拆解、执行推进、运行观察、验证收口、复盘沉淀</p></article><article class="card reveal d5"><span>05</span><p><b>目标</b>：探索从“个人使用 AI”到“团队组织 AI 协作”的方法</p></article></div></main></div></section><section class="slide problems" data-title="挑战：真实项目不会自动变简单"><!-- Speaker notes: 这页要帮听众建立现实感：AI 不会自动消灭工程复杂度。它会放大速度，也会放大上下文和质量管理的重要性。客户现场也常见类似问题：工具先热起来，但流程、规则和验证没有跟上。 --><div class="slide-num">19<span>/43</span></div><div class="section-tag">实践</div><header class="slide-header reveal"><p>实践</p><h2>挑战：真实项目不会自动变简单</h2><h3>AI 加入研发后，难点从“会不会生成”转向“如何组织复杂性”。</h3></header><div class="problem-grid"><article class="card reveal d1"><span>01</span><p><b>交付窗口短</b>：任务要被快速拆解和收敛</p></article><article class="card reveal d2"><span>02</span><p><b>跨环境调试</b>：问题可能出现在多个运行层</p></article><article class="card reveal d3"><span>03</span><p><b>上下文切换重</b>：人和 Agent 都容易丢失状态</p></article><article class="card reveal d4"><span>04</span><p><b>质量稳定性</b>：生成结果需要验证、回滚和复盘</p></article><article class="card reveal d5"><span>05</span><p><b>协作摩擦</b>：设计、代码、运行结果和验收标准容易不一致</p></article></div></section>
-<section class="slide flow" data-title="团队实践的篝火模式"><!-- Speaker notes: 这页用流程图说明团队围绕一个清晰目标组织协作：产品、设计、代码、文档、测试和 hooks 像围着篝火一样持续同步，Agent 在每个节点推进，人负责判断和收口。 --><div class="slide-num">20<span>/43</span></div><div class="section-tag">实践</div><header class="slide-header reveal"><p>实践</p><h2>团队实践的篝火模式</h2><h3>围绕共同目标，把需求、设计、代码、验证和经验沉淀连接成可接力流程。</h3></header><div class="reveal d2" style="position:relative;z-index:2;width:100%;height:640px;border:1px solid var(--line);border-radius:12px;background:#f8faf8;overflow:hidden"><svg viewBox="0 0 1780 680" width="100%" height="100%" role="img" aria-label="团队实践的篝火模式流程图"><defs><marker id="bfArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#172124"/></marker><style>.bf-line{stroke:#172124;stroke-width:3;fill:none;marker-end:url(#bfArrow)}.bf-dash{stroke:#7c8984;stroke-width:2;fill:none;stroke-dasharray:8 8}.bf-blue{fill:#d9e8ff;stroke:#8fb0de;stroke-width:2}.bf-green{fill:#dff0d7;stroke:#9dc38d;stroke-width:2}.bf-purple{fill:#eadff0;stroke:#b7a3cc;stroke-width:2}.bf-yellow{fill:#fff1c5;stroke:#d8bd5d;stroke-width:2}.bf-t{font:700 20px sans-serif;fill:#172124}.bf-s{font:600 16px sans-serif;fill:#44524d}.bf-label{font:800 16px monospace;fill:#8c9692}</style></defs><text x="54" y="58" class="bf-label">目标 yedal 20140266</text><rect class="bf-purple" x="46" y="165" width="150" height="82" rx="4"/><text class="bf-s" x="82" y="195">设计稿</text><text class="bf-s" x="82" y="220">UI组件</text><text class="bf-s" x="82" y="245">功能说明</text><rect class="bf-blue" x="48" y="290" width="190" height="58" rx="6"/><text class="bf-t" x="104" y="326">产品建模</text><rect class="bf-blue" x="48" y="405" width="190" height="58" rx="6"/><text class="bf-t" x="90" y="441">创建技术专家</text><rect class="bf-blue" x="305" y="42" width="210" height="58" rx="6"/><text class="bf-t" x="342" y="78">融合与架构共识</text><path class="bf-line" d="M515 71h105"/><polygon class="bf-yellow" points="665,28 730,71 665,114 600,71"/><text class="bf-t" x="630" y="78">规则评审</text><path class="bf-line" d="M730 71h105"/><rect class="bf-blue" x="835" y="42" width="210" height="58" rx="6"/><text class="bf-t" x="875" y="78">Hooks约束设定</text><rect class="bf-purple" x="1092" y="108" width="210" height="88" rx="4"/><text class="bf-s" x="1135" y="140">Hook配置</text><text class="bf-s" x="1135" y="166">Agent定义</text><text class="bf-s" x="1135" y="192">自动化规则</text><path class="bf-dash" d="M1045 71h150v37"/><path class="bf-line" d="M410 100v70"/><rect class="bf-purple" x="305" y="145" width="210" height="86" rx="4"/><text class="bf-s" x="348" y="176">需求沉淀交接</text><text class="bf-s" x="348" y="202">技术栈选型</text><text class="bf-s" x="348" y="226">编码规范</text><path class="bf-line" d="M410 231v58"/><rect class="bf-blue" x="305" y="290" width="210" height="58" rx="6"/><text class="bf-t" x="365" y="326">项目种子</text><path class="bf-line" d="M515 319h120"/><rect class="bf-blue" x="635" y="290" width="260" height="58" rx="6"/><text class="bf-t" x="670" y="326">需求最小闭环单元拆分</text><path class="bf-line" d="M895 319h86"/><polygon class="bf-yellow" points="1024,276 1089,319 1024,362 959,319"/><text class="bf-t" x="989" y="326">需求评审</text><path class="bf-line" d="M1089 319h92"/><rect class="bf-blue" x="1181" y="290" width="210" height="58" rx="6"/><text class="bf-t" x="1234" y="326">边界约束设计</text><path class="bf-line" d="M1286 348v62"/><rect class="bf-purple" x="1181" y="410" width="210" height="86" rx="4"/><text class="bf-s" x="1230" y="441">接口定义</text><text class="bf-s" x="1230" y="467">数据模型</text><text class="bf-s" x="1230" y="493">异常处理策略</text><path class="bf-dash" d="M238 319h132"/><path class="bf-dash" d="M238 434h132"/><rect class="bf-green" x="410" y="388" width="210" height="58" rx="6"/><text class="bf-t" x="474" y="424">并行推进</text><path class="bf-line" d="M515 348v40"/><path class="bf-line" d="M515 446v45"/><polygon class="bf-yellow" points="515,491 580,534 515,577 450,534"/><text class="bf-t" x="480" y="541">任务稳定</text><path class="bf-line" d="M580 534h145"/><rect class="bf-green" x="725" y="505" width="170" height="58" rx="6"/><text class="bf-t" x="780" y="541">Plan追踪</text><path class="bf-line" d="M515 577v42"/><path class="bf-line" d="M515 577H300v42"/><path class="bf-line" d="M515 577h218v42"/><rect class="bf-green" x="220" y="619" width="155" height="48" rx="6"/><text class="bf-t" x="262" y="650">TDD开发</text><rect class="bf-green" x="440" y="619" width="155" height="48" rx="6"/><text class="bf-t" x="484" y="650">代码实现</text><rect class="bf-green" x="660" y="619" width="155" height="48" rx="6"/><text class="bf-t" x="704" y="650">文档编写</text><rect class="bf-green" x="900" y="590" width="190" height="58" rx="6"/><text class="bf-t" x="955" y="626">门禁hooks</text><path class="bf-line" d="M595 643h305"/><path class="bf-dash" d="M620 417h612"/><text class="bf-label" x="1242" y="424">Bugfix</text><rect class="bf-blue" x="1105" y="520" width="190" height="58" rx="6"/><text class="bf-t" x="1164" y="556">合并冲突</text><path class="bf-line" d="M1295 549h88"/><polygon class="bf-yellow" points="1425,506 1490,549 1425,592 1360,549"/><text class="bf-t" x="1390" y="556">冲突突破</text><path class="bf-line" d="M1490 549h74"/><rect class="bf-green" x="1564" y="520" width="170" height="58" rx="6"/><text class="bf-t" x="1614" y="556">经验复盘</text><rect class="bf-blue" x="1564" y="405" width="170" height="58" rx="6"/><text class="bf-t" x="1614" y="441">功能测试</text><path class="bf-line" d="M1649 520v-57"/><polygon class="bf-yellow" points="1649,300 1714,343 1649,386 1584,343"/><text class="bf-t" x="1614" y="350">版本评审</text><path class="bf-line" d="M1649 405v-19"/><rect class="bf-purple" x="1476" y="205" width="230" height="76" rx="4"/><text class="bf-s" x="1524" y="235">自测记录</text><text class="bf-s" x="1524" y="260">问题复盘</text><text class="bf-s" x="1524" y="285">脚手架沉淀</text><path class="bf-line" d="M1649 300v-19"/><path class="bf-line" d="M1391 348v145h258v27"/></svg></div></section>
-<section class="slide flow" data-title="方法论总览：把不确定行为纳入工程组织"><!-- Speaker notes: 这些机制合在一起，就是团队级 Harness 的雏形。它让 Agent 不再是零散工具，而是被组织进交付流程。 --><div class="slide-num">21<span>/43</span></div><div class="section-tag">实践</div><header class="slide-header reveal"><p>实践</p><h2>方法论总览：把不确定行为纳入工程组织</h2><h3>团队实践的核心方法是用工程机制包住 Agent 的不确定性。</h3></header><div class="flowline"><div class="flow-node reveal d1"><i>1</i><b>用共享记忆降低上下文丢失</b><p>用共享记忆降低上下文丢失</p></div><div class="flow-node reveal d2"><i>2</i><b>用设计到代码链路降低信息衰减</b><p>用设计到代码链路降低信息衰减</p></div><div class="flow-node reveal d3"><i>3</i><b>用双向切换机制提升协作效率</b><p>用双向切换机制提升协作效率</p></div><div class="flow-node reveal d4"><i>4</i><b>用 Skills、外部工具和 Hooks 封装经验</b><p>用 Skills、外部工具和 Hooks 封装经验</p></div><div class="flow-node reveal d5"><i>5</i><b>用 ReAct 与验证闭环控制质量</b><p>用 ReAct 与验证闭环控制质量</p></div></div></section><section class="slide terminal-slide" data-title="记忆上下文共享：让任务状态可继承"><!-- Speaker notes: 售前可以把它翻译成客户语言：企业不是缺一次回答，而是缺“上下文资产化”。一旦任务状态可继承，多人多 Agent 协作才有可能。 --><div class="slide-num">22<span>/43</span></div><div class="section-tag">实践</div><header class="slide-header reveal"><p>实践</p><h2>记忆上下文共享：让任务状态可继承</h2><h3>共享记忆机制把“人脑里的进度”变成可交接的任务资产。</h3></header><div class="two-col"><div><div class="terminal reveal"><div class="term-head"><b>记忆上下文共享：让任务状态可继承</b><i></i><i></i><i></i></div><div class="term-body"><div><span>$</span> 任务导航 -&gt; 明确当前目标、边界和下一步</div><div><span>$</span> 上下文记录 -&gt; 保存关键决策、约束和已知问题</div><div><span>$</span> 状态同步 -&gt; 让不同 Agent 能接住前序工作</div><div><span>$</span> 交接价值 -&gt; 降低重复解释和断点重建成本</div></div></div></div><div class="side-notes reveal d3"><b>共享记忆机制把“人脑里的进度”变成可交接的任务资产。</b><p>售前可以把它翻译成客户语言：企业不是缺一次回答，而是缺“上下文资产化”。一旦任务状态可继承，多人多 Agent 协作才有可能。</p></div></div></section><section class="slide compare" data-title="设计到代码一致性：降低信息衰减"><!-- Speaker notes: 很多客户的痛点不是不会写代码，而是需求、设计和实现之间不断衰减。AI 进入流程后，如果没有一致性机制，只会更快地产生偏差。 --><div class="slide-num">23<span>/43</span></div><div class="section-tag">实践</div><header class="slide-header reveal"><p>实践</p><h2>设计到代码一致性：降低信息衰减</h2><h3>从需求、设计到代码的链路越长，越需要机制保证一致性。</h3></header><div class="compare-grid"><article class="pane old reveal d2"><p>Before / Risk</p><h3>停留在单点工具</h3><ul><li>把设计意图转成明确任务和验收标准</li><li>让 Agent 能看到约束、边界和参考信息</li></ul></article><article class="pane new reveal d3"><p>After / Harness</p><h3>进入可交付系统</h3><ul><li>用检查清单对齐设计目标与代码实现</li><li>用复盘沉淀偏差原因，减少下一次偏离</li></ul></article></div></section><section class="slide compare" data-title="人和 Agent 双向上下文切换"><!-- Speaker notes: 一个成熟团队不会把 Agent 当成黑盒许愿池，而是把它当成可协作的执行者。人做判断，Agent 做推进，双方要能随时交接上下文。 --><div class="slide-num">24<span>/43</span></div><div class="section-tag">实践</div><header class="slide-header reveal"><p>实践</p><h2>人和 Agent 双向上下文切换</h2><h3>高效协作不是人把任务扔给 AI，而是双方能顺畅接力。</h3></header><div class="compare-grid"><article class="pane old reveal d2"><p>Before / Risk</p><h3>停留在单点工具</h3><ul><li>人到 Agent：给目标、约束、优先级和验收标准</li><li>Agent 到人：反馈进展、阻塞、风险和建议</li></ul></article><article class="pane new reveal d3"><p>After / Harness</p><h3>进入可交付系统</h3><ul><li>人驾驭多个 Agent：按任务粒度分工，而不是按情绪切换</li><li>关键机制：让每次交接都有状态、有证据、有下一步</li></ul></article></div></section><section class="slide terminal-slide" data-title="Skills、外部工具、Hooks：经验封装成能力"><!-- Speaker notes: 这页很适合引出企业化价值：客户最想沉淀的是“团队知道怎么做”。Skills 和工具链让经验可以被复制、被治理、被持续优化。 --><div class="slide-num">25<span>/43</span></div><div class="section-tag">实践</div><header class="slide-header reveal"><p>实践</p><h2>Skills、外部工具、Hooks：经验封装成能力</h2><h3>可复用能力来自把团队经验封装到工具链中。</h3></header><div class="two-col"><div><div class="terminal reveal"><div class="term-head"><b>Skills、外部工具、Hooks：经验封装成能力</b><i></i><i></i><i></i></div><div class="term-body"><div><span>$</span> Skills -&gt; 沉淀特定任务的工作方法</div><div><span>$</span> 外部工具 -&gt; 连接搜索、构建、测试、浏览器和内部系统</div><div><span>$</span> Hooks -&gt; 在关键节点触发检查、提醒或自动动作</div><div><span>$</span> 复用价值 -&gt; 让最佳实践不只依赖资深个人</div></div></div></div><div class="side-notes reveal d3"><b>可复用能力来自把团队经验封装到工具链中。</b><p>这页很适合引出企业化价值：客户最想沉淀的是“团队知道怎么做”。Skills 和工具链让经验可以被复制、被治理、被持续优化。</p></div></div></section><section class="slide flow" data-title="全链路 ReAct：执行到验证形成闭环"><!-- Speaker notes: 对客户来说，这比“AI 一次生成答案”可靠得多。因为真实工程工作本来就是反复试错、观察和验证，Agent 也必须进入这个闭环。 --><div class="slide-num">26<span>/43</span></div><div class="section-tag">实践</div><header class="slide-header reveal"><p>实践</p><h2>全链路 ReAct：执行到验证形成闭环</h2><h3>ReAct 的价值在于让 Agent 边做边看结果，最后用验证收口。</h3></header><div class="flowline"><div class="flow-node reveal d1"><i>1</i><b>Reason</b><p>分析目标、风险和下一步</p></div><div class="flow-node reveal d2"><i>2</i><b>Act</b><p>修改、运行、查询、调试</p></div><div class="flow-node reveal d3"><i>3</i><b>Observe</b><p>读取日志、报错、测试结果和用户反馈</p></div><div class="flow-node reveal d4"><i>4</i><b>Verify</b><p>用明确证据确认结果是否达标</p></div><div class="flow-node reveal d5"><i>5</i><b>Recover</b><p>失败后回到原因分析和修复路径</p></div></div></section><section class="slide flow" data-title="工程节奏：多个高度聚焦的小迭代"><!-- Speaker notes: 小迭代不是保守，而是让 AI 协作更可控。任务越大、边界越模糊，Agent 越容易走偏；任务越聚焦，验证越有效。售前可以把它讲成“先选一个可验证试点，不要一上来改造全流程”。 --><div class="slide-num">27<span>/43</span></div><div class="section-tag">实践</div><header class="slide-header reveal"><p>实践</p><h2>工程节奏：多个高度聚焦的小迭代</h2><h3>Agent 协作更适合小步快跑，而不是一次性大包交付。</h3></header><div class="flowline"><div class="flow-node reveal d1"><i>1</i><b>把大目标拆成可验证的小任务</b><p>把大目标拆成可验证的小任务</p></div><div class="flow-node reveal d2"><i>2</i><b>每轮只保留清晰输入、清晰输出和清晰验收</b><p>每轮只保留清晰输入、清晰输出和清晰验收</p></div><div class="flow-node reveal d3"><i>3</i><b>及时复盘失败原因，更新规则和上下文</b><p>及时复盘失败原因，更新规则和上下文</p></div><div class="flow-node reveal d4"><i>4</i><b>用节奏管理降低漂移和返工</b><p>用节奏管理降低漂移和返工</p></div><div class="flow-node reveal d5"><i>5</i><b>示例流</b><p>需求澄清 -&gt; Agent 执行 -&gt; 运行观察 -&gt; 人工判断 -&gt; 规则沉淀</p></div></div></section><section class="slide problems" data-title="质量现实：不神化 AI"><!-- Speaker notes: 面向客户，最危险的话术是把 AI 讲成万能。更专业的表达是：我们知道它会出错，所以要用 Harness 让错误可发现、可控制、可修复。 --><div class="slide-num">28<span>/43</span></div><div class="section-tag">实践</div><header class="slide-header reveal"><p>实践</p><h2>质量现实：不神化 AI</h2><h3>AI Coding 落地必须承认修复率、误判和返工的真实存在。</h3></header><div class="problem-grid"><article class="card reveal d1"><span>01</span><p><b>AI 能显著提速，但不会天然保证质量</b></p></article><article class="card reveal d2"><span>02</span><p><b>常见问题</b>：误解需求、漏看上下文、修一处破一处</p></article><article class="card reveal d3"><span>03</span><p><b>关键动作</b>：测试、检查、日志、人工验收、复盘</p></article><article class="card reveal d4"><span>04</span><p><b>管理预期</b>：不要承诺“零错误”，要承诺“可验证、可恢复”</p></article></div></section><section class="slide pitfalls" data-title="踩坑复盘：速度背后的四个治理缺口"><!-- Speaker notes: 这页要讲得真诚一点。项目里最有价值的不是“AI 很快”，而是看见快起来之后哪里会失控。售前面对客户时也要用这页建立专业感：我们不是承诺零风险，而是知道风险会出现在哪里，并用 Harness 把它变成可发现、可控制、可修复的问题。 --><div class="slide-num">29<span>/43</span></div><div class="section-tag">实践</div><header class="slide-header reveal"><p>实践</p><h2>踩坑复盘：速度背后的四个治理缺口</h2><h3>高速 AI 协作会把工程治理缺口快速放大，项目实践必须正视反面经验。</h3></header><div class="pit-grid"><article class="pit-card reveal d1"><span>PIT 01</span><b>Fix 率偏高</b><p>复杂联调中容易出现“代码看似正确、状态实际错误”，缺少自动化 E2E 兜底会带来大量返工。</p></article><article class="pit-card reveal d2"><span>PIT 02</span><b>数据机制缺失</b><p>缺少迁移、枚举和业务规则保护时，AI 的小误解会沉淀成脏数据债务。</p></article><article class="pit-card reveal d3"><span>PIT 03</span><b>知识集中风险</b><p>AI 让更多人能改代码，但没有降低深层系统理解门槛，关键模块仍依赖核心操盘手。</p></article><article class="pit-card reveal d4"><span>PIT 04</span><b>测试覆盖不足</b><p>多服务、多环境、回调、过期、重试、跨端等场景难复现，发版容易变成靠经验兜底。</p></article></div><div class="pit-reflection reveal d5">核心反思：AI 不是让新手替代高级架构师的魔法；速度越快，越要求人类操盘手理解业务、设计容错、布置验证。</div></section><section class="slide terminal-slide" data-title="做对了什么：让 Agent 看得见、接得住、验得过"><!-- Speaker notes: 这页要强调方法论价值：不是某一次 Agent 表现好，而是团队建立了让 Agent 更容易表现好的环境。更准确地说，实践不是承诺绝对效率数字，而是减少重复解释、无效返工和不可验证交付。 --><div class="slide-num">30<span>/43</span></div><div class="section-tag">实践</div><header class="slide-header reveal"><p>实践</p><h2>做对了什么：让 Agent 看得见、接得住、验得过</h2><h3>实践中真正有效的是把 Agent 放进可观测、可接力、可验证的流程。</h3></header><div class="two-col"><div><div class="terminal reveal"><div class="term-head"><b>做对了什么：让 Agent 看得见、接得住、验得过</b><i></i><i></i><i></i></div><div class="term-body"><div><span>$</span> 运行态探针 -&gt; 让问题从猜测变成可观察信号</div><div><span>$</span> 工程理解 -&gt; 先读结构、约束和依赖，再动手</div><div><span>$</span> 自动化协作 -&gt; 让重复检查和交接动作机制化</div><div><span>$</span> 结果收口 -&gt; 用验证结果而不是主观感觉判断完成度</div><div><span>$</span> 经验沉淀 -&gt; 把一次修复变成下一次可复用的规则、上下文或 Skill</div></div></div></div><div class="side-notes reveal d3"><b>实践中真正有效的是把 Agent 放进可观测、可接力、可验证的流程。</b><p>这页要强调方法论价值：不是某一次 Agent 表现好，而是团队建立了让 Agent 更容易表现好的环境。更准确地说，实践不是承诺绝对效率数字，而是减少重复解释、无效返工和不可验证交付。</p></div></div></section><section class="slide stack" data-title="五条实践法则：售前可复述的方法论"><!-- Speaker notes: 这五条不是技术细节，而是组织 AI 协作的管理语言。主页面只保留最容易记住的五条，其余经验放在讲述中展开，避免听众在框架之间来回跳。 --><div class="slide-num">31<span>/43</span></div><div class="section-tag">实践</div><header class="slide-header reveal"><p>实践</p><h2>五条实践法则：售前可复述的方法论</h2><h3>团队经验可以提炼成客户听得懂、售前讲得出的五条法则。</h3></header><div class="stack-wrap"><div class="stack-row reveal d1"><span>01</span><b>先定义结果，再安排 Agent</b><em></em></div><div class="stack-row reveal d2"><span>02</span><b>大任务拆小，单轮可验证</b><em></em></div><div class="stack-row reveal d3"><span>03</span><b>上下文写下来，不靠口头记忆</b><em></em></div><div class="stack-row reveal d4"><span>04</span><b>工具和规则要沉淀成可复用能力</b><em></em></div><div class="stack-row reveal d5"><span>05</span><b>人负责判断，Agent 负责推进和验证</b><em></em></div></div></section><section class="slide compare" data-title="从项目经验到组织能力"><!-- Speaker notes: 客户经常会说“我们已经有人在用了”。这时要追问：这些经验是否能被团队复用？是否有标准？是否能治理？这就是从个人效率到组织能力的分界。 --><div class="slide-num">32<span>/43</span></div><div class="section-tag">实践</div><header class="slide-header reveal"><p>实践</p><h2>从项目经验到组织能力</h2><h3>个人会用 Agent 不等于团队真正提效。</h3></header><div class="compare-grid"><article class="pane old reveal d2"><p>Before / Risk</p><h3>停留在单点工具</h3><ul><li>个人使用：效率提升依赖个人经验</li><li>团队使用：规则、工具和上下文可共享</li></ul></article><article class="pane new reveal d3"><p>After / Harness</p><h3>进入可交付系统</h3><ul><li>组织能力：知识可沉淀，质量可评估，风险可治理</li><li>成熟标志：新人和新项目也能复用既有机制</li></ul></article></div></section><section class="slide stack" data-title="团队 Harness 观：五类资产沉淀"><!-- Speaker notes: 如果客户问“企业版价值在哪里”，这页就是答案之一：企业版要帮助客户把一次次 AI 使用变成可沉淀、可治理、可规模化的团队资产。下一部分的成熟度诊断，本质就是判断客户缺哪类资产。 --><div class="slide-num">33<span>/43</span></div><div class="section-tag">实践</div><header class="slide-header reveal"><p>实践</p><h2>团队 Harness 观：五类资产沉淀</h2><h3>团队级 Harness 可以理解为五类资产的持续沉淀。</h3></header><div class="stack-wrap"><div class="stack-row reveal d1"><span>01</span><b>上下文资产</b><em>项目、任务、决策和约束</em></div><div class="stack-row reveal d2"><span>02</span><b>工具资产</b><em>命令、接口、环境和自动化</em></div><div class="stack-row reveal d3"><span>03</span><b>规则资产</b><em>权限、流程、质量标准</em></div><div class="stack-row reveal d4"><span>04</span><b>验证资产</b><em>测试、检查、指标和验收证据</em></div><div class="stack-row reveal d5"><span>05</span><b>协作资产</b><em>交接方式、角色边界和复盘机制</em></div><div class="stack-row reveal d6"><span>06</span><b>对应诊断</b><em>客户缺哪类资产，就优先从哪类能力切入</em></div></div></section><section class="slide compare" data-title="小结：分水岭是组织级 Harness"><!-- Speaker notes: 到这里，大家已经有了一个客户判断框架：客户问题往往不是“买不买 AI Coding”，而是“有没有形成让 AI 稳定工作的组织机制”。 --><div class="slide-num">34<span>/43</span></div><div class="section-tag">实践</div><header class="slide-header reveal"><p>实践</p><h2>小结：分水岭是组织级 Harness</h2><h3>AI Coding 落地的分水岭，是能否形成组织级 Harness。</h3></header><div class="compare-grid"><article class="pane old reveal d2"><p>Before / Risk</p><h3>停留在单点工具</h3><ul><li>没有 Harness：靠个人技巧，效果不稳定</li><li>有 Harness：靠机制协作，效果可复用</li></ul></article><article class="pane new reveal d3"><p>After / Harness</p><h3>进入可交付系统</h3><ul><li>关键不是“AI 能不能写”，而是“组织能不能驾驭”</li><li>下一步：把这套判断变成客户成熟度诊断</li></ul></article></div></section><section class="slide chapter" data-title="Trae落地过程中，需要持续“问诊”"><!-- Speaker notes: 这一部分进入销售诊断。客户可能已经听过很多 AI Coding 概念，我们要提供的是更清晰的成熟度判断和下一步路径。 --><div class="slide-num">35<span>/43</span></div><div class="section-tag">推荐</div><div class="chapter-index reveal">03</div><div class="chapter-copy reveal d2"><p>推荐</p><h2>Trae落地过程中，需要持续“问诊”</h2><h3>客户真正需要的不是泛泛劝说，而是判断自己卡在哪一层。</h3></div><div class="chapter-line"></div></section><section class="slide maturity" data-title="客户成熟度四层"><!-- Speaker notes: 这四层不是客户等级评价，而是推荐路径判断。客户在哪一层，关心的问题、适合的话术和要推荐的能力都不一样。一个实用判断是：只要客户开始问“怎么统一、怎么管理、怎么证明效果”，就不只是个人工具问题了。 --><div class="slide-num">36<span>/43</span></div><div class="section-tag">推荐</div><header class="slide-header reveal"><p>推荐</p><h2>客户成熟度四层</h2><h3>用四层成熟度快速判断客户当前所处阶段。</h3></header><div class="maturity-ladder"><div class="ladder-step reveal d1"><i>1</i><b>尝鲜层</b><p>少数人试用，缺少标准和沉淀</p></div><div class="ladder-step reveal d2"><i>2</i><b>个人提效层</b><p>个人效率提升，但团队不可复制</p></div><div class="ladder-step reveal d3"><i>3</i><b>团队协同层</b><p>开始沉淀规则、知识和工具链</p></div><div class="ladder-step reveal d4"><i>4</i><b>企业治理层</b><p>关注权限、审计、质量、规模化和合规</p></div></div><div class="maturity-signal reveal d5">判断信号：多人试用但无统一规范，通常已进入团队协同层早期</div></section><section class="slide stack" data-title="客户问题诊断表"><!-- Speaker notes: 售前可以围绕这六个维度做客户访谈。不要急着展示功能，先让客户把自己的研发流程问题讲出来。访谈结束后要能输出一张简单判断表，而不是只记录一堆需求。 --><div class="slide-num">37<span>/43</span></div><div class="section-tag">推荐</div><header class="slide-header reveal"><p>推荐</p><h2>客户问题诊断表</h2><h3>用六个维度把客户的模糊痛点转成可诊断问题。</h3></header><div class="stack-wrap"><div class="stack-row reveal d1"><span>01</span><b>效率</b><em>哪些研发环节最耗时、最重复？能否选一个高频任务试点？</em></div><div class="stack-row reveal d2"><span>02</span><b>质量</b><em>缺陷、返工和验证压力在哪里？是否有明确验收证据？</em></div><div class="stack-row reveal d3"><span>03</span><b>知识</b><em>项目经验是否能被新人和 Agent 复用？是否沉淀为规则和上下文？</em></div><div class="stack-row reveal d4"><span>04</span><b>权限</b><em>代码、环境、数据和工具边界是否清晰？哪些动作必须受控？</em></div><div class="stack-row reveal d5"><span>05</span><b>交付</b><em>从需求到上线的瓶颈在哪里？哪一段最适合先自动化？</em></div><div class="stack-row reveal d6"><span>06</span><b>治理</b><em>是否需要审计、标准化、风险控制和规模推广？谁来定义标准？</em></div></div></section><section class="slide route" data-title="TRAE 2.0 企业版推荐切入"><!-- Speaker notes: 这页先给出推荐框架，不提前填未经确认的产品细节。每一行都要按“客户信号 -&gt; 成熟度判断 -&gt; 推荐切入 -&gt; 下一步动作”讲清路径，后续产品材料补齐后，再把能力、案例和话术嵌入四个切入层。 --><div class="slide-num">38<span>/43</span></div><div class="section-tag">推荐</div><header class="slide-header reveal"><p>推荐</p><h2>TRAE 2.0 企业版推荐切入</h2><h3>推荐 TRAE 2.0 时，要按客户成熟度分层切入。</h3></header><div class="route-head"><span>客户信号</span><span>成熟度</span><span>推荐切入</span><span>下一步动作</span></div><div class="route-row reveal"><span>少数人试用、只问写代码准不准</span><b>尝鲜层</b><strong>个人工具切入</strong><em>选择高频低风险任务做体验验证</em></div><div class="route-row reveal"><span>多人日常使用、但经验不可复制</span><b>个人提效层</b><strong>团队标准切入</strong><em>沉淀上下文、规则、工具和协作流程</em></div><div class="route-row reveal"><span>多团队试用、开始担心质量和权限</span><b>团队协同层</b><strong>企业管控切入</strong><em>明确权限、质量、审计和推广边界</em></div><div class="route-row reveal"><span>管理层关注规模化、合规和 ROI</span><b>企业治理层</b><strong>场景方案切入</strong><em>围绕高价值研发场景做方案化包装</em></div></section><section class="slide talk" data-title="商务和售前话术框架"><!-- Speaker notes: 好的话术不是把功能背完，而是让客户觉得“你理解我的阶段”。先建立诊断感，再讲产品能力，客户会更容易接受企业化推荐。遇到异议时，不要争辩工具强弱，而要把问题拉回组织级价值和试点验证。 --><div class="slide-num">39<span>/43</span></div><div class="section-tag">推荐</div><header class="slide-header reveal"><p>推荐</p><h2>商务和售前话术框架</h2><h3>话术顺序是先问诊、再映射、再推荐。</h3></header><div class="talk-path"><div class="talk-step reveal d1"><b>问诊</b><p>先问最想改善效率、质量、协作还是治理</p></div><div class="talk-step reveal d2"><b>映射</b><p>把问题定位到个人层、团队层或企业层</p></div><div class="talk-step reveal d3"><b>推荐</b><p>按成熟度选择个人工具、团队标准、企业管控或场景方案</p></div><div class="talk-step reveal d4"><b>收口</b><p>明确一个试点场景、成功指标和下一步材料需求</p></div></div><div class="objection-row"><div class="objection reveal d5"><b>异议</b><p>已有个人工具 -&gt; 讨论团队标准和组织沉淀</p></div><div class="objection reveal d6"><b>异议</b><p>担心权限风险 -&gt; 讨论企业管控和边界治理</p></div><div class="objection reveal d7"><b>异议</b><p>无法证明 ROI -&gt; 讨论可验证试点和成功指标</p></div></div></section><section class="slide problems" data-title="典型客户画像"><!-- Speaker notes: 同一套 AI Coding 能力，不同客户听到的价值不同。售前要把话术从“产品有什么”改成“对这个客户画像解决什么问题”。在没有产品材料前，不讲未经确认的能力承诺，只讲诊断和试点路径。 --><div class="slide-num">40<span>/43</span></div><div class="section-tag">推荐</div><header class="slide-header reveal"><p>推荐</p><h2>典型客户画像</h2><h3>不同客户画像对应不同切入点和价值表达。</h3></header><div class="problem-grid"><article class="card reveal d1"><span>01</span><p><b>研发团队</b>：关注编码效率、质量验证和知识复用</p></article><article class="card reveal d2"><span>02</span><p><b>软件交付团队</b>：关注交付周期、返工率和多项目复用</p></article><article class="card reveal d3"><span>03</span><p><b>平台型技术组织</b>：关注标准化、工具链集成和规模推广</p></article><article class="card reveal d4"><span>04</span><p><b>行业数字化团队</b>：关注业务理解、场景适配和安全治理</p></article><article class="card reveal d5"><span>05</span><p><b>试点建议</b>：每类客户都先选一个边界清晰、验收明确的研发场景</p></article></div></section><section class="slide stack" data-title="TRAE 内容待补页"><!-- Speaker notes: 这页不是空白页，而是产品材料的插槽。当前先锁定结构，等材料补齐后，直接填入能力、案例、包装和话术。在材料补齐前，商务和售前仍然可以用诊断框架推进客户交流。 --><div class="slide-num">41<span>/43</span></div><div class="section-tag">推荐</div><header class="slide-header reveal"><p>推荐</p><h2>TRAE 内容待补页</h2><h3>本页作为 TRAE 2.0 产品信息的结构化插入位。</h3></header><div class="stack-wrap"><div class="stack-row reveal d1"><span>01</span><b>待补产品材料</b><em>企业能力、客户案例、包装策略、推荐话术</em></div><div class="stack-row reveal d2"><span>02</span><b>能力补齐</b><em>把产品能力映射到成熟度四层与六个诊断维度</em></div><div class="stack-row reveal d3"><span>03</span><b>案例补齐</b><em>把客户案例映射到客户画像和可量化成效</em></div><div class="stack-row reveal d4"><span>04</span><b>包装补齐</b><em>把方案包装映射到试点场景、部署路径和价值证明</em></div><div class="stack-row reveal d5"><span>05</span><b>话术补齐</b><em>把推荐话术映射到问诊、映射、推荐、收口四步</em></div><div class="stack-row reveal d6"><span>06</span><b>当前可用</b><em>成熟度诊断表、异议处理框架、可验证试点路径</em></div></div></section><section class="slide quote" data-title="复述金句：竞争在 Harness 能力"><!-- Speaker notes: 这句话请大家带走。客户问 AI Coding 值不值得做时，我们要把讨论从单点工具拉回到企业研发系统升级。 --><div class="slide-num">42<span>/43</span></div><div class="section-tag">收束</div><div class="quote-mark">#</div><div class="quote-copy reveal"><p>AI Coding 的竞争</p><h2>不只是模型和 IDE，<br>而是 Harness 能力。</h2><ul><li>真正的企业级竞争，是 Harness 能力</li><li>谁能把模型、工具、知识、权限、验证组织起来</li><li>谁就更接近稳定的研发生产力</li></ul></div></section><section class="slide actions" data-title="行动建议：用成熟度诊断讲 TRAE"><!-- Speaker notes: 最后的行动建议很简单：不要只讲功能，也不要只讲趋势。用成熟度诊断让客户看见自己的位置，再用企业化路径让客户看见下一步。 --><div class="slide-num">43<span>/43</span></div><div class="section-tag">收束</div><header class="slide-header reveal"><p>收束</p><h2>行动建议：用成熟度诊断讲 TRAE</h2><h3>面向客户时，用“诊断成熟度 + 推荐企业化路径”的方式讲 TRAE。</h3></header><div class="action-steps"><div class="action-step reveal d1"><span>1</span><p>判断客户处于尝鲜、个人、团队还是治理层</p></div><div class="action-step reveal d2"><span>2</span><p>用效率、质量、知识、权限、交付、治理六维问诊</p></div><div class="action-step reveal d3"><span>3</span><p>把问题映射到 TRAE 2.0 的个人工具、团队标准、企业管控、场景方案</p></div><div class="action-step reveal d4"><span>4</span><p>选择一个可验证试点，定义成功指标和下一步动作</p></div></div></section></main></div><div class="progress-track"><div class="progress-fill" id="progressFill"></div></div><div class="nav-hint">← → / Space · E edit</div><button class="edit-toggle" id="editToggle" title="Edit mode">Edit</button><script>
-class SlidePresentation{constructor(){this.slides=[...document.querySelectorAll('.slide')];this.current=0;this.progress=document.getElementById('progressFill');this.edit=false;this.fit();this.showSlide(0);addEventListener('resize',()=>this.fit());addEventListener('keydown',e=>{if(this.edit&&e.key!=='Escape'&&e.key.toLowerCase()!=='e')return;if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();this.next()}if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();this.prev()}if(e.key.toLowerCase()==='e')this.toggleEdit();if(e.key==='Escape'&&this.edit)this.toggleEdit(false)});document.getElementById('editToggle').onclick=()=>this.toggleEdit();let sx=0;addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});addEventListener('touchend',e=>{let dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>50)(dx<0?this.next():this.prev())},{passive:true})}fit(){const st=document.getElementById('deckStage');const sc=Math.min(innerWidth/1920,innerHeight/1080);st.style.transform=`translate(-50%,-50%) scale(${sc})`}showSlide(i){this.current=Math.max(0,Math.min(this.slides.length-1,i));this.slides.forEach((s,idx)=>s.classList.toggle('visible',idx===this.current));if(this.progress)this.progress.style.width=((this.current+1)/this.slides.length*100)+'%'}next(){this.showSlide(this.current+1)}prev(){this.showSlide(this.current-1)}toggleEdit(force){this.edit=force??!this.edit;document.body.classList.toggle('editing',this.edit);document.querySelectorAll('.slide.visible h1,.slide.visible h2,.slide.visible h3,.slide.visible p,.slide.visible li,.slide.visible b,.slide.visible em,.slide.visible span').forEach(el=>{if(el.closest('.slide-num,.section-tag,.progress-track'))return;el.contentEditable=this.edit})}}
-window.presentation=new SlidePresentation();
-</script></body></html>
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>
+      从 AI Coding 到 Harness 工程
+    </title>
+    <link rel="stylesheet" href="assets/ai-coding-harness-training.css">
+  </head>
+  <body>
+    <div class="deck-viewport">
+      <main class="deck-stage" id="deckStage">
+        <section class="slide cover visible" data-title="标题页：从 AI Coding 到 Harness 工程">
+          <!-- Speaker notes: 今天不讲单个工具的功能清单，而讲一个趋势：企业客户正在从"让 AI 帮个人写代码"，走向"让 AI 稳定参与团队研发交付"。 -->
+          <div class="slide-num">
+            01
+            <span>/45</span>
+          </div>
+          <div class="cover-grid">
+          </div>
+          <main class="cover-editor">
+            <div class="editorbar">
+              <span></span>
+              <span></span>
+              <span></span>
+              <b>ai-coding-harness.training</b>
+            </div>
+            <div class="codeblock reveal">
+              <div class="code-title">
+                session.ts
+              </div>
+              <div><span>01</span> const topic = &quot;AI Coding -&gt; Harness&quot;;</div>
+              <div><span>02</span> audience.role = [&quot;商务&quot;, &quot;售前&quot;];</div>
+              <div><span>03</span> goal = diagnose(customer.maturity);</div>
+              <div><span>04</span> recommend(TRAE_2_0, enterprise_path);</div>
+            </div>
+            <div class="hero-copy reveal d2">
+              <p>
+                Internal Enablement · AI Coding
+              </p>
+              <h1>
+                从 AI Coding
+                <br>
+                到 Harness 工程
+              </h1>
+              <h4>
+                某团队 AI Coding 实践分享
+              </h4>
+              <h5>
+                分享人：泛互行业解决方案 - 戴烨
+              </h5>
+            </div>
+            <div class="terminal reveal">
+              <div class="term-head">
+                <b>boot</b>
+                <i></i>
+                <i></i>
+                <i></i>
+              </div>
+              <div class="term-body">
+                <div><span>$</span> prepare audience: business + pre-sales</div>
+                <div><span>$</span> scope: evolution / practice / recommendation</div>
+                <div><span>$</span> output: customer diagnostic playbook</div>
+              </div>
+            </div>
+          </main>
+        </section>
+
+        <section class="slide agenda" data-title="参与者收益：一起建立诊断视角">
+          <!-- Speaker notes: 商务和售前不需要成为代码专家，但要成为“研发提效问题的问诊者”：听懂客户的痛点，判断成熟度，再把方案讲到客户当前最在意的位置。 -->
+          <div class="slide-num">
+            02
+            <span>/45</span>
+          </div>
+          <div class="agenda-left reveal">
+            <h2>
+              目录
+            </h2>
+          </div>
+          <div class="agenda-right">
+            <div class="agenda-row reveal d1">
+              <span>01</span>
+              <b>AI Coding 与 Harness 工程的进化</b>
+              <em>建立趋势共识</em>
+            </div>
+            <div class="agenda-row reveal d2">
+              <span>02</span>
+              <b>某团队真实项目实践复盘</b>
+              <em>证明可落地</em>
+            </div>
+            <div class="agenda-row reveal d3">
+              <span>03</span>
+              <b>客户成熟度诊断与 TRAE 推荐</b>
+              <em>转成客户问诊</em>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide visual" data-title="核心判断：从写代码工具到研发生产系统">
+          <!-- Speaker notes: 客户最初会问“这个工具写代码准不准”，但真正决定企业落地的是“它能不能在我的工程流程里稳定产生结果”。这也是本次分享希望一起建立的核心判断。 -->
+          <div class="slide-num">
+            03
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              开场
+            </p>
+            <h2>
+              核心判断：从写代码工具到研发生产系统
+            </h2>
+            <h3>
+              AI Coding 的竞争焦点正在从“模型会不会写”转向“系统能不能交付”。
+            </h3>
+          </header>
+          <div class="visual-layout">
+            <aside class="asset-panel reveal d2">
+              <svg class="key-visual" viewBox="0 0 360 360" role="img" aria-label="abstract harness diagram">
+                <defs>
+                  <radialGradient id="g0" cx="50%" cy="50%">
+                    <stop offset="0" stop-color="rgba(34,211,238,.34)"/>
+                    <stop offset="1" stop-color="rgba(34,211,238,0)"/>
+                  </radialGradient>
+                </defs>
+                <rect width="360" height="360" rx="28" fill="url(#g0)"/>
+                <circle cx="180" cy="180" r="118" fill="none" stroke="rgba(34,211,238,.28)" stroke-width="3"/>
+                <path d="M94 190h172M180 104v172" stroke="rgba(182,242,106,.62)" stroke-width="4" stroke-linecap="round"/>
+                <rect x="120" y="128" width="120" height="104" rx="14" fill="rgba(245,240,230,.06)" stroke="rgba(245,240,230,.22)"/>
+                <path d="M142 158h76M142 184h52M142 210h84" stroke="rgba(245,240,230,.62)" stroke-width="8" stroke-linecap="round"/>
+              </svg>
+              <span></span>
+            </aside>
+            <main>
+              <div class="cards">
+                <article class="card reveal d1">
+                  <span>01</span>
+                  <p>
+                    <b>第一层</b>
+                    ：补全代码，提高个人输入效率
+                  </p>
+                </article>
+                <article class="card reveal d2">
+                  <span>02</span>
+                  <p>
+                    <b>第二层</b>
+                    ：理解任务，拆解步骤，调用工具
+                  </p>
+                </article>
+                <article class="card reveal d3">
+                  <span>03</span>
+                  <p>
+                    <b>第三层</b>
+                    ：进入工程环境，修改、运行、验证、修复
+                  </p>
+                </article>
+                <article class="card reveal d4">
+                  <span>04</span>
+                  <p>
+                    <b>下一层</b>
+                    ：形成组织可复用的 Harness 能力
+                  </p>
+                </article>
+              </div>
+            </main>
+          </div>
+        </section>
+
+        <section class="slide chapter" data-title="第一章：AI Coding 趋势">
+          <!-- Speaker notes: 这一章先建立趋势共识：AI Coding 正在从个人补全工具，走向能进入真实工程环境、被 Harness 约束和验证的研发生产系统。 -->
+          <div class="slide-num">
+            04
+            <span>/45</span>
+          </div>
+          <div class="chapter-index reveal">
+            01
+          </div>
+          <div class="chapter-copy reveal d2">
+            <p>
+              趋势
+            </p>
+            <h2>
+              AI Coding 趋势
+            </h2>
+            <h3>
+              从“会写代码”走向“能在工程系统里稳定交付”。
+            </h3>
+          </div>
+          <div class="chapter-line">
+          </div>
+        </section>
+
+        <section class="slide compare" data-title="客户眼中的 AI Coding：从补全到执行">
+          <!-- Speaker notes: 面向客户时，不要把 AI Coding 讲成“更聪明的自动补全”。更有力量的表达是：它正在接近一个可协作的执行单元，能进入真实工程任务。 -->
+          <div class="slide-num">
+            05
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              趋势
+            </p>
+            <h2>
+              客户眼中的 AI Coding：从补全到执行
+            </h2>
+            <h3>
+              客户对 AI Coding 的认知正在从“智能补全”升级到“任务执行”。
+            </h3>
+          </header>
+          <div class="compare-grid">
+            <article class="pane old reveal d2">
+              <p>
+                Before / Risk
+              </p>
+              <h3>
+                停留在单点工具
+              </h3>
+              <ul>
+                <li>
+                  过去：写一段函数、补一段代码、解释一段报错
+                </li>
+                <li>
+                  现在：读需求、看工程、改文件、跑命令、修问题
+                </li>
+              </ul>
+            </article>
+            <article class="pane new reveal d3">
+              <p>
+                After / Harness
+              </p>
+              <h3>
+                进入可交付系统
+              </h3>
+              <ul>
+                <li>
+                  客户关心点：不是炫技，而是节省时间、降低返工、缩短交付
+                </li>
+                <li>
+                  售前表达：AI Coding 不是键盘插件，而是研发流程参与者
+                </li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="slide visual" data-title="Prompt Engineering：第一阶段是把需求说清楚">
+          <!-- Speaker notes: 这个阶段的关键能力是“会问、会写、会约束”。它能提升个人效率，但还没有真正改变团队研发系统，因为很多知识仍然留在人的脑子里。 -->
+          <div class="slide-num">
+            06
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              趋势
+            </p>
+            <h2>
+              Prompt Engineering：第一阶段是把需求说清楚
+            </h2>
+            <h3>
+              Prompt Engineering 的本质是需求表达优化，但它仍然高度依赖人。
+            </h3>
+          </header>
+          <div class="visual-layout">
+            <aside class="asset-panel reveal d2">
+              <svg class="key-visual" viewBox="0 0 360 360" role="img" aria-label="abstract harness diagram">
+                <defs>
+                  <radialGradient id="g1" cx="50%" cy="50%">
+                    <stop offset="0" stop-color="rgba(34,211,238,.34)"/>
+                    <stop offset="1" stop-color="rgba(34,211,238,0)"/>
+                  </radialGradient>
+                </defs>
+                <rect width="360" height="360" rx="28" fill="url(#g1)"/>
+                <path d="M78 252c54-92 110-138 168-138 24 0 45 6 64 18" fill="none" stroke="rgba(34,211,238,.34)" stroke-width="10" stroke-linecap="round"/>
+                <path d="M78 252c58-34 116-36 174-6 24 12 44 15 60 9" fill="none" stroke="rgba(182,242,106,.72)" stroke-width="8" stroke-linecap="round"/>
+                <circle cx="96" cy="252" r="12" fill="#22d3ee"/>
+                <circle cx="246" cy="114" r="12" fill="#b6f26a"/>
+                <circle cx="312" cy="255" r="12" fill="#ffb86b"/>
+                <path d="M128 248l48-58 52 38 42-90" fill="none" stroke="rgba(245,240,230,.55)" stroke-width="3" stroke-dasharray="8 10"/>
+              </svg>
+              <span></span>
+            </aside>
+            <main>
+              <div class="cards">
+                <article class="card reveal d1">
+                  <span>01</span>
+                  <p>
+                    <b>人负责拆任务、补背景、给约束</b>
+                  </p>
+                </article>
+                <article class="card reveal d2">
+                  <span>02</span>
+                  <p>
+                    <b>模型负责生成答案、代码或建议</b>
+                  </p>
+                </article>
+                <article class="card reveal d3">
+                  <span>03</span>
+                  <p>
+                    <b>价值</b>
+                    ：把模糊需求变成更清晰的输入
+                  </p>
+                </article>
+                <article class="card reveal d4">
+                  <span>04</span>
+                  <p>
+                    <b>局限</b>
+                    ：上下文断裂、结果难复用、验证仍靠人工
+                  </p>
+                </article>
+              </div>
+            </main>
+          </div>
+        </section>
+
+        <section class="slide flow" data-title="Agent Loop：第二阶段是规划、行动、观察">
+          <!-- Speaker notes: 这是 AI Coding 能力跃迁的重要分水岭。模型不再只是“说答案”，而是开始通过工具和反馈循环接近真实任务完成。 -->
+          <div class="slide-num">
+            07
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              趋势
+            </p>
+            <h2>
+              Agent Loop：第二阶段是规划、行动、观察
+            </h2>
+            <h3>
+              Agent Loop 让模型从一次性回答进入持续迭代。
+            </h3>
+          </header>
+          <div class="flowline">
+            <div class="flow-node reveal d1">
+              <i>
+                1
+              </i>
+              <b>Plan</b>
+              <p>
+                理解目标并拆解步骤
+              </p>
+            </div>
+            <div class="flow-node reveal d2">
+              <i>
+                2
+              </i>
+              <b>Act</b>
+              <p>
+                调用工具、读取资料、执行命令
+              </p>
+            </div>
+            <div class="flow-node reveal d3">
+              <i>
+                3
+              </i>
+              <b>Observe</b>
+              <p>
+                观察结果、日志、错误和反馈
+              </p>
+            </div>
+            <div class="flow-node reveal d4">
+              <i>
+                4
+              </i>
+              <b>Iterate</b>
+              <p>
+                根据反馈调整下一步
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide terminal-slide" data-title="Coding Agent：第三阶段是进入真实工程环境">
+          <!-- Speaker notes: 这一步让客户的期待发生变化：不是“给我一段代码”，而是“帮我把这个任务推进到可验证状态”。售前要把“验证”作为核心词讲出来。 -->
+          <div class="slide-num">
+            08
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              趋势
+            </p>
+            <h2>
+              Coding Agent：第三阶段是进入真实工程环境
+            </h2>
+            <h3>
+              Coding Agent 的关键变化是能在真实仓库和运行环境中工作。
+            </h3>
+          </header>
+          <div class="two-col">
+            <div>
+              <div class="terminal reveal">
+                <div class="term-head">
+                  <b>Coding Agent：第三阶段是进入真实工程环境</b>
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                </div>
+                <div class="term-body">
+                  <div><span>$</span> 读取代码结构、配置、文档和测试</div>
+                  <div><span>$</span> 修改文件并保持上下文一致</div>
+                  <div><span>$</span> 运行命令、查看日志、定位失败</div>
+                  <div><span>$</span> 通过验证把“生成代码”变成“交付结果”</div>
+                </div>
+              </div>
+            </div>
+            <div class="side-notes reveal d3">
+              <b>Coding Agent 的关键变化是能在真实仓库和运行环境中工作。</b>
+              <p>
+                这一步让客户的期待发生变化：不是“给我一段代码”，而是“帮我把这个任务推进到可验证状态”。售前要把“验证”作为核心词讲出来。
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide cc-source" data-title="从 Claude Code 源码看 Agent 如何工作">
+          <!-- Speaker notes: 这一页不要泛泛讲 Coding Agent，而是直接引用源码分析报告：Claude Code 不是带工具的聊天机器人，而是工业级 Agent Runtime。重点讲清楚“模型即智能体，代码即 Harness”。 -->
+          <div class="slide-num">
+            09
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              Claude Code 源码启发
+            </p>
+            <h2>
+              从 Claude Code 源码看 Agent 如何工作
+            </h2>
+            <h3>
+              报告的核心判断：Claude Code 的本质不是聊天框，而是一个被 Harness 约束的 Agent Runtime。
+            </h3>
+          </header>
+          <div style="position:relative;z-index:2;display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:stretch">
+            <div class="reveal d2" style="border:1px solid var(--line);border-radius:10px;background:rgba(245,240,230,.055);padding:34px">
+              <svg viewBox="0 0 760 540" width="100%" height="100%" role="img" aria-label="Claude Code 六层 Harness 架构示意">
+                <defs>
+                  <marker id="ccArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                    <path d="M0 0 10 5 0 10z" fill="#ffb86b"/>
+                  </marker>
+                </defs>
+                <rect class="cc-layer" x="64" y="26" width="632" height="66" fill="rgba(34,211,238,.13)"/>
+                <text class="cc-title" x="92" y="66">
+                  Prompt 编译
+                </text>
+                <text class="cc-desc" x="330" y="66">
+                  根据工具集动态生成指导
+                </text>
+                <rect class="cc-layer" x="64" y="112" width="632" height="66" fill="rgba(182,242,106,.11)"/>
+                <text class="cc-title" x="92" y="152">
+                  Context / Memory
+                </text>
+                <text class="cc-desc" x="390" y="152">
+                  多源融合、压缩、召回
+                </text>
+                <rect class="cc-layer" x="64" y="198" width="632" height="66" fill="rgba(255,184,107,.13)"/>
+                <text class="cc-title" x="92" y="238">
+                  Tool System
+                </text>
+                <text class="cc-desc" x="330" y="238">
+                  执行文件、终端、规划等动作
+                </text>
+                <rect class="cc-layer" x="64" y="284" width="632" height="66" fill="rgba(255,107,107,.11)"/>
+                <text class="cc-title" x="92" y="324">
+                  Policy / Permission
+                </text>
+                <text class="cc-desc" x="405" y="324">
+                  统一权限网关与纵深防御
+                </text>
+                <rect class="cc-layer" x="64" y="370" width="632" height="66" fill="rgba(34,211,238,.10)"/>
+                <text class="cc-title" x="92" y="410">
+                  Agent Loop
+                </text>
+                <text class="cc-desc" x="330" y="410">
+                  行动、观察、恢复、再决策
+                </text>
+                <rect class="cc-layer" x="64" y="456" width="632" height="66" fill="rgba(182,242,106,.12)"/>
+                <text class="cc-title" x="92" y="496">
+                  Verification
+                </text>
+                <text class="cc-desc" x="330" y="496">
+                  用证据裁断 PASS / FAIL
+                </text>
+                <path class="cc-line" d="M380 92v20"/>
+                <path class="cc-line" d="M380 178v20"/>
+                <path class="cc-line" d="M380 264v20"/>
+                <path class="cc-line" d="M380 350v20"/>
+                <path class="cc-line" d="M380 436v20"/>
+              </svg>
+            </div>
+            <div class="side-notes reveal d3" style="border-left-color:var(--cyan)">
+              <b>报告原文把 Claude Code 定义为“工业级 Agent Runtime”。</b>
+              <p>
+                引用：
+                <span style="color:var(--acid);font-weight:800">
+                  “The model is the agent. The code is the harness.”
+                </span>
+              </p>
+              <p>
+                翻译成业务语言：模型负责智能，代码负责把智能放进可运行、可观察、可治理的工程环境。
+              </p>
+              <p>
+                源码启发不是“照抄功能”，而是学习它如何把 Prompt、Context、Tool、Permission、Loop、Verification 组织成系统。
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide cc-quality" data-title="Claude Code 的启发：质量靠 Harness 兜住">
+          <!-- Speaker notes: 这一页引用第二份报告的质量保障闭环，强调不是靠模型一次性生成高质量代码，而是靠受限工具环境、hooks/verifier、自动审查、灰度发布和可观测任务轨迹逐层兜底。 -->
+          <div class="slide-num">
+            10
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              Claude Code 源码启发
+            </p>
+            <h2>
+              Claude Code 的启发：质量靠 Harness 兜住
+            </h2>
+            <h3>
+              报告给出的质量闭环是：生成、验证、审查、限制、回收反馈，再形成循环。
+            </h3>
+          </header>
+          <div style="position:relative;z-index:2;display:grid;grid-template-columns:1fr 470px;gap:40px;align-items:stretch">
+            <div class="reveal d2" style="border:1px solid var(--line);border-radius:10px;background:rgba(245,240,230,.055);padding:40px">
+              <svg viewBox="0 0 900 520" width="100%" height="100%" role="img" aria-label="Claude Code 质量保障闭环">
+                <defs>
+                  <marker id="qcArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+                    <path d="M0 0 10 5 0 10z" fill="#b6f26a"/>
+                  </marker>
+                </defs>
+                <circle cx="450" cy="260" r="112" fill="rgba(34,211,238,.08)" stroke="rgba(34,211,238,.35)" stroke-width="3"/>
+                <text x="394" y="252" class="qc-t">
+                  Harness
+                </text>
+                <text x="364" y="286" class="qc-s">
+                  把质量逐层兜住
+                </text>
+                <rect class="qc-node" x="360" y="28" width="180" height="72" rx="12"/>
+                <text x="420" y="72" class="qc-t">
+                  生成
+                </text>
+                <rect class="qc-node" x="668" y="138" width="180" height="72" rx="12"/>
+                <text x="728" y="182" class="qc-t">
+                  验证
+                </text>
+                <rect class="qc-node" x="668" y="330" width="180" height="72" rx="12"/>
+                <text x="728" y="374" class="qc-t">
+                  审查
+                </text>
+                <rect class="qc-node" x="360" y="440" width="180" height="72" rx="12"/>
+                <text x="420" y="484" class="qc-t">
+                  限制
+                </text>
+                <rect class="qc-node" x="52" y="330" width="220" height="72" rx="12"/>
+                <text x="112" y="374" class="qc-t">
+                  回收反馈
+                </text>
+                <rect class="qc-node" x="52" y="138" width="180" height="72" rx="12"/>
+                <text x="112" y="182" class="qc-t">
+                  循环
+                </text>
+                <path class="qc-line" d="M540 64c84 14 136 42 166 76"/>
+                <path class="qc-line" d="M758 210v112"/>
+                <path class="qc-line" d="M668 386c-44 34-86 52-128 62"/>
+                <path class="qc-line" d="M360 476c-42-8-72-26-94-54"/>
+                <path class="qc-line" d="M162 330V210"/>
+                <path class="qc-line" d="M232 154c34-42 74-68 128-82"/>
+              </svg>
+            </div>
+            <div class="reveal d3" style="display:grid;gap:16px">
+              <article class="card">
+                <span>01</span>
+                <p>
+                  <b>受限工具环境</b>
+                  ：工具不是越多越好，而是按边界开放
+                </p>
+              </article>
+              <article class="card">
+                <span>02</span>
+                <p>
+                  <b>hooks / verifier</b>
+                  ：把“改完能不能跑通”放进流程
+                </p>
+              </article>
+              <article class="card">
+                <span>03</span>
+                <p>
+                  <b>自动审查</b>
+                  ：不信任单一环节，在关键节点挑战判断
+                </p>
+              </article>
+              <article class="card">
+                <span>04</span>
+                <p>
+                  <b>可观测轨迹</b>
+                  ：消息、活动、输出、transcript 可追踪
+                </p>
+              </article>
+            </div>
+          </div>
+          <div class="pit-reflection reveal d4">
+            报告原文总结：不是靠模型一次性生成高质量代码，而是靠“受限工具环境 + hooks/verifier + 自动审查 + 灰度发布 + 可观测任务轨迹”。
+          </div>
+        </section>
+
+        <section class="slide stack" data-title="共性能力：六件事决定能否落地">
+          <!-- Speaker notes: 这六类能力就是客户诊断的入口。客户说“AI 不稳定”，往往不是模型单点问题，而是工具、上下文、权限和验证体系没有搭起来。 -->
+          <div class="slide-num">
+            11
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              趋势
+            </p>
+            <h2>
+              共性能力：六件事决定能否落地
+            </h2>
+            <h3>
+              成熟 Coding Agent 共有六类工程能力。
+            </h3>
+          </header>
+          <div class="stack-wrap">
+            <div class="stack-row reveal d1">
+              <span>01</span>
+              <b>Tools</b>
+              <em>能使用文件、终端、搜索、浏览器、接口等工具</em>
+            </div>
+            <div class="stack-row reveal d2">
+              <span>02</span>
+              <b>Context</b>
+              <em>能组织任务、代码、历史和约束</em>
+            </div>
+            <div class="stack-row reveal d3">
+              <span>03</span>
+              <b>Memory</b>
+              <em>能沉淀项目偏好、团队规则和复用经验</em>
+            </div>
+            <div class="stack-row reveal d4">
+              <span>04</span>
+              <b>Permission</b>
+              <em>能控制可读、可写、可执行边界</em>
+            </div>
+            <div class="stack-row reveal d5">
+              <span>05</span>
+              <b>Verification</b>
+              <em>能运行测试、检查结果、验证改动</em>
+            </div>
+            <div class="stack-row reveal d6">
+              <span>06</span>
+              <b>Recovery</b>
+              <em>能从失败、冲突、误判中恢复</em>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide harness-visual" data-title="Harness 工程：把原始能力变成可靠执行">
+          <!-- Speaker notes: 这页用一个形象比喻帮助大家理解 Harness：LLM 像一匹能力很强但还不稳定的马，Harness System 是缰绳、路径、工具和反馈系统，工程师通过控制界面把能力约束到可交付路径上。 -->
+          <div class="slide-num">
+            12
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              趋势
+            </p>
+            <h2>
+              Harness 工程：把原始能力变成可靠执行
+            </h2>
+            <h3>
+              LLM 提供原始能力，Harness 负责约束、引导、验证和纠正。
+            </h3>
+          </header>
+          <div class="harness-layout">
+            <figure class="harness-image reveal d1">
+              <img src="assets/harness-system-illustration.jpg" alt="Harness System illustration: LLM, tools, constraints, validation and operator"/>
+            </figure>
+            <aside class="harness-points">
+              <div class="harness-point reveal d2">
+                <span>01 / Raw Capability</span>
+                <b>模型像强马</b>
+                <p>
+                  能力很强，但需要边界和路线，才能稳定进入工程任务。
+                </p>
+              </div>
+              <div class="harness-point reveal d3">
+                <span>02 / Harness System</span>
+                <b>系统给出缰绳</b>
+                <p>
+                  通过约束、工具、记忆、验证和反馈循环，把能力组织起来。
+                </p>
+              </div>
+              <div class="harness-point reveal d4">
+                <span>03 / Operator</span>
+                <b>人负责控制</b>
+                <p>
+                  工程师定义目标、观察信号、校准方向，让结果可控、可复用。
+                </p>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="slide terminal-slide" data-title="Harness Engineering 定义：让 AI 变得可交付">
+          <!-- Speaker notes: Harness 可以理解为“给 AI 装上工作台、轨道、仪表盘和安全边界”。它不是替代模型，而是让模型在企业环境里更稳定地发挥。 -->
+          <div class="slide-num">
+            13
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              趋势
+            </p>
+            <h2>
+              Harness Engineering 定义：让 AI 变得可交付
+            </h2>
+            <h3>
+              Harness Engineering 是把 AI 能力转化为稳定交付能力的工程体系。
+            </h3>
+          </header>
+          <div class="two-col">
+            <div>
+              <div class="terminal reveal">
+                <div class="term-head">
+                  <b>Harness Engineering 定义：让 AI</b>
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                </div>
+                <div class="term-body">
+                  <div><span>$</span> 目标 -&gt; 可控、可用、可复用、可交付</div>
+                  <div><span>$</span> 对象 -&gt; 模型、工具、知识、流程、权限、评估</div>
+                  <div><span>$</span> 方法 -&gt; 把不确定的智能行为纳入工程约束</div>
+                  <div><span>$</span> 结果 -&gt; 从“个人会用 AI”走向“组织能驾驭 AI”</div>
+                </div>
+              </div>
+            </div>
+            <div class="side-notes reveal d3">
+              <b>Harness Engineering 是把 AI 能力转化为稳定交付能力的工程体系。</b>
+              <p>
+                Harness 可以理解为“给 AI 装上工作台、轨道、仪表盘和安全边界”。它不是替代模型，而是让模型在企业环境里更稳定地发挥。
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide stack" data-title="Harness 五大模块：工具、知识、观察、控制、评估">
+          <!-- Speaker notes: 这五个模块特别适合售前做诊断。客户卡在不同模块，推荐路径就不同：有的缺工具接入，有的缺知识沉淀，有的缺权限治理，有的缺验证标准。 -->
+          <div class="slide-num">
+            14
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              趋势
+            </p>
+            <h2>
+              Harness 五大模块：工具、知识、观察、控制、评估
+            </h2>
+            <h3>
+              Harness 可以拆成五个客户容易理解的模块。
+            </h3>
+          </header>
+          <div class="stack-wrap">
+            <div class="stack-row reveal d1">
+              <span>01</span>
+              <b>Tools</b>
+              <em>Agent 能做什么</em>
+            </div>
+            <div class="stack-row reveal d2">
+              <span>02</span>
+              <b>Knowledge</b>
+              <em>Agent 知道什么</em>
+            </div>
+            <div class="stack-row reveal d3">
+              <span>03</span>
+              <b>Observation</b>
+              <em>Agent 如何看见过程和结果</em>
+            </div>
+            <div class="stack-row reveal d4">
+              <span>04</span>
+              <b>Control</b>
+              <em>企业如何设定边界和权限</em>
+            </div>
+            <div class="stack-row reveal d5">
+              <span>05</span>
+              <b>Evaluation</b>
+              <em>如何判断结果是否可靠</em>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide formula-slide" data-title="Agent = Model + Harness">
+          <!-- Speaker notes: 这页是本次分享很重要的公式之一。客户买的不是一个孤立模型，而是一套让模型在企业研发流程中稳定工作的系统能力。 -->
+          <div class="slide-num">
+            15
+            <span>/45</span>
+          </div>
+          <div class="formula reveal">
+            <span>Agent</span>
+            <em>=</em>
+            <span>Model</span>
+            <em>+</em>
+            <span>Harness</span>
+          </div>
+          <div class="formula-sub reveal d2">
+            企业级 Agent 不是模型本身，而是模型和 Harness 的组合。
+          </div>
+          <div class="formula-notes">
+            <div class="mini-cards">
+              <article class="card reveal d1">
+                <span>01</span>
+                <p>
+                  <b>没有 Harness</b>
+                  ：能力强但不稳定
+                </p>
+              </article>
+              <article class="card reveal d2">
+                <span>02</span>
+                <p>
+                  <b>没有好模型</b>
+                  ：流程完整但智能不足
+                </p>
+              </article>
+              <article class="card reveal d3">
+                <span>03</span>
+                <p>
+                  <b>真正价值</b>
+                  ：两者相互放大
+                </p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide compare" data-title="Harness 壁垒：模型跃迁，工程沉淀">
+          <!-- Speaker notes: 售前可以这样讲：模型升级像换发动机，Harness 像企业自己的道路、规则和驾驶系统。发动机越强，越需要配套系统承接。 -->
+          <div class="slide-num">
+            16
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              趋势
+            </p>
+            <h2>
+              Harness 壁垒：模型跃迁，工程沉淀
+            </h2>
+            <h3>
+              模型会持续跃迁，但 Harness 会形成组织连续沉淀。
+            </h3>
+          </header>
+          <div class="compare-grid">
+            <article class="pane old reveal d2">
+              <p>
+                Before / Risk
+              </p>
+              <h3>
+                停留在单点工具
+              </h3>
+              <ul>
+                <li>
+                  模型能力会快速升级，也会快速被追平
+                </li>
+                <li>
+                  企业知识、流程、权限、验证标准难以复制
+                </li>
+              </ul>
+            </article>
+            <article class="pane new reveal d3">
+              <p>
+                After / Harness
+              </p>
+              <h3>
+                进入可交付系统
+              </h3>
+              <ul>
+                <li>
+                  好的 Harness 能承接新模型红利
+                </li>
+                <li>
+                  组织壁垒来自“把经验变成系统”
+                </li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="slide compare" data-title="企业客户意义：从个人效率到团队能力">
+          <!-- Speaker notes: 企业客户不会只为“某个工程师快一点”买单。他们会为“团队整体交付更稳、质量更可控、知识不随人流失”买单。 -->
+          <div class="slide-num">
+            17
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              趋势
+            </p>
+            <h2>
+              企业客户意义：从个人效率到团队能力
+            </h2>
+            <h3>
+              企业客户真正需要的是团队级、可治理的研发能力提升。
+            </h3>
+          </header>
+          <div class="compare-grid">
+            <article class="pane old reveal d2">
+              <p>
+                Before / Risk
+              </p>
+              <h3>
+                停留在单点工具
+              </h3>
+              <ul>
+                <li>
+                  个人层：写得更快，查得更快
+                </li>
+                <li>
+                  团队层：协作更顺，知识更可复用
+                </li>
+              </ul>
+            </article>
+            <article class="pane new reveal d3">
+              <p>
+                After / Harness
+              </p>
+              <h3>
+                进入可交付系统
+              </h3>
+              <ul>
+                <li>
+                  交付层：验证更完整，返工更少
+                </li>
+                <li>
+                  治理层：权限、审计、质量和风险可控
+                </li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="slide stack" data-title="小结">
+          <!-- Speaker notes: 到这里，我们完成第一层共识：AI Coding 的主战场已经从“生成”走向“交付”。下一部分看它在真实项目里如何被组织起来。 -->
+          <div class="slide-num">
+            18
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              趋势
+            </p>
+            <h2>
+              小结
+            </h2>
+            <h3>
+              AI Coding 的下一站不是更会写代码，而是更稳定地产生结果。
+            </h3>
+          </header>
+          <div class="stack-wrap">
+            <div class="stack-row reveal d1">
+              <span>01</span>
+              <b>Prompt 解决表达问题</b>
+              <em>
+              </em>
+            </div>
+            <div class="stack-row reveal d2">
+              <span>02</span>
+              <b>Agent Loop 解决行动问题</b>
+              <em>
+              </em>
+            </div>
+            <div class="stack-row reveal d3">
+              <span>03</span>
+              <b>Coding Agent 解决工程进入问题</b>
+              <em>
+              </em>
+            </div>
+            <div class="stack-row reveal d4">
+              <span>04</span>
+              <b>Harness Engineering 解决企业落地问题</b>
+              <em>
+              </em>
+            </div>
+            <div class="stack-row reveal d5">
+              <span>05</span>
+              <b>结论</b>
+              <em>客户要的是可交付的 AI 研发生产力</em>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide chapter" data-title="该团队 claw-like 产品实践">
+          <!-- Speaker notes: 这部分不是案例炫耀，而是方法论提炼。我们关心的是哪些机制能复用到客户场景，哪些坑要提前告诉客户。 -->
+          <div class="slide-num">
+            19
+            <span>/45</span>
+          </div>
+          <div class="chapter-index reveal">
+            02
+          </div>
+          <div class="chapter-copy reveal d2">
+            <p>
+              实践
+            </p>
+            <h2>
+              该团队 claw-like 产品实践
+            </h2>
+            <h3>
+              该团队实践证明 Harness 不是概念，而是可以被工程化运行的机制。
+            </h3>
+          </div>
+          <div class="chapter-line">
+          </div>
+        </section>
+
+        <section class="slide visual" data-title="该项目概况：桌面客户端与协作模式">
+          <!-- Speaker notes: 这类项目的代表性在于复杂度：有客户端、有调试、有跨模块协作，也有交付节奏压力。它比“写一个 demo”更接近客户真实研发现场。脱敏之后不讲具体产品名，但要讲清楚复杂度来自哪里。 -->
+          <div class="slide-num">
+            20
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              实践
+            </p>
+            <h2>
+              该项目概况：桌面客户端与协作模式
+            </h2>
+            <h3>
+              实践发生在复杂工程环境中，而不是简单脚本场景。
+            </h3>
+          </header>
+          <div class="visual-layout">
+            <aside class="asset-panel reveal d2">
+              <svg class="key-visual" viewBox="0 0 360 360" role="img" aria-label="abstract harness diagram">
+                <defs>
+                  <radialGradient id="g3" cx="50%" cy="50%">
+                    <stop offset="0" stop-color="rgba(34,211,238,.34)"/>
+                    <stop offset="1" stop-color="rgba(34,211,238,0)"/>
+                  </radialGradient>
+                </defs>
+                <rect width="360" height="360" rx="28" fill="url(#g3)"/>
+                <circle cx="180" cy="180" r="114" fill="rgba(245,240,230,.045)" stroke="rgba(245,240,230,.18)"/>
+                <path d="M180 82v196" stroke="rgba(34,211,238,.45)" stroke-width="4"/>
+                <path d="M82 180h196" stroke="rgba(34,211,238,.45)" stroke-width="4"/>
+                <circle cx="180" cy="180" r="42" fill="rgba(182,242,106,.18)" stroke="#b6f26a" stroke-width="5"/>
+                <circle cx="180" cy="82" r="16" fill="#22d3ee"/>
+                <circle cx="278" cy="180" r="16" fill="#ffb86b"/>
+                <circle cx="180" cy="278" r="16" fill="#22d3ee"/>
+                <circle cx="82" cy="180" r="16" fill="#ffb86b"/>
+              </svg>
+              <span></span>
+            </aside>
+            <main>
+              <div class="cards">
+                <article class="card reveal d1">
+                  <span>01</span>
+                  <p>
+                    <b>场景</b>
+                    ：该团队围绕该桌面客户端开展复杂工程提效实践
+                  </p>
+                </article>
+                <article class="card reveal d2">
+                  <span>02</span>
+                  <p>
+                    <b>任务类型</b>
+                    ：产品体验打磨、工程改造、问题修复、调试验证、协作流程优化
+                  </p>
+                </article>
+                <article class="card reveal d3">
+                  <span>03</span>
+                  <p>
+                    <b>协作形态</b>
+                    ：一个核心人员同时协调多个 Agent，按任务粒度分工推进
+                  </p>
+                </article>
+                <article class="card reveal d4">
+                  <span>04</span>
+                  <p>
+                    <b>工作闭环</b>
+                    ：需求拆解、执行推进、运行观察、验证收口、复盘沉淀
+                  </p>
+                </article>
+                <article class="card reveal d5">
+                  <span>05</span>
+                  <p>
+                    <b>目标</b>
+                    ：探索从“个人使用 AI”到“该团队组织 AI 协作”的方法
+                  </p>
+                </article>
+              </div>
+            </main>
+          </div>
+        </section>
+
+        <section class="slide demo-slide" data-title="该项目 Demo：从协作到产品推出">
+          <!-- Speaker notes: 这页主要播放 demo，让听众先看到该项目产物，再补三组关键信息：小团队配置、推出周期、后续迭代粒度。强调这不是单点炫技，而是用 Agent 协作把产品推进到可演示、可迭代状态。 -->
+          <div class="slide-num">
+            21
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              实践
+            </p>
+            <h2>
+              该项目 Demo：从协作到产品推出
+            </h2>
+            <h3>
+              用一个真实演示，先看该项目如何从 AI 协作进入可交付状态。
+            </h3>
+          </header>
+          <div class="demo-layout">
+            <figure class="demo-video-frame reveal d1">
+              <video src="assets/demo.mp4" controls muted loop playsinline preload="metadata">
+              </video>
+            </figure>
+            <aside class="demo-keywords">
+              <div class="demo-keyword reveal d2">
+                <span>Team</span>
+                <b>1PM + 2RD + 1QA</b>
+                <p>
+                  该团队围绕目标、研发、验证协同推进。
+                </p>
+              </div>
+              <div class="demo-keyword reveal d3">
+                <span>Launch</span>
+                <b>1.5 周完成产品推出</b>
+                <p>
+                  高密度迭代，把 AI 协作转成可见交付。
+                </p>
+              </div>
+              <div class="demo-keyword reveal d4">
+                <span>Iteration</span>
+                <b>Session 会话级迭代</b>
+                <p>
+                  后续节奏按会话粒度持续验证、修复和演进。
+                </p>
+              </div>
+            </aside>
+          </div>
+          <div class="demo-caption reveal d5">
+            AI Coding 的价值不只在“写得快”，而在该团队能否把需求、执行、验证和迭代组织成闭环。
+          </div>
+        </section>
+
+        <section class="slide problems" data-title="挑战：该项目不会自动变简单">
+          <!-- Speaker notes: 这页要帮听众建立现实感：AI 不会自动消灭工程复杂度。它会放大速度，也会放大上下文和质量管理的重要性。客户现场也常见类似问题：工具先热起来，但流程、规则和验证没有跟上。 -->
+          <div class="slide-num">
+            22
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              实践
+            </p>
+            <h2>
+              挑战：该项目不会自动变简单
+            </h2>
+            <h3>
+              AI 加入研发后，难点从“会不会生成”转向“如何组织复杂性”。
+            </h3>
+          </header>
+          <div class="problem-grid">
+            <article class="card reveal d1">
+              <span>01</span>
+              <p>
+                <b>交付窗口短</b>
+                ：任务要被快速拆解和收敛
+              </p>
+            </article>
+            <article class="card reveal d2">
+              <span>02</span>
+              <p>
+                <b>跨环境调试</b>
+                ：问题可能出现在多个运行层
+              </p>
+            </article>
+            <article class="card reveal d3">
+              <span>03</span>
+              <p>
+                <b>上下文切换重</b>
+                ：人和 Agent 都容易丢失状态
+              </p>
+            </article>
+            <article class="card reveal d4">
+              <span>04</span>
+              <p>
+                <b>质量稳定性</b>
+                ：生成结果需要验证、回滚和复盘
+              </p>
+            </article>
+            <article class="card reveal d5">
+              <span>05</span>
+              <p>
+                <b>协作摩擦</b>
+                ：设计、代码、运行结果和验收标准容易不一致
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="slide flow" data-title="该团队实践的篝火模式">
+          <!-- Speaker notes: 这页用流程图说明该团队围绕一个清晰目标组织协作：产品、设计、代码、文档、测试和 hooks 像围着篝火一样持续同步，Agent 在每个节点推进，人负责判断和收口。 -->
+          <div class="slide-num">
+            23
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              实践
+            </p>
+            <h2>
+              该团队实践的篝火模式
+            </h2>
+            <h3>
+              围绕共同目标，把需求、设计、代码、验证和经验沉淀连接成可接力流程。
+            </h3>
+          </header>
+          <div class="reveal d2" style="position:relative;z-index:2;width:100%;height:700px;border:1px solid var(--line);border-radius:12px;background:#f8faf8;overflow:hidden;display:grid;place-items:center;padding:8px">
+            <img src="assets/flow.jpg" alt="该团队实践的篝火模式流程图" style="width:100%;height:100%;object-fit:contain;display:block">
+            <a href="assets/flow.jpg" target="_blank" rel="noopener" style="position:absolute;right:24px;bottom:22px;z-index:3;text-decoration:none;font:900 22px var(--sans);color:#091011;background:var(--acid);border:1px solid rgba(9,16,17,.24);border-radius:8px;padding:13px 20px;box-shadow:0 10px 28px rgba(0,0,0,.22)">
+              查看全图
+            </a>
+          </div>
+        </section>
+
+        <section class="slide flow" data-title="方法论总览：把不确定行为纳入工程组织">
+          <!-- Speaker notes: 这些机制合在一起，就是该团队级 Harness 的雏形。它让 Agent 不再是零散工具，而是被组织进交付流程。 -->
+          <div class="slide-num">
+            24
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              实践
+            </p>
+            <h2>
+              方法论总览：把不确定行为纳入工程组织
+            </h2>
+            <h3>
+              该团队实践的核心方法是用工程机制包住 Agent 的不确定性。
+            </h3>
+          </header>
+          <div class="flowline">
+            <div class="flow-node reveal d1">
+              <i>
+                1
+              </i>
+              <b>用共享记忆降低上下文丢失</b>
+              <p>
+                用共享记忆降低上下文丢失
+              </p>
+            </div>
+            <div class="flow-node reveal d2">
+              <i>
+                2
+              </i>
+              <b>用该项目从设计到代码的链路降低信息衰减</b>
+              <p>
+                用该项目从设计到代码的链路降低信息衰减
+              </p>
+            </div>
+            <div class="flow-node reveal d3">
+              <i>
+                3
+              </i>
+              <b>用双向切换机制提升协作效率</b>
+              <p>
+                用双向切换机制提升协作效率
+              </p>
+            </div>
+            <div class="flow-node reveal d4">
+              <i>
+                4
+              </i>
+              <b>用 Skills、外部工具和 Hooks 封装经验</b>
+              <p>
+                用 Skills、外部工具和 Hooks 封装经验
+              </p>
+            </div>
+            <div class="flow-node reveal d5">
+              <i>
+                5
+              </i>
+              <b>用 ReAct 与验证闭环控制质量</b>
+              <p>
+                用 ReAct 与验证闭环控制质量
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide terminal-slide" data-title="记忆上下文共享：让任务状态可继承">
+          <!-- Speaker notes: 售前可以把它翻译成客户语言：企业不是缺一次回答，而是缺“上下文资产化”。一旦任务状态可继承，多人多 Agent 协作才有可能。 -->
+          <div class="slide-num">
+            25
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              实践
+            </p>
+            <h2>
+              记忆上下文共享：让任务状态可继承
+            </h2>
+            <h3>
+              共享记忆机制把“人脑里的进度”变成可交接的任务资产。
+            </h3>
+          </header>
+          <div class="two-col">
+            <div>
+              <div class="terminal reveal">
+                <div class="term-head">
+                  <b>记忆上下文共享：让任务状态可继承</b>
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                </div>
+                <div class="term-body">
+                  <div><span>$</span> 任务导航 -&gt; 明确当前目标、边界和下一步</div>
+                  <div><span>$</span> 上下文记录 -&gt; 保存关键决策、约束和已知问题</div>
+                  <div><span>$</span> 状态同步 -&gt; 让不同 Agent 能接住前序工作</div>
+                  <div><span>$</span> 交接价值 -&gt; 降低重复解释和断点重建成本</div>
+                </div>
+              </div>
+            </div>
+            <div class="side-notes reveal d3">
+              <b>共享记忆机制把“人脑里的进度”变成可交接的任务资产。</b>
+              <p>
+                售前可以把它翻译成客户语言：企业不是缺一次回答，而是缺“上下文资产化”。一旦任务状态可继承，多人多 Agent 协作才有可能。
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide compare" data-title="该项目设计到代码一致性：降低信息衰减">
+          <!-- Speaker notes: 很多客户的痛点不是不会写代码，而是需求、设计和实现之间不断衰减。AI 进入流程后，如果没有一致性机制，只会更快地产生偏差。 -->
+          <div class="slide-num">
+            26
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              实践
+            </p>
+            <h2>
+              该项目设计到代码一致性：降低信息衰减
+            </h2>
+            <h3>
+              该项目从需求、设计到代码的链路越长，越需要机制保证一致性。
+            </h3>
+          </header>
+          <div class="compare-grid">
+            <article class="pane old reveal d2">
+              <p>
+                Before / Risk
+              </p>
+              <h3>
+                停留在单点工具
+              </h3>
+              <ul>
+                <li>
+                  把设计意图转成明确任务和验收标准
+                </li>
+                <li>
+                  让 Agent 能看到约束、边界和参考信息
+                </li>
+              </ul>
+            </article>
+            <article class="pane new reveal d3">
+              <p>
+                After / Harness
+              </p>
+              <h3>
+                进入可交付系统
+              </h3>
+              <ul>
+                <li>
+                  用检查清单对齐设计目标与代码实现
+                </li>
+                <li>
+                  用复盘沉淀偏差原因，减少下一次偏离
+                </li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="slide compare" data-title="人和 Agent 双向上下文切换">
+          <!-- Speaker notes: 一个成熟团队不会把 Agent 当成黑盒许愿池，而是把它当成可协作的执行者。人做判断，Agent 做推进，双方要能随时交接上下文。 -->
+          <div class="slide-num">
+            27
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              实践
+            </p>
+            <h2>
+              人和 Agent 双向上下文切换
+            </h2>
+            <h3>
+              高效协作不是人把任务扔给 AI，而是双方能顺畅接力。
+            </h3>
+          </header>
+          <div class="compare-grid">
+            <article class="pane old reveal d2">
+              <p>
+                Before / Risk
+              </p>
+              <h3>
+                停留在单点工具
+              </h3>
+              <ul>
+                <li>
+                  人到 Agent：给目标、约束、优先级和验收标准
+                </li>
+                <li>
+                  Agent 到人：反馈进展、阻塞、风险和建议
+                </li>
+              </ul>
+            </article>
+            <article class="pane new reveal d3">
+              <p>
+                After / Harness
+              </p>
+              <h3>
+                进入可交付系统
+              </h3>
+              <ul>
+                <li>
+                  人驾驭多个 Agent：按任务粒度分工，而不是按情绪切换
+                </li>
+                <li>
+                  关键机制：让每次交接都有状态、有证据、有下一步
+                </li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="slide terminal-slide" data-title="Skills、外部工具、Hooks：经验封装成能力">
+          <!-- Speaker notes: 这页很适合引出企业化价值：客户最想沉淀的是“该团队知道怎么做”。Skills 和工具链让经验可以被复制、被治理、被持续优化。 -->
+          <div class="slide-num">
+            28
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              实践
+            </p>
+            <h2>
+              Skills、外部工具、Hooks：经验封装成能力
+            </h2>
+            <h3>
+              可复用能力来自把该团队经验封装到工具链中。
+            </h3>
+          </header>
+          <div class="two-col">
+            <div>
+              <div class="terminal reveal">
+                <div class="term-head">
+                  <b>Skills、外部工具、Hooks：经验封装成能力</b>
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                </div>
+                <div class="term-body">
+                  <div><span>$</span> Skills -&gt; 沉淀特定任务的工作方法</div>
+                  <div><span>$</span> 外部工具 -&gt; 连接搜索、构建、测试、浏览器和内部系统</div>
+                  <div><span>$</span> Hooks -&gt; 在关键节点触发检查、提醒或自动动作</div>
+                  <div><span>$</span> 复用价值 -&gt; 让最佳实践不只依赖资深个人</div>
+                </div>
+              </div>
+            </div>
+            <div class="side-notes reveal d3">
+              <b>可复用能力来自把该团队经验封装到工具链中。</b>
+              <p>
+                这页很适合引出企业化价值：客户最想沉淀的是“该团队知道怎么做”。Skills 和工具链让经验可以被复制、被治理、被持续优化。
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide flow" data-title="全链路 ReAct：执行到验证形成闭环">
+          <!-- Speaker notes: 对客户来说，这比“AI 一次生成答案”可靠得多。因为真实工程工作本来就是反复试错、观察和验证，Agent 也必须进入这个闭环。 -->
+          <div class="slide-num">
+            29
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              实践
+            </p>
+            <h2>
+              全链路 ReAct：执行到验证形成闭环
+            </h2>
+            <h3>
+              ReAct 的价值在于让 Agent 边做边看结果，最后用验证收口。
+            </h3>
+          </header>
+          <div class="flowline">
+            <div class="flow-node reveal d1">
+              <i>
+                1
+              </i>
+              <b>Reason</b>
+              <p>
+                分析目标、风险和下一步
+              </p>
+            </div>
+            <div class="flow-node reveal d2">
+              <i>
+                2
+              </i>
+              <b>Act</b>
+              <p>
+                修改、运行、查询、调试
+              </p>
+            </div>
+            <div class="flow-node reveal d3">
+              <i>
+                3
+              </i>
+              <b>Observe</b>
+              <p>
+                读取日志、报错、测试结果和用户反馈
+              </p>
+            </div>
+            <div class="flow-node reveal d4">
+              <i>
+                4
+              </i>
+              <b>Verify</b>
+              <p>
+                用明确证据确认结果是否达标
+              </p>
+            </div>
+            <div class="flow-node reveal d5">
+              <i>
+                5
+              </i>
+              <b>Recover</b>
+              <p>
+                失败后回到原因分析和修复路径
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide flow" data-title="工程节奏：多个高度聚焦的小迭代">
+          <!-- Speaker notes: 小迭代不是保守，而是让 AI 协作更可控。任务越大、边界越模糊，Agent 越容易走偏；任务越聚焦，验证越有效。售前可以把它讲成“先选一个可验证试点，不要一上来改造全流程”。 -->
+          <div class="slide-num">
+            30
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              实践
+            </p>
+            <h2>
+              工程节奏：多个高度聚焦的小迭代
+            </h2>
+            <h3>
+              Agent 协作更适合小步快跑，而不是一次性大包交付。
+            </h3>
+          </header>
+          <div class="flowline">
+            <div class="flow-node reveal d1">
+              <i>
+                1
+              </i>
+              <b>把大目标拆成可验证的小任务</b>
+              <p>
+                把大目标拆成可验证的小任务
+              </p>
+            </div>
+            <div class="flow-node reveal d2">
+              <i>
+                2
+              </i>
+              <b>每轮只保留清晰输入、清晰输出和清晰验收</b>
+              <p>
+                每轮只保留清晰输入、清晰输出和清晰验收
+              </p>
+            </div>
+            <div class="flow-node reveal d3">
+              <i>
+                3
+              </i>
+              <b>及时复盘失败原因，更新规则和上下文</b>
+              <p>
+                及时复盘失败原因，更新规则和上下文
+              </p>
+            </div>
+            <div class="flow-node reveal d4">
+              <i>
+                4
+              </i>
+              <b>用节奏管理降低漂移和返工</b>
+              <p>
+                用节奏管理降低漂移和返工
+              </p>
+            </div>
+            <div class="flow-node reveal d5">
+              <i>
+                5
+              </i>
+              <b>示例流</b>
+              <p>
+                需求澄清 -&gt; Agent 执行 -&gt; 运行观察 -&gt; 人工判断 -&gt; 规则沉淀
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide problems" data-title="质量现实：不神化 AI">
+          <!-- Speaker notes: 面向客户，最危险的话术是把 AI 讲成万能。更专业的表达是：我们知道它会出错，所以要用 Harness 让错误可发现、可控制、可修复。 -->
+          <div class="slide-num">
+            31
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              实践
+            </p>
+            <h2>
+              质量现实：不神化 AI
+            </h2>
+            <h3>
+              AI Coding 落地必须承认修复率、误判和返工的真实存在。
+            </h3>
+          </header>
+          <div class="problem-grid">
+            <article class="card reveal d1">
+              <span>01</span>
+              <p>
+                <b>AI 能显著提速，但不会天然保证质量</b>
+              </p>
+            </article>
+            <article class="card reveal d2">
+              <span>02</span>
+              <p>
+                <b>常见问题</b>
+                ：误解需求、漏看上下文、修一处破一处
+              </p>
+            </article>
+            <article class="card reveal d3">
+              <span>03</span>
+              <p>
+                <b>关键动作</b>
+                ：测试、检查、日志、人工验收、复盘
+              </p>
+            </article>
+            <article class="card reveal d4">
+              <span>04</span>
+              <p>
+                <b>管理预期</b>
+                ：不要承诺“零错误”，要承诺“可验证、可恢复”
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="slide pitfalls" data-title="踩坑复盘：速度背后的四个治理缺口">
+          <!-- Speaker notes: 这页要讲得真诚一点。项目里最有价值的不是“AI 很快”，而是看见快起来之后哪里会失控。售前面对客户时也要用这页建立专业感：我们不是承诺零风险，而是知道风险会出现在哪里，并用 Harness 把它变成可发现、可控制、可修复的问题。 -->
+          <div class="slide-num">
+            32
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              实践
+            </p>
+            <h2>
+              踩坑复盘：速度背后的四个治理缺口
+            </h2>
+            <h3>
+              高速 AI 协作会把工程治理缺口快速放大，该项目实践必须正视反面经验。
+            </h3>
+          </header>
+          <div class="pit-grid">
+            <article class="pit-card reveal d1">
+              <span>PIT 01</span>
+              <b>Fix 率偏高</b>
+              <p>
+                复杂联调中容易出现“代码看似正确、状态实际错误”，缺少自动化 E2E 兜底会带来大量返工。
+              </p>
+            </article>
+            <article class="pit-card reveal d2">
+              <span>PIT 02</span>
+              <b>数据机制缺失</b>
+              <p>
+                缺少迁移、枚举和业务规则保护时，AI 的小误解会沉淀成脏数据债务。
+              </p>
+            </article>
+            <article class="pit-card reveal d3">
+              <span>PIT 03</span>
+              <b>知识集中风险</b>
+              <p>
+                AI 让更多人能改代码，但没有降低深层系统理解门槛，关键模块仍依赖核心操盘手。
+              </p>
+            </article>
+            <article class="pit-card reveal d4">
+              <span>PIT 04</span>
+              <b>测试覆盖不足</b>
+              <p>
+                多服务、多环境、回调、过期、重试、跨端等场景难复现，发版容易变成靠经验兜底。
+              </p>
+            </article>
+          </div>
+          <div class="pit-reflection reveal d5">
+            核心反思：AI 不是让新手替代高级架构师的魔法；速度越快，越要求人类操盘手理解业务、设计容错、布置验证。
+          </div>
+        </section>
+
+        <section class="slide terminal-slide" data-title="做对了什么：让 Agent 看得见、接得住、验得过">
+          <!-- Speaker notes: 这页要强调方法论价值：不是某一次 Agent 表现好，而是该团队建立了让 Agent 更容易表现好的环境。更准确地说，实践不是承诺绝对效率数字，而是减少重复解释、无效返工和不可验证交付。 -->
+          <div class="slide-num">
+            33
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              实践
+            </p>
+            <h2>
+              做对了什么：让 Agent 看得见、接得住、验得过
+            </h2>
+            <h3>
+              实践中真正有效的是把 Agent 放进可观测、可接力、可验证的流程。
+            </h3>
+          </header>
+          <div class="two-col">
+            <div>
+              <div class="terminal reveal">
+                <div class="term-head">
+                  <b>做对了什么：让 Agent 看得见、接得住、验得过</b>
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                </div>
+                <div class="term-body">
+                  <div><span>$</span> 运行态探针 -&gt; 让问题从猜测变成可观察信号</div>
+                  <div><span>$</span> 工程理解 -&gt; 先读结构、约束和依赖，再动手</div>
+                  <div><span>$</span> 自动化协作 -&gt; 让重复检查和交接动作机制化</div>
+                  <div><span>$</span> 结果收口 -&gt; 用验证结果而不是主观感觉判断完成度</div>
+                  <div><span>$</span> 经验沉淀 -&gt; 把一次修复变成下一次可复用的规则、上下文或 Skill</div>
+                </div>
+              </div>
+            </div>
+            <div class="side-notes reveal d3">
+              <b>实践中真正有效的是把 Agent 放进可观测、可接力、可验证的流程。</b>
+              <p>
+                这页要强调方法论价值：不是某一次 Agent 表现好，而是该团队建立了让 Agent 更容易表现好的环境。更准确地说，实践不是承诺绝对效率数字，而是减少重复解释、无效返工和不可验证交付。
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide stack" data-title="五条实践法则：售前可复述的方法论">
+          <!-- Speaker notes: 这五条不是技术细节，而是组织 AI 协作的管理语言。主页面只保留最容易记住的五条，其余经验放在讲述中展开，避免听众在框架之间来回跳。 -->
+          <div class="slide-num">
+            34
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              实践
+            </p>
+            <h2>
+              五条实践法则：售前可复述的方法论
+            </h2>
+            <h3>
+              该团队经验可以提炼成客户听得懂、售前讲得出的五条法则。
+            </h3>
+          </header>
+          <div class="stack-wrap">
+            <div class="stack-row reveal d1">
+              <span>01</span>
+              <b>先定义结果，再安排 Agent</b>
+              <em>
+              </em>
+            </div>
+            <div class="stack-row reveal d2">
+              <span>02</span>
+              <b>大任务拆小，单轮可验证</b>
+              <em>
+              </em>
+            </div>
+            <div class="stack-row reveal d3">
+              <span>03</span>
+              <b>上下文写下来，不靠口头记忆</b>
+              <em>
+              </em>
+            </div>
+            <div class="stack-row reveal d4">
+              <span>04</span>
+              <b>工具和规则要沉淀成可复用能力</b>
+              <em>
+              </em>
+            </div>
+            <div class="stack-row reveal d5">
+              <span>05</span>
+              <b>人负责判断，Agent 负责推进和验证</b>
+              <em>
+              </em>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide compare" data-title="从该项目经验到组织能力">
+          <!-- Speaker notes: 客户经常会说“我们已经有人在用了”。这时要追问：这些经验是否能被团队复用？是否有标准？是否能治理？这就是从个人效率到组织能力的分界。 -->
+          <div class="slide-num">
+            35
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              实践
+            </p>
+            <h2>
+              从该项目经验到组织能力
+            </h2>
+            <h3>
+              个人会用 Agent 不等于该团队真正提效。
+            </h3>
+          </header>
+          <div class="compare-grid">
+            <article class="pane old reveal d2">
+              <p>
+                Before / Risk
+              </p>
+              <h3>
+                停留在单点工具
+              </h3>
+              <ul>
+                <li>
+                  个人使用：效率提升依赖个人经验
+                </li>
+                <li>
+                  该团队使用：规则、工具和上下文可共享
+                </li>
+              </ul>
+            </article>
+            <article class="pane new reveal d3">
+              <p>
+                After / Harness
+              </p>
+              <h3>
+                进入可交付系统
+              </h3>
+              <ul>
+                <li>
+                  组织能力：知识可沉淀，质量可评估，风险可治理
+                </li>
+                <li>
+                  成熟标志：新人和新项目也能复用既有机制
+                </li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="slide stack" data-title="该团队 Harness 观：五类资产沉淀">
+          <!-- Speaker notes: 如果客户问“企业版价值在哪里”，这页就是答案之一：企业版要帮助客户把一次次 AI 使用变成可沉淀、可治理、可规模化的团队资产。下一部分的成熟度诊断，本质就是判断客户缺哪类资产。 -->
+          <div class="slide-num">
+            36
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              实践
+            </p>
+            <h2>
+              该团队 Harness 观：五类资产沉淀
+            </h2>
+            <h3>
+              该团队级 Harness 可以理解为五类资产的持续沉淀。
+            </h3>
+          </header>
+          <div class="stack-wrap">
+            <div class="stack-row reveal d1">
+              <span>01</span>
+              <b>上下文资产</b>
+              <em>该项目、任务、决策和约束</em>
+            </div>
+            <div class="stack-row reveal d2">
+              <span>02</span>
+              <b>工具资产</b>
+              <em>命令、接口、环境和自动化</em>
+            </div>
+            <div class="stack-row reveal d3">
+              <span>03</span>
+              <b>规则资产</b>
+              <em>权限、流程、质量标准</em>
+            </div>
+            <div class="stack-row reveal d4">
+              <span>04</span>
+              <b>验证资产</b>
+              <em>测试、检查、指标和验收证据</em>
+            </div>
+            <div class="stack-row reveal d5">
+              <span>05</span>
+              <b>协作资产</b>
+              <em>交接方式、角色边界和复盘机制</em>
+            </div>
+            <div class="stack-row reveal d6">
+              <span>06</span>
+              <b>对应诊断</b>
+              <em>客户缺哪类资产，就优先从哪类能力切入</em>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide compare" data-title="小结：分水岭是组织级 Harness">
+          <!-- Speaker notes: 到这里，大家已经有了一个客户判断框架：客户问题往往不是“买不买 AI Coding”，而是“有没有形成让 AI 稳定工作的组织机制”。 -->
+          <div class="slide-num">
+            37
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              实践
+            </p>
+            <h2>
+              小结：分水岭是组织级 Harness
+            </h2>
+            <h3>
+              AI Coding 落地的分水岭，是能否形成组织级 Harness。
+            </h3>
+          </header>
+          <div class="compare-grid">
+            <article class="pane old reveal d2">
+              <p>
+                Before / Risk
+              </p>
+              <h3>
+                停留在单点工具
+              </h3>
+              <ul>
+                <li>
+                  没有 Harness：靠个人技巧，效果不稳定
+                </li>
+                <li>
+                  有 Harness：靠机制协作，效果可复用
+                </li>
+              </ul>
+            </article>
+            <article class="pane new reveal d3">
+              <p>
+                After / Harness
+              </p>
+              <h3>
+                进入可交付系统
+              </h3>
+              <ul>
+                <li>
+                  关键不是“AI 能不能写”，而是“组织能不能驾驭”
+                </li>
+                <li>
+                  下一步：把这套判断变成客户成熟度诊断
+                </li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="slide chapter" data-title="Trae落地过程中，需要持续问诊">
+          <!-- Speaker notes: 这一部分进入客户诊断。AI Coding 落地不是买了工具就自动提效，客户真正需要的是判断自己卡在哪一层、怎么跨过去。 -->
+          <div class="slide-num">
+            38
+            <span>/45</span>
+          </div>
+          <div class="chapter-index reveal">
+            03
+          </div>
+          <div class="chapter-copy reveal d2">
+            <p>
+              推荐
+            </p>
+            <h2>
+              Trae落地过程中，需要持续"问诊"
+            </h2>
+            <h3>
+              AI 提速很快，但落地不会自动变稳。客户需要的不是劝说，而是判断卡在哪一层、怎么跨过去。
+            </h3>
+          </div>
+          <div class="chapter-line">
+          </div>
+        </section>
+
+        <section class="slide maturity" data-title="客户成熟度四层">
+          <!-- Speaker notes: 这四层不是客户等级评价，而是推荐路径判断。客户在哪一层，关心的问题、适合的话术和要推荐的能力都不一样。越早建立协同机制，后续还债越少。 -->
+          <div class="slide-num">
+            39
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              推荐
+            </p>
+            <h2>
+              客户成熟度四层
+            </h2>
+            <h3>
+              用四层成熟度快速判断客户当前所处阶段。
+            </h3>
+          </header>
+          <div class="maturity-ladder">
+            <div class="ladder-step reveal d1">
+              <i>
+                1
+              </i>
+              <b>尝鲜层</b>
+              <p>
+                少数人试用，缺少标准和沉淀 → 切入：TRAE IDE + CUE 补全
+              </p>
+            </div>
+            <div class="ladder-step reveal d2">
+              <i>
+                2
+              </i>
+              <b>个人提效层</b>
+              <p>
+                个人效率提升，但团队不可复制 → 切入：AI Chat + Solo 模式
+              </p>
+            </div>
+            <div class="ladder-step reveal d3">
+              <i>
+                3
+              </i>
+              <b>团队协同层</b>
+              <p>
+                开始沉淀规则、知识和工具链 → 切入：AGENTS.md + MCP + Skills
+              </p>
+            </div>
+            <div class="ladder-step reveal d4">
+              <i>
+                4
+              </i>
+              <b>企业治理层</b>
+              <p>
+                关注权限、审计、质量、规模化和合规 → 切入：企业管理后台 + 安全管控
+              </p>
+            </div>
+          </div>
+          <div class="maturity-signal reveal d5">
+            关键信号：如果客户还在靠口头交接和零散工具，说明还没进入协同层。越早建立共享上下文和规则沉淀，后续还债越少。
+          </div>
+        </section>
+
+        <section class="slide stack" data-title="客户问题诊断表">
+          <!-- Speaker notes: 售前可以围绕这六个维度做客户访谈。不要急着展示功能，先让客户把自己的研发流程问题讲出来，再映射到 TRAE。每个维度都对应一个典型的客户痛点和 TRAE 的能力解法。 -->
+          <div class="slide-num">
+            40
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              推荐
+            </p>
+            <h2>
+              客户问题诊断表
+            </h2>
+            <h3>
+              用六个维度把客户的模糊痛点转成可诊断问题。
+            </h3>
+          </header>
+          <div class="stack-wrap">
+            <div class="stack-row reveal d1">
+              <span>01</span>
+              <b>效率</b>
+              <em>哪些环节最耗时？跨技术栈切换、重复编码 → Solo 多 Agent 并行 + CUE 毫秒补全</em>
+            </div>
+            <div class="stack-row reveal d2">
+              <span>02</span>
+              <b>质量</b>
+              <em>返工压力在哪？AI 生成语法正确但逻辑偏离 → CDP 探针 + 全链路 ReAct 验证</em>
+            </div>
+            <div class="stack-row reveal d3">
+              <span>03</span>
+              <b>知识</b>
+              <em>经验能否复用？决策靠口头传递，新人上手慢 → AGENTS.md 项目宪法 + 企业知识库</em>
+            </div>
+            <div class="stack-row reveal d4">
+              <span>04</span>
+              <b>权限</b>
+              <em>边界是否清晰？AI 改动范围不可控，容易越界 → Permission 机制 + 命令黑名单 + MCP 白名单</em>
+            </div>
+            <div class="stack-row reveal d5">
+              <span>05</span>
+              <b>交付</b>
+              <em>瓶颈在哪？测试不足，发版靠经验兜底 → Solo 全流程闭环：需求→开发→测试→部署</em>
+            </div>
+            <div class="stack-row reveal d6">
+              <span>06</span>
+              <b>治理</b>
+              <em>需要审计标准化？缺少变更追踪和合规手段 → 企业管理后台 + 审计日志 + Release Gate</em>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide route" data-title="TRAE 2.0 企业版推荐切入">
+          <!-- Speaker notes: 每一行按"客户信号→成熟度判断→推荐切入→下一步动作"讲清路径。迭代节奏的关键：每个迭代都必须以一个不可被辩驳的客观产物作为终结。AI 时代不需要大阶段，只需要绝对清晰的极小颗粒度闭环。 -->
+          <div class="slide-num">
+            41
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              推荐
+            </p>
+            <h2>
+              TRAE 2.0 企业版推荐切入
+            </h2>
+            <h3>
+              推荐 TRAE 2.0 时，要按客户成熟度分层切入。
+            </h3>
+          </header>
+          <div class="route-head">
+            <span>客户信号</span>
+            <span>成熟度</span>
+            <span>推荐切入</span>
+            <span>下一步动作</span>
+          </div>
+          <div class="route-row reveal">
+            <span>少数人试用、只问写代码准不准</span>
+            <b>尝鲜层</b>
+            <strong>
+              TRAE IDE + CUE
+            </strong>
+            <em>选高频低风险任务体验验证，如 Iter-0：能编译启动即为验收</em>
+          </div>
+          <div class="route-row reveal">
+            <span>多人日常使用、但经验不可复制</span>
+            <b>个人提效层</b>
+            <strong>
+              Solo 模式 + MCP + Skills
+            </strong>
+            <em>沉淀 AGENTS.md、配置 MCP 连接企业工具，如 Iter-1：建立基础设施</em>
+          </div>
+          <div class="route-row reveal">
+            <span>多团队试用、开始担心质量和权限</span>
+            <b>团队协同层</b>
+            <strong>
+              Permission + Verification + 知识库
+            </strong>
+            <em>建立 Release Gate 门禁，如 Iter-2：攻克高复杂度域并锁住质量</em>
+          </div>
+          <div class="route-row reveal">
+            <span>管理层关注规模化、合规和 ROI</span>
+            <b>企业治理层</b>
+            <strong>
+              企业版全栈：管理后台 + 安全管控 + SSO
+            </strong>
+            <em>方案化包装高价值场景，如 Iter-3.X：全端长稳测试与生产发布</em>
+          </div>
+        </section>
+
+        <section class="slide talk" data-title="商务和售前话术框架">
+          <!-- Speaker notes: 好的话术不是把功能背完，而是让客户觉得"你理解我的阶段"。先建立诊断感，再讲产品能力。遇到异议时不要争辩工具强弱，而要把问题拉回组织级价值和试点验证。 -->
+          <div class="slide-num">
+            42
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              推荐
+            </p>
+            <h2>
+              商务和售前话术框架
+            </h2>
+            <h3>
+              话术顺序是先问诊、再映射、再推荐。
+            </h3>
+          </header>
+          <div class="talk-path">
+            <div class="talk-step reveal d1">
+              <b>问诊</b>
+              <p>
+                先问最想改善效率、质量、协作还是治理。金句："AI 提速很快，但落地不会自动变稳"
+              </p>
+            </div>
+            <div class="talk-step reveal d2">
+              <b>映射</b>
+              <p>
+                把问题定位到个人层、团队层或企业层。金句："不是模型单点问题，而是工具、上下文、权限和验证体系没搭起来"
+              </p>
+            </div>
+            <div class="talk-step reveal d3">
+              <b>推荐</b>
+              <p>
+                按成熟度选择 TRAE 产品组合。金句："越早进入协同层，越少还债"
+              </p>
+            </div>
+            <div class="talk-step reveal d4">
+              <b>收口</b>
+              <p>
+                明确一个试点场景、成功指标和下一步。金句："每个迭代都必须有不可被辩驳的客观产物"
+              </p>
+            </div>
+          </div>
+          <div class="objection-row">
+            <div class="objection reveal d5">
+              <b>异议</b>
+              <p>
+                已有个人工具 → 讨论团队标准和组织沉淀："不是靠自觉，而是靠约束"
+              </p>
+            </div>
+            <div class="objection reveal d6">
+              <b>异议</b>
+              <p>
+                担心权限风险 → 讨论企业管控和边界治理："项目宪法就是写给机器的边界规则"
+              </p>
+            </div>
+            <div class="objection reveal d7">
+              <b>异议</b>
+              <p>
+                无法证明 ROI → 讨论可验证试点："先选一个边界清晰的场景，用客观产物说话"
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide problems" data-title="典型客户画像">
+          <!-- Speaker notes: 同一套 AI Coding 能力，不同客户听到的价值不同。售前要把话术从"产品有什么"改成"对这个客户画像解决什么问题"。对研发讲 CUE + Solo 闭环；对非研发讲 SOLO MTC + Skills 市场；对管理层讲企业管理 + 安全管控 + ROI 可追踪。 -->
+          <div class="slide-num">
+            43
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              推荐
+            </p>
+            <h2>
+              典型客户画像
+            </h2>
+            <h3>
+              不同客户画像对应不同切入点和价值表达。
+            </h3>
+          </header>
+          <div class="problem-grid">
+            <article class="card reveal d1">
+              <span>01</span>
+              <p>
+                <b>研发团队</b>
+                ：编码效率、代码质量、知识断层 → 切入 AI Chat + CUE + Solo | 试点：1 个新项目用 Solo 从零搭建，记录需求到 Demo 时间
+              </p>
+            </article>
+            <article class="card reveal d2">
+              <span>02</span>
+              <p>
+                <b>软件交付团队</b>
+                ：交付瓶颈、返工率高、测试不足 → 切入 Solo 全流程 + MCP + Skills | 试点：1 个存量模块改造，对比 AI 辅助前后缺陷率
+              </p>
+            </article>
+            <article class="card reveal d3">
+              <span>03</span>
+              <p>
+                <b>平台型技术组织</b>
+                ：工具碎片化、标准不统一、管控缺失 → 切入企业版全栈 + AGENTS.md + Release Gate | 试点：1 个团队标准化：统一上下文协议+权限边界
+              </p>
+            </article>
+            <article class="card reveal d4">
+              <span>04</span>
+              <p>
+                <b>行业数字化团队</b>
+                ：非研发也想用 AI、门槛高 → 切入 TRAE SOLO 独立端 + MTC 模式 + Skills 市场 | 试点：3-5 个非研发用 SOLO 完成日常工作任务
+              </p>
+            </article>
+            <article class="card reveal d5">
+              <span>05</span>
+              <p>
+                <b>试点铁律</b>
+                ：每类客户都先选一个边界清晰、验收明确的场景。每个迭代都必须有不可被辩驳的客观产物
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="slide stack" data-title="TRAE 2.0 能力映射 Harness 五大模块">
+          <!-- Speaker notes: 这页是第三篇章的核心：售前不再需要背功能清单，而是用 Harness 五大模块作为翻译器。客户说'AI 不稳定'，你就讲 Tools + Observation；客户说'怎么管'，你就讲 Control + Evaluation。每个模块都对应客户真实痛点，有明确的落地抓手。 -->
+          <div class="slide-num">
+            44
+            <span>/45</span>
+          </div>
+          <header class="slide-header reveal">
+            <p>
+              推荐
+            </p>
+            <h2>
+              TRAE 2.0 能力映射 Harness 五大模块
+            </h2>
+            <h3>
+              用 Harness 语言翻译 TRAE——售前不需要背功能清单，只需要记住五个模块。
+            </h3>
+          </header>
+          <div class="stack-wrap">
+            <div class="stack-row reveal d1">
+              <span>01</span>
+              <b>Tools 工具</b>
+              <em>MCP 协议连接外部工具 + Skills 封装复用能力 + CLI 终端 Agent | 客户价值：外部系统快速接入，能力封装后可复用</em>
+            </div>
+            <div class="stack-row reveal d2">
+              <span>02</span>
+              <b>Context 知识</b>
+              <em>AGENTS.md 项目宪法 + 企业知识库 + 仓库索引 | 客户价值：项目规则和决策写下来，团队可共享、新人可继承</em>
+            </div>
+            <div class="stack-row reveal d3">
+              <span>03</span>
+              <b>Observation 观察</b>
+              <em>CDP 探针直连运行态 + 全链路 ReAct 验证环 | 客户价值：运行时问题可观测，定位从猜测变成证据</em>
+            </div>
+            <div class="stack-row reveal d4">
+              <span>04</span>
+              <b>Control 控制</b>
+              <em>Permission 机制 + 命令黑名单 + MCP 白名单 + 极短迭代 | 客户价值：AI 改动范围受约束，越界行为可拦截</em>
+            </div>
+            <div class="stack-row reveal d5">
+              <span>05</span>
+              <b>Verification 验证</b>
+              <em>CDP 烟测 + Release Gate + 企业数据看板 | 客户价值：交付有门禁、有基线、有数据，质量可量化</em>
+            </div>
+            <div class="stack-row reveal d6">
+              <span>06</span>
+              <b>售前翻译器</b>
+              <em>客户说"AI 不稳定"→讲 Tools + Observation | 客户说"怎么管"→讲 Control + Evaluation | 客户说"怎么证明"→讲 Verification</em>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide quote" data-title="复述金句：竞争在 Harness 能力">
+          <!-- Speaker notes: 这句话请大家带走。四条辅助金句分别对应 Harness 的四个核心模块。客户问 AI Coding 值不值得做时，我们要把讨论从单点工具拉回到企业研发系统升级。 -->
+          <div class="slide-num">
+            45
+            <span>/45</span>
+          </div>
+          <div class="quote-mark">
+            #
+          </div>
+          <div class="quote-copy reveal">
+            <p>
+              AI Coding 的竞争
+            </p>
+            <h2>
+              不只是模型和 IDE，
+              <br>
+              而是 Harness 能力。
+            </h2>
+            <ul>
+              <li>
+                真正的企业级竞争，是 Harness 能力
+              </li>
+              <li>
+                AI 降低了编码门槛，但没有降低系统理解的门槛——所以需要 Harness
+              </li>
+              <li>
+                每个迭代都必须有不可被辩驳的客观产物——所以需要 Verification
+              </li>
+              <li>
+                不是靠自觉，而是靠约束——所以需要 Control
+              </li>
+              <li>
+                谁能把模型、工具、知识、权限、验证组织起来，谁就更接近稳定的研发生产力
+              </li>
+            </ul>
+          </div>
+        </section>
+      </main>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill">
+      </div>
+    </div>
+    <div class="nav-hint">
+      ← → / Space · E edit
+    </div>
+    <button class="edit-toggle" id="editToggle" title="Edit mode">
+      Edit
+    </button>
+    <script src="assets/ai-coding-harness-training.js">
+    </script>
+  </body>
+</html>
