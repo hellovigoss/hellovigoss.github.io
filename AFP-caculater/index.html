@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html class="light" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AFP Token 估算器</title>
+  <style>
+    /* ═══ Doubao 设计令牌（亮色）═══ */
+    :root {
+      --background: #ffffff;
+      --foreground: #0e1115;
+      --card: #ffffff;
+      --card-foreground: #0e1115;
+      --popover: #f9f9fa;
+      --popover-foreground: #0e1115;
+      --primary: #0065fd;
+      --primary-foreground: #ffffff;
+      --secondary: #eff1f4;
+      --secondary-foreground: #333942;
+      --muted: #eff1f4;
+      --muted-foreground: #7f8d9f;
+      --accent: #e5e9ff;
+      --accent-foreground: #00266b;
+      --destructive: #ef4444;
+      --destructive-foreground: #ffffff;
+      --border: #e7eaef;
+      --input: #e7eaef;
+      --ring: #557fff;
+      --chart-1: #557fff;
+      --chart-2: #0065fd;
+      --chart-3: #0057da;
+      --chart-4: #0043ad;
+      --chart-5: #002e7d;
+      --sidebar: #eff1f4;
+      --sidebar-foreground: #0e1115;
+      --sidebar-primary: #0065fd;
+      --sidebar-primary-foreground: #ffffff;
+      --sidebar-accent: #d4daff;
+      --sidebar-accent-foreground: #00266b;
+      --sidebar-border: #e7eaef;
+      --sidebar-ring: #0065fd;
+      --font-sans: Stack Sans Text, ui-sans-serif, system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+      --radius: 1.2rem;
+      --spacing: 0.24rem;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; height: 100vh; overflow: hidden; }
+    body {
+      background: var(--background);
+      color: var(--foreground);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* 细滚动条（Doubao 风格）*/
+    .sidebar::-webkit-scrollbar,
+    .workbench::-webkit-scrollbar { width: 8px; height: 8px; }
+    .sidebar::-webkit-scrollbar-thumb,
+    .workbench::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
+    .sidebar::-webkit-scrollbar-thumb:hover,
+    .workbench::-webkit-scrollbar-thumb:hover { background: var(--muted-foreground); }
+    .sidebar::-webkit-scrollbar-track,
+    .workbench::-webkit-scrollbar-track { background: transparent; }
+    .sidebar { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+    .workbench { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+
+    /* ═══ 图标（CSS mask，本地 SVG）═══ */
+    .icon {
+      width: 16px; height: 16px; flex: none;
+      background-color: currentColor;
+      -webkit-mask-position: center; mask-position: center;
+      -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+      -webkit-mask-size: contain; mask-size: contain;
+    }
+    .icon-box      { -webkit-mask-image: url("assets/icons/dl_builtin_doubao/box.svg");            mask-image: url("assets/icons/dl_builtin_doubao/box.svg"); }
+    .icon-check    { -webkit-mask-image: url("assets/icons/dl_builtin_doubao/check.svg");          mask-image: url("assets/icons/dl_builtin_doubao/check.svg"); }
+    .icon-chev-down{ -webkit-mask-image: url("assets/icons/dl_builtin_doubao/chevron-down.svg");   mask-image: url("assets/icons/dl_builtin_doubao/chevron-down.svg"); }
+    .icon-ext      { -webkit-mask-image: url("assets/icons/dl_builtin_doubao/external-link.svg");  mask-image: url("assets/icons/dl_builtin_doubao/external-link.svg"); }
+    .icon-funnel   { -webkit-mask-image: url("assets/icons/dl_builtin_doubao/funnel.svg");         mask-image: url("assets/icons/dl_builtin_doubao/funnel.svg"); }
+    .icon-tag      { -webkit-mask-image: url("assets/icons/dl_builtin_doubao/tag.svg");            mask-image: url("assets/icons/dl_builtin_doubao/tag.svg"); }
+    .icon-file     { -webkit-mask-image: url("assets/icons/dl_builtin_doubao/file.svg");           mask-image: url("assets/icons/dl_builtin_doubao/file.svg"); }
+    .icon-alert    { -webkit-mask-image: url("assets/icons/dl_builtin_doubao/circle-alert.svg");   mask-image: url("assets/icons/dl_builtin_doubao/circle-alert.svg"); }
+    .icon-play     { -webkit-mask-image: url("assets/icons/dl_builtin_doubao/circle-play.svg");    mask-image: url("assets/icons/dl_builtin_doubao/circle-play.svg"); }
+    .icon-house    { -webkit-mask-image: url("assets/icons/dl_builtin_doubao/house.svg");          mask-image: url("assets/icons/dl_builtin_doubao/house.svg"); }
+    .icon-arrow-r  { -webkit-mask-image: url("assets/icons/dl_builtin_doubao/arrow-right.svg");    mask-image: url("assets/icons/dl_builtin_doubao/arrow-right.svg"); }
+    .icon-star     { -webkit-mask-image: url("assets/icons/dl_builtin_doubao/star.svg");           mask-image: url("assets/icons/dl_builtin_doubao/star.svg"); }
+
+    /* ═══ 布局 ═══ */
+    .shell {
+      height: 100vh;
+      display: grid;
+      grid-template-columns: 320px minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr);
+      gap: 20px;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 20px;
+      overflow: hidden;
+    }
+    @media (max-width: 960px) {
+      html, body { height: auto; overflow: auto; }
+      .shell { grid-template-columns: 1fr; grid-template-rows: none; padding: 14px; gap: 14px; height: auto; overflow: visible; }
+    }
+
+    /* ═══ 侧边导航（sidebar-nav 约束）═══ */
+    .sidebar {
+      background: var(--sidebar);
+      color: var(--sidebar-foreground);
+      border: 1px solid var(--sidebar-border);
+      border-radius: calc(var(--radius) * 0.78);
+      padding: 18px;
+      height: 100%;
+      min-height: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+    @media (max-width: 960px) { .sidebar { height: auto; overflow: visible; } }
+
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-mark {
+      width: 40px; height: 36px; flex: none;
+      object-fit: contain;
+      display: block;
+    }
+    .brand-eyebrow {
+      font: 600 10px/1 var(--font-mono);
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--muted-foreground);
+    }
+    .brand-title { margin-top: 4px; font-size: 16px; font-weight: 600; }
+
+    .lead {
+      margin: 0;
+      font-size: 13px; line-height: 1.6;
+      color: var(--muted-foreground);
+    }
+
+    .meta-row { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px; }
+
+    /* 右侧说明信息面板 */
+    .info-panel { padding-top: 0px; padding-left: 15px;}
+    .info-panel .meta-notes { margin-top: 10px; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 11px;
+      border: 1px solid var(--border);
+      background: var(--background);
+      border-radius: 999px;
+      font-size: 12px; color: var(--muted-foreground);
+      text-decoration: none;
+      transition: background .15s, border-color .15s;
+    }
+    .chip:hover { background: var(--muted); }
+    .chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--chart-1); }
+    .chip .icon { width: 12px; height: 12px; }
+    .chip-strong { color: var(--foreground); font-weight: 500; }
+
+    .meta-notes {
+      margin-top: 12px;
+      font-size: 11px; line-height: 1.5;
+      color: var(--muted-foreground);
+    }
+
+    /* 侧边分区 */
+    .side-section {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid var(--sidebar-border);
+    }
+    .side-section:first-of-type { margin-top: 20px; }
+
+    .side-label {
+      font: 600 10px/1 var(--font-mono);
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted-foreground);
+    }
+    .side-h { margin: 8px 0 4px; font-size: 14px; font-weight: 600; }
+
+    /* 当前套餐卡 */
+    .plan-summary {
+      margin-top: 12px;
+      border: 1px solid var(--border);
+      background: var(--background);
+      border-radius: calc(var(--radius) * 0.6);
+      padding: 14px;
+    }
+    .plan-summary-top {
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+    }
+    .plan-summary-name { font-size: 18px; font-weight: 600; }
+    .badge {
+      flex: none;
+      padding: 4px 10px;
+      background: var(--accent); color: var(--accent-foreground);
+      border-radius: 999px;
+      font-size: 11px; font-weight: 500;
+    }
+    .plan-grid { margin-top: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .plan-cell {
+      background: var(--muted);
+      border-radius: calc(var(--radius) * 0.48);
+      padding: 10px 12px;
+    }
+    .plan-cell-label {
+      font: 500 10px/1 var(--font-mono);
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted-foreground);
+    }
+    .plan-cell-val { margin-top: 6px; font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: var(--foreground); }
+
+    /* 配置组 */
+    .field { margin-top: 16px; }
+    .field-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .field-head .sub { font-size: 11px; color: var(--muted-foreground); font-family: var(--font-mono); }
+    .field-hint { margin-top: 6px; font-size: 11px; color: var(--muted-foreground); line-height: 1.5; }
+
+    /* 选择按钮组（Doubao button 约束）*/
+    .seg-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+    .seg-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
+    .opt {
+      display: block; width: 100%; text-align: left;
+      padding: 11px 12px;
+      border: 1px solid var(--border);
+      background: var(--background);
+      color: var(--foreground);
+      border-radius: calc(var(--radius) * 0.52);
+      cursor: pointer;
+      transition: background .15s, border-color .15s, color .15s;
+      font-family: var(--font-sans);
+    }
+    .opt:hover { background: var(--muted); }
+    .opt:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+    .opt-name { display: block; font-size: 13px; font-weight: 600; }
+    .opt-sub  { display: block; margin-top: 3px; font-size: 11px; color: var(--muted-foreground); font-family: var(--font-mono); }
+    .opt.active {
+      background: var(--accent);
+      border-color: color-mix(in srgb, var(--primary) 50%, var(--border));
+      color: var(--accent-foreground);
+    }
+    .opt.active .opt-sub { color: color-mix(in srgb, var(--accent-foreground) 80%, transparent); }
+
+    /* select */
+    .select-wrap { position: relative; margin-top: 8px; }
+    .select {
+      width: 100%; appearance: none;
+      height: 38px; padding: 0 36px 0 12px;
+      border: 1px solid var(--input); border-radius: calc(var(--radius) * 0.55);
+      background: var(--background); color: var(--foreground);
+      font: 14px/1 var(--font-sans);
+      cursor: pointer;
+    }
+    .select:focus { outline: 2px solid var(--ring); outline-offset: 2px; }
+    .select-wrap .icon {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      width: 16px; height: 16px; pointer-events: none; color: var(--muted-foreground);
+    }
+    optgroup { background: var(--popover); color: var(--foreground); }
+    option { background: var(--background); color: var(--foreground); }
+
+    /* ═══ 主工作台 ═══ */
+    .workbench {
+      display: flex; flex-direction: column; gap: 16px;
+      min-width: 0;
+      height: 100%;
+      min-height: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      padding-right: 4px;
+    }
+    @media (max-width: 960px) { .workbench { height: auto; overflow: visible; padding-right: 0; } }
+
+    /* 主结果 hero */
+    .hero {
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: calc(var(--radius) * 0.85);
+      padding: 24px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: center;
+    }
+    @media (max-width: 720px) { .hero { grid-template-columns: 1fr; padding: 18px; } }
+
+    .hero-eyebrow {
+      font: 600 11px/1 var(--font-mono);
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--muted-foreground);
+    }
+    .hero-model { margin-top: 6px; font-size: 14px; color: var(--muted-foreground); }
+    .hero-num {
+      margin-top: 10px;
+      font-family: var(--font-mono);
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--chart-1);
+      line-height: 1;
+      word-break: break-all;
+    }
+    .hero-unit { font-size: 16px; color: var(--muted-foreground); margin-left: 6px; font-weight: 500; }
+    .hero-sub { margin-top: 12px; font-size: 13px; color: var(--muted-foreground); }
+    .hero-sub strong { color: var(--foreground); font-family: var(--font-mono); font-weight: 600; }
+
+    .hero-side {
+      border-left: 1px solid var(--border);
+      padding-left: 24px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    @media (max-width: 720px) { .hero-side { border-left: 0; border-top: 1px solid var(--border); padding-left: 0; padding-top: 16px; } }
+    .hero-side-row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+    .hero-side-label { font-size: 12px; color: var(--muted-foreground); }
+    .hero-side-val { font-family: var(--font-mono); font-size: 15px; font-weight: 600; color: var(--foreground); }
+    .hero-side-val.accent { color: var(--chart-1); }
+
+    /* 周期对比 data-table */
+    .panel {
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: calc(var(--radius) * 0.78);
+      overflow: hidden;
+    }
+    .panel-head {
+      display: flex; align-items: center; gap: 10px;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .panel-head h3 { margin: 0; font-size: 14px; font-weight: 600; }
+    .panel-head .icon { color: var(--muted-foreground); }
+    .panel-head .tag {
+      margin-left: auto;
+      padding: 4px 10px;
+      background: var(--muted);
+      border-radius: 999px;
+      font: 500 11px/1 var(--font-mono);
+      color: var(--muted-foreground);
+    }
+
+    .table { width: 100%; border-collapse: collapse; }
+    .table th, .table td {
+      padding: 14px 18px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .table tr:last-child td { border-bottom: 0; }
+    .table th {
+      font: 600 10px/1 var(--font-mono);
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted-foreground);
+      background: var(--muted);
+    }
+    .table td.num { font-family: var(--font-mono); font-weight: 600; color: var(--foreground); text-align: right; }
+    .table td.num.accent { color: var(--chart-1); }
+    .table td .period { display: flex; align-items: center; gap: 8px; }
+    .table td .period .icon { color: var(--muted-foreground); width: 14px; height: 14px; }
+    .table td .muted { color: var(--muted-foreground); font-family: var(--font-mono); font-size: 12px; }
+    .table tr:hover td { background: color-mix(in srgb, var(--muted) 30%, transparent); }
+
+    /* 拆分 + 公式 双列 */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 16px;
+      align-items: stretch; /* 两列等高 */
+    }
+    @media (max-width: 860px) { .grid-2 { grid-template-columns: 1fr; } }
+    .grid-2 > .panel { display: flex; flex-direction: column; }
+    .grid-2 > .panel > .formula,
+    .grid-2 > .panel > .breakdown { flex: 1; }
+
+    .breakdown { padding: 16px 18px; }
+    .bar-row { margin-top: 12px; }
+    .bar-row-head { display: flex; justify-content: space-between; align-items: baseline; font-size: 12px; }
+    .bar-row-label { color: var(--muted-foreground); }
+    .bar-row-val { font-family: var(--font-mono); font-weight: 600; }
+    .bar { margin-top: 6px; height: 8px; border-radius: 999px; background: var(--muted); overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 999px; transition: width .3s; }
+    .bar-fill.in  { background: var(--chart-1); }
+    .bar-fill.out { background: var(--chart-3); }
+
+    .formula { padding: 16px 18px; }
+    .formula-block {
+      margin-top: 12px;
+      padding: 14px;
+      background: var(--muted);
+      border-radius: calc(var(--radius) * 0.5);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.8;
+      color: var(--foreground);
+      overflow-x: auto;
+    }
+    .formula-block .k { color: var(--chart-1); }
+    .formula-block .m { color: var(--muted-foreground); }
+
+    .params { margin-top: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .param {
+      padding: 10px 12px;
+      background: var(--muted);
+      border-radius: calc(var(--radius) * 0.42);
+    }
+    .param-label { font: 500 10px/1 var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted-foreground); }
+    .param-val { margin-top: 5px; font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: var(--foreground); }
+  </style>
+</head>
+<body>
+  <script src="data.js"></script>
+
+  <main class="shell">
+    <!-- ═══ 侧边导航 ═══ -->
+    <aside class="sidebar">
+      <div class="brand">
+        <img class="brand-mark" src="assets/brand/volcengine-mark.svg" alt="火山引擎">
+        <div>
+          <p class="brand-eyebrow">火山方舟 · Agent Plan</p>
+          <h1 class="brand-title">AFP Token 估算器</h1>
+        </div>
+      </div>
+
+      <!-- 当前套餐 -->
+      <div class="side-section">
+        <p class="side-label">当前套餐</p>
+        <div class="plan-summary">
+          <div class="plan-summary-top">
+            <span id="activePlanName" class="plan-summary-name">Medium</span>
+            <span class="badge">实时换算</span>
+          </div>
+          <div class="plan-grid">
+            <div class="plan-cell">
+              <p class="plan-cell-label">月额度</p>
+              <p id="activePlanMonthly" class="plan-cell-val">100,000 AFP</p>
+            </div>
+            <div class="plan-cell">
+              <p class="plan-cell-label">价格</p>
+              <p id="activePlanPrice" class="plan-cell-val">¥200 / 月</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 配置参数 -->
+      <div class="side-section">
+        <p class="side-label">配置参数</p>
+
+        <!-- 模型 -->
+        <div class="field">
+          <div class="field-head">
+            <label for="modelSelect" class="side-h" style="margin:0">模型（文本生成）</label>
+            <span class="sub" id="modelCoeffChip">×2.5</span>
+          </div>
+          <div class="select-wrap">
+            <select id="modelSelect" class="select"></select>
+            <span class="icon icon-chev-down"></span>
+          </div>
+        </div>
+
+        <!-- 套餐 -->
+        <div class="field">
+          <div class="field-head">
+            <p class="side-h" style="margin:0">Agent Plan 套餐</p>
+            <span class="sub">4 档</span>
+          </div>
+          <div class="seg-2" id="planGroup"></div>
+        </div>
+
+        <!-- 场景 -->
+        <div class="field">
+          <div class="field-head">
+            <p class="side-h" style="margin:0">使用场景</p>
+            <span class="sub" id="scenarioRatioChip">9 : 1</span>
+          </div>
+          <div class="seg-3" id="scenarioGroup"></div>
+        </div>
+
+        <!-- 分段 -->
+        <div class="field">
+          <div class="field-head">
+            <p class="side-h" style="margin:0">上下文分段</p>
+            <span class="sub" id="segmentFactorChip">×1</span>
+          </div>
+          <div class="seg-3" id="segmentGroup"></div>
+          <p class="field-hint">切换场景会自动联动默认分段，可手动覆盖</p>
+        </div>
+
+        <!-- 抵扣系数折扣 -->
+        <div class="field">
+          <div class="field-head">
+            <p class="side-h" style="margin:0">输入抵扣系数折扣</p>
+            <span class="sub" id="inputDiscountChip">×1</span>
+          </div>
+          <div class="select-wrap">
+            <input type="number" id="inputDiscount" class="select" value="1" step="0.1" min="0" max="10" style="appearance:textfield;cursor:text">
+          </div>
+          <p class="field-hint">默认 1（原系数），如 0.8 表示输入系数打 8 折</p>
+        </div>
+        <div class="field">
+          <div class="field-head">
+            <p class="side-h" style="margin:0">输出抵扣系数折扣</p>
+            <span class="sub" id="outputDiscountChip">×1</span>
+          </div>
+          <div class="select-wrap">
+            <input type="number" id="outputDiscount" class="select" value="1" step="0.1" min="0" max="10" style="appearance:textfield;cursor:text">
+          </div>
+          <p class="field-hint">默认 1（原系数），如 0.8 表示输出系数打 8 折</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ═══ 主工作台 ═══ -->
+    <section class="workbench">
+      <!-- Hero -->
+      <div class="hero">
+        <div>
+          <p class="hero-eyebrow">月度可用 Token · 反推</p>
+          <p class="hero-model" id="heroModel">—</p>
+          <p>
+            <span class="hero-num" id="heroTokens">0</span>
+            <span class="hero-unit">tokens</span>
+          </p>
+          <p class="hero-sub">
+            约合 <strong id="heroMillions">0</strong> M ·
+            输入 <strong id="heroInput">0</strong> / 输出 <strong id="heroOutput">0</strong>
+          </p>
+        </div>
+        <div class="hero-side">
+          <div class="hero-side-row">
+            <span class="hero-side-label">模型抵扣系数</span>
+            <span class="hero-side-val" id="heroCoeff">—</span>
+          </div>
+          <div class="hero-side-row">
+            <span class="hero-side-label">输入分段系数</span>
+            <span class="hero-side-val" id="heroSegFactor">—</span>
+          </div>
+          <div class="hero-side-row">
+            <span class="hero-side-label">综合抵扣系数</span>
+            <span class="hero-side-val accent" id="heroCombined">—</span>
+          </div>
+          <div class="hero-side-row">
+            <span class="hero-side-label">月 AFP 额度</span>
+            <span class="hero-side-val" id="heroMonthly">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 拆分 + 公式 -->
+      <div class="grid-2">
+        <div class="panel">
+          <div class="panel-head">
+            <span class="icon icon-tag"></span>
+            <h3>输入 / 输出 拆分（月度）</h3>
+          </div>
+          <div class="breakdown">
+            <div class="bar-row">
+              <div class="bar-row-head">
+                <span class="bar-row-label">输入 Token</span>
+                <span class="bar-row-val" id="bdInput">—</span>
+              </div>
+              <div class="bar"><div class="bar-fill in" id="bdInputBar" style="width:0"></div></div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-row-head">
+                <span class="bar-row-label">输出 Token</span>
+                <span class="bar-row-val" id="bdOutput">—</span>
+              </div>
+              <div class="bar"><div class="bar-fill out" id="bdOutputBar" style="width:0"></div></div>
+            </div>
+            <p class="field-hint" style="margin-top:14px" id="bdHint">
+              输入抵扣 = 模型系数 × 分段系数 × 输入折扣；输出抵扣 = 模型系数 × 1 × 输出折扣
+            </p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <span class="icon icon-file"></span>
+            <h3>反推公式与参数</h3>
+          </div>
+          <div class="formula">
+            <div class="formula-block" id="formulaSubstituted">
+<span id="formulaSubText">—</span>
+            </div>
+            <div class="params">
+              <div class="param"><p class="param-label">输入系数</p><p class="param-val" id="pInCoeff">—</p></div>
+              <div class="param"><p class="param-label">输出系数</p><p class="param-val" id="pOutCoeff">—</p></div>
+              <div class="param"><p class="param-label">输入占比</p><p class="param-val" id="pInShare">—</p></div>
+              <div class="param"><p class="param-label">输出占比</p><p class="param-val" id="pOutShare">—</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 说明信息 -->
+      <div class="panel info-panel">
+        <div class="meta-row">
+          <span class="chip"><span class="dot"></span>数据版本 <span id="metaVersion" class="chip-strong">—</span></span>
+          <a id="metaLink" class="chip" href="#" target="_blank" rel="noreferrer">
+            官方文档 <span class="icon icon-ext"></span>
+          </a>
+        </div>
+        <p id="metaNotes" class="meta-notes"></p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // ═══ 状态 ═══
+    const state = {
+      plan: 'medium',
+      model: 'doubao-seed-2.0-pro',
+      scenario: 'coding',
+      segment: '32to128k',
+      inputDiscount: 1,
+      outputDiscount: 1
+    };
+
+    // ═══ 工具 ═══
+    const $ = (id) => document.getElementById(id);
+    const fmt = (n) => {
+      if (!isFinite(n)) return '—';
+      if (n >= 1e8) return (n / 1e8).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '亿';
+      if (n >= 1e4) return (n / 1e4).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '万';
+      return Math.round(n).toLocaleString('en-US');
+    };
+    const fmtRaw = (n) => isFinite(n) ? Math.round(n).toLocaleString('en-US') : '—';
+    const setText = (id, v) => { const el = $(id); if (el) el.textContent = v; };
+
+    // ═══ 计算引擎（与原版一致）═══
+    function compute() {
+      const plan = PLANS[state.plan];
+      const model = MODELS.find(m => m.key === state.model);
+      const segment = SEGMENTS.find(s => s.key === state.segment);
+      const scenario = SCENARIOS.find(s => s.key === state.scenario);
+
+      const inputDiscount  = state.inputDiscount;   // 输入抵扣系数折扣
+      const outputDiscount = state.outputDiscount;  // 输出抵扣系数折扣
+      const inputCoeff  = model.coefficient * segment.factor * inputDiscount;   // 输入抵扣系数（含折扣）
+      const outputCoeff = model.coefficient * 1 * outputDiscount;               // 输出抵扣系数（含折扣）
+      const a = scenario.inputRatio, b = scenario.outputRatio;
+      const sum = a + b;
+      const combined = (a / sum) * inputCoeff + (b / sum) * outputCoeff; // 综合 AFP/token
+
+      const periods = [
+        { key: 'monthly',   label: '月度',   icon: 'icon-star',    afp: plan.monthly },
+        { key: 'weekly',    label: '周度',   icon: 'icon-house',   afp: plan.weekly },
+        { key: 'fiveHours', label: '5 小时', icon: 'icon-play',    afp: plan.fiveHours }
+      ].map(p => {
+        const tokens = combined > 0 ? (p.afp * 10000) / combined : 0;
+        return { ...p, tokens, millions: tokens / 1e6 };
+      });
+
+      const monthly = periods[0];
+      return {
+        plan, model, segment, scenario,
+        inputCoeff, outputCoeff, combined,
+        inputShare: a / sum, outputShare: b / sum,
+        periods,
+        monthly
+      };
+    }
+
+    // ═══ 渲染 ═══
+    function renderMeta() {
+      setText('metaVersion', DATA_META.version);
+      $('metaLink').href = DATA_META.sourceUrl;
+      setText('metaNotes', DATA_META.notes || '');
+    }
+
+    function renderPlanSummaries() {
+      ['small','medium','large','max'].forEach(k => {
+        const el = $('plan-' + k + '-monthly');
+        if (el) el.textContent = (PLANS[k].monthly / 1000) + 'K AFP';
+      });
+    }
+
+    function renderOptions() {
+      // 套餐
+      $('planGroup').innerHTML = PLANS && Object.keys(PLANS).map(k => `
+        <button type="button" class="opt plan-opt ${k===state.plan?'active':''}" data-plan="${k}">
+          <span class="opt-name">${PLANS[k].name}</span>
+          <span class="opt-sub" id="plan-${k}-monthly">${PLANS[k].monthly/1000}K AFP</span>
+        </button>
+      `).join('');
+
+      // 模型（按类别分组）
+      const groups = {};
+      MODELS.forEach(m => { (groups[m.category] = groups[m.category] || []).push(m); });
+      $('modelSelect').innerHTML = Object.keys(groups).map(cat => `
+        <optgroup label="${cat}">
+          ${groups[cat].map(m => `<option value="${m.key}" ${m.key===state.model?'selected':''}>${m.name} (×${m.coefficient})</option>`).join('')}
+        </optgroup>
+      `).join('');
+
+      // 场景
+      $('scenarioGroup').innerHTML = SCENARIOS.map(s => `
+        <button type="button" class="opt scenario-opt ${s.key===state.scenario?'active':''}" data-scenario="${s.key}" title="${s.desc}">
+          <span class="opt-name">${s.label}</span>
+          <span class="opt-sub">${s.inputRatio}:${s.outputRatio}</span>
+        </button>
+      `).join('');
+
+      // 分段
+      $('segmentGroup').innerHTML = SEGMENTS.map(s => `
+        <button type="button" class="opt segment-opt ${s.key===state.segment?'active':''}" data-segment="${s.key}">
+          <span class="opt-name">${s.label}</span>
+          <span class="opt-sub">×${s.factor}</span>
+        </button>
+      `).join('');
+    }
+
+    function render() {
+      const r = compute();
+
+      // 侧边当前套餐
+      setText('activePlanName', r.plan.name);
+      setText('activePlanMonthly', r.plan.monthly.toLocaleString('en-US') + ' AFP');
+      setText('activePlanPrice', '¥' + r.plan.price + ' / 月');
+
+      // 配置 chips
+      setText('modelCoeffChip', '×' + r.model.coefficient);
+      setText('scenarioRatioChip', r.scenario.inputRatio + ' : ' + r.scenario.outputRatio);
+      setText('segmentFactorChip', '×' + r.segment.factor);
+      setText('inputDiscountChip', '×' + state.inputDiscount);
+      setText('outputDiscountChip', '×' + state.outputDiscount);
+
+      // Hero
+      setText('heroModel', r.model.name + ' · ' + r.plan.name);
+      setText('heroTokens', fmt(r.monthly.tokens));
+      setText('heroMillions', r.monthly.millions.toFixed(2));
+      setText('heroInput', fmt(r.monthly.tokens * r.inputShare));
+      setText('heroOutput', fmt(r.monthly.tokens * r.outputShare));
+      setText('heroCoeff', '×' + r.model.coefficient);
+      setText('heroSegFactor', '×' + r.segment.factor);
+      setText('heroCombined', r.combined.toFixed(4));
+      setText('heroMonthly', r.plan.monthly.toLocaleString('en-US') + ' AFP');
+
+      // 拆分
+      const inT = r.monthly.tokens * r.inputShare;
+      const outT = r.monthly.tokens * r.outputShare;
+      setText('bdInput', fmtRaw(inT));
+      setText('bdOutput', fmtRaw(outT));
+      $('bdInputBar').style.width  = (r.inputShare  * 100) + '%';
+      $('bdOutputBar').style.width = (r.outputShare * 100) + '%';
+
+      // 参数
+      setText('pInCoeff',  '×' + r.inputCoeff.toFixed(3));
+      setText('pOutCoeff', '×' + r.outputCoeff.toFixed(3));
+      setText('pInShare',  (r.inputShare  * 100).toFixed(0) + '%');
+      setText('pOutShare', (r.outputShare * 100).toFixed(0) + '%');
+
+      // 拆分面板备注：代入真实值
+      setText('bdHint',
+        '输入抵扣 = ' + r.model.coefficient + ' × ' + r.segment.factor + ' × ' + state.inputDiscount +
+        ' = ' + r.inputCoeff.toFixed(4) + '；输出抵扣 = ' + r.model.coefficient + ' × 1 × ' + state.outputDiscount +
+        ' = ' + r.outputCoeff.toFixed(4)
+      );
+
+      // 公式代入真实值（完整反推公式 + 代入值）
+      const aNum = r.scenario.inputRatio, bNum = r.scenario.outputRatio, sumNum = aNum + bNum;
+      const aShare = (aNum / sumNum).toFixed(4), bShare = (bNum / sumNum).toFixed(4);
+      const afpNum = r.plan.monthly.toLocaleString('en-US');
+      const combinedNum = r.combined.toFixed(4);
+      setText('formulaSubText',
+        'N = AFP × 10000 / (a/(a+b)·输入系数 + b/(a+b)·输出系数)\n' +
+        'N = ' + afpNum + ' × 10000 / (' + aShare + ' × ' + r.inputCoeff.toFixed(4) + ' + ' + bShare + ' × ' + r.outputCoeff.toFixed(4) + ')\n' +
+        'N = ' + afpNum + ' × 10000 / ' + combinedNum + '\n' +
+        'N ≈ ' + fmtRaw(r.monthly.tokens) + ' tokens'
+      );
+
+      // 同步 active 状态
+      document.querySelectorAll('.plan-opt').forEach(b => b.classList.toggle('active', b.dataset.plan === state.plan));
+      document.querySelectorAll('.scenario-opt').forEach(b => b.classList.toggle('active', b.dataset.scenario === state.scenario));
+      document.querySelectorAll('.segment-opt').forEach(b => b.classList.toggle('active', b.dataset.segment === state.segment));
+    }
+
+    // ═══ 事件 ═══
+    document.addEventListener('click', (e) => {
+      const planBtn = e.target.closest('.plan-opt');
+      if (planBtn) { state.plan = planBtn.dataset.plan; render(); return; }
+
+      const segBtn = e.target.closest('.segment-opt');
+      if (segBtn) { state.segment = segBtn.dataset.segment; render(); return; }
+
+      const sceBtn = e.target.closest('.scenario-opt');
+      if (sceBtn) {
+        state.scenario = sceBtn.dataset.scenario;
+        const sc = SCENARIOS.find(s => s.key === state.scenario);
+        if (sc) {
+          state.segment = sc.defaultSegment;
+          flashSegment();
+        }
+        render();
+        return;
+      }
+    });
+
+    $('modelSelect').addEventListener('change', (e) => {
+      state.model = e.target.value;
+      render();
+    });
+
+    $('inputDiscount').addEventListener('input', (e) => {
+      const v = parseFloat(e.target.value);
+      state.inputDiscount = (isFinite(v) && v >= 0) ? v : 1;
+      render();
+    });
+    $('outputDiscount').addEventListener('input', (e) => {
+      const v = parseFloat(e.target.value);
+      state.outputDiscount = (isFinite(v) && v >= 0) ? v : 1;
+      render();
+    });
+
+    function flashSegment() {
+      const g = $('segmentGroup');
+      g.style.transition = 'box-shadow .3s';
+      g.style.boxShadow = '0 0 0 2px var(--primary)';
+      setTimeout(() => { g.style.boxShadow = 'none'; }, 600);
+    }
+
+    // ═══ 初始化 ═══
+    renderMeta();
+    renderOptions();
+    render();
+  </script>
+</body>
+</html>
