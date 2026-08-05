@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="客户快速查询 Chrome 扩展使用指南，包含安装、域名设置、登录、单次查询和 Excel 批量查询说明。"
+    />
+    <meta name="theme-color" content="#f4f7fc" />
+    <title>客户快速查询 - 使用指南</title>
+    <link rel="icon" type="image/png" href="assets/logo.png" />
+    <link rel="stylesheet" href="styles.css?v=20260805" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">跳到主要内容</a>
+
+    <header class="site-header">
+      <nav class="nav-shell" aria-label="主导航">
+        <a class="brand" href="#top" aria-label="客户快速查询首页">
+          <img src="assets/logo.png" alt="" width="42" height="42" />
+          <span>
+            <strong>客户快速查询</strong>
+            <small>使用指南</small>
+          </span>
+        </a>
+
+        <button class="menu-button" type="button" aria-expanded="false" aria-controls="nav-links">
+          菜单
+        </button>
+
+        <div class="nav-links" id="nav-links">
+          <a href="#install">安装</a>
+          <a href="#settings">设置</a>
+          <a href="#query">查询</a>
+          <a href="#excel">Excel</a>
+          <a href="#faq">问题</a>
+        </div>
+
+        <a class="button button-small nav-download" href="downloads/quick-search-extension.zip" download>
+          下载扩展
+        </a>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <section class="hero" id="top">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Chrome 扩展使用指南</p>
+          <h1>3 分钟用上<br />客户快速查询</h1>
+          <p class="hero-intro">无需 F12，首次使用时填写页面域名和接口域名；正常登录后即可查询客户或批量处理 Excel。</p>
+          <div class="hero-actions">
+            <a class="button" href="downloads/quick-search-extension.zip" download>下载扩展包</a>
+            <a class="button button-quiet" href="#install">查看安装步骤</a>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal" aria-label="客户快速查询扩展界面预览">
+          <div class="preview-frame">
+            <div class="preview-topbar">
+              <span>客户快速查询</span>
+              <span>Chrome</span>
+            </div>
+            <img
+              src="assets/popup-preview.png"
+              alt="客户快速查询扩展的单次查询和 Excel 批量查询界面"
+              width="760"
+              height="600"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="benefit-strip" aria-label="产品特点">
+        <div><strong>不复制凭据</strong><span>直接使用浏览器登录态</span></div>
+        <div><strong>域名可配置</strong><span>无默认值，填写内容直接显示</span></div>
+        <div><strong>支持 Excel</strong><span>批量查询后自动导出</span></div>
+      </section>
+
+      <section class="guide-section install-section" id="install">
+        <div class="section-heading reveal">
+          <p class="section-kicker">第一次只需设置一次</p>
+          <h2>把扩展加载到 Chrome</h2>
+          <p>先解压 ZIP，再让 Chrome 选择解压后的文件夹。不要直接选择 ZIP，也不要选到文件夹的上一层。</p>
+        </div>
+
+        <div class="install-layout">
+          <ol class="steps">
+            <li class="reveal">
+              <span class="step-number">1</span>
+              <div>
+                <h3>下载 ZIP，并完整解压</h3>
+                <p>下载 <strong>quick-search-extension.zip</strong>，右键选择“解压”或“双击解压”，把得到的文件夹放在不会随意删除的位置。</p>
+                <p class="step-tip"><strong>不要这样做：</strong>不要在 ZIP 压缩包里直接打开文件，也不要加载 ZIP 文件本身。</p>
+              </div>
+            </li>
+            <li class="reveal">
+              <span class="step-number">2</span>
+              <div>
+                <h3>打开扩展管理</h3>
+                <p>复制 <code>chrome://extensions/</code>，粘贴到 Chrome 地址栏并按回车。这个地址不能像普通网页链接一样直接点击打开。</p>
+              </div>
+            </li>
+            <li class="reveal">
+              <span class="step-number">3</span>
+              <div>
+                <h3>开启“开发者模式”</h3>
+                <p>在扩展管理页右上角打开“开发者模式”开关。开启后，页面左上方会出现“加载已解压的扩展程序”按钮。</p>
+              </div>
+            </li>
+            <li class="reveal">
+              <span class="step-number">4</span>
+              <div>
+                <h3>选择包含 manifest.json 的文件夹</h3>
+                <p>点击“加载已解压的扩展程序”，在文件选择窗口中选中刚才解压出的文件夹，然后点击“选择文件夹”。</p>
+                <p class="step-tip"><strong>选对的标志：</strong>打开该文件夹后，第一层就能看到 <code>manifest.json</code>、<code>popup.html</code> 等文件。如果只看到另一个同名文件夹，请再进入一层。</p>
+              </div>
+            </li>
+            <li class="reveal">
+              <span class="step-number">5</span>
+              <div>
+                <h3>确认安装并固定图标</h3>
+                <p>扩展管理页出现“客户快速查询”卡片即表示加载成功。再点击地址栏右侧的扩展菜单，找到“客户快速查询”并点击图钉，之后可直接从工具栏打开。</p>
+              </div>
+            </li>
+          </ol>
+
+          <div class="install-aside">
+            <aside class="copy-card reveal">
+              <span>Chrome 扩展管理地址</span>
+              <code id="extensions-url">chrome://extensions/</code>
+              <button class="copy-button" type="button" data-copy-target="extensions-url" data-copy-message="已复制 Chrome 扩展管理地址">复制地址</button>
+            </aside>
+
+            <aside class="folder-check reveal" aria-label="扩展文件夹检查">
+              <span class="folder-check-label">选择文件夹前，先检查这一层</span>
+              <strong>解压后的文件夹 /</strong>
+              <code>manifest.json</code>
+              <code>popup.html</code>
+              <code>background.js</code>
+              <p>能在第一层看到 <code>manifest.json</code>，就是 Chrome 要选择的文件夹。</p>
+            </aside>
+          </div>
+        </div>
+
+      </section>
+
+      <section class="guide-section settings-section" id="settings">
+        <div class="section-heading reveal">
+          <p class="section-kicker">安装后马上完成</p>
+          <h2>填写设置</h2>
+          <p>点击扩展右上角的“设置”，把下面两个域名分别复制到对应输入框。只填域名本身，不要填写 <code>https://</code>、端口或斜杠后的路径。</p>
+        </div>
+
+        <div class="settings-layout">
+          <figure class="settings-preview reveal">
+            <img src="assets/settings-preview.png" alt="客户快速查询的域名设置窗口，上方为页面域名，下方为接口域名" width="516" height="292" />
+            <figcaption>设置窗口中，上面的输入框填“页面域名”，下面的输入框填“接口域名”。</figcaption>
+          </figure>
+
+          <div class="domain-values reveal">
+            <article class="domain-card">
+              <span>① 页面域名</span>
+              <p>用于打开并保持登录的客户页面</p>
+              <code>由使用者提供</code>
+            </article>
+            <article class="domain-card">
+              <span>② 接口域名</span>
+              <p>用于发送客户查询请求</p>
+              <code>由使用者提供</code>
+            </article>
+          </div>
+        </div>
+
+        <div class="domain-example reveal" role="note" aria-label="域名填写示例">
+          <div><span class="example-label example-correct">正确</span><code>host.example.com</code></div>
+          <div><span class="example-label example-wrong">不要填</span><code>https://host.example.com/path</code></div>
+        </div>
+
+        <ol class="settings-finish reveal">
+          <li><span>1</span><p><strong>点击“保存并生效”</strong>，Chrome 会弹出对这两个 HTTPS 域名的访问授权。</p></li>
+          <li><span>2</span><p><strong>点击“允许”</strong>。看到“设置已保存并生效”，说明配置完成。</p></li>
+          <li><span>3</span><p><strong>重新打开扩展并点击“打开页面”</strong>，完成登录并保持该标签页打开；状态变成绿灯后即可查询。</p></li>
+        </ol>
+      </section>
+
+      <section class="guide-section query-section" id="query">
+        <div class="section-heading reveal">
+          <h2>查询一个客户</h2>
+          <p>首次使用先登录目标页面，之后只需输入客户名称。</p>
+        </div>
+
+        <div class="signal-guide reveal" aria-label="页面连接状态说明">
+          <div><span class="signal-lamp signal-green"></span><strong>绿灯</strong><small>已就绪，可直接查询</small></div>
+          <div><span class="signal-lamp signal-red"></span><strong>红灯</strong><small>请打开目标页面，并保持标签页打开</small></div>
+        </div>
+
+        <div class="query-flow">
+          <article class="flow-item reveal">
+            <span class="flow-label">登录</span>
+            <h3>打开页面</h3>
+            <p>点击扩展中的“打开页面”，按正常流程完成登录。</p>
+          </article>
+          <article class="flow-item flow-item-accent reveal">
+            <span class="flow-label">输入</span>
+            <h3>填写客户名称</h3>
+            <p>输入完整或部分名称，例如“伯乐”，然后点击“立即查询”。</p>
+          </article>
+          <article class="flow-item reveal">
+            <span class="flow-label">获取</span>
+            <h3>查看或复制结果</h3>
+            <p>结果会直接显示在扩展中，需要时可一键复制。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="guide-section excel-guide" id="excel">
+        <div class="excel-layout">
+          <div class="excel-copy reveal">
+            <h2>一份 Excel，批量查完</h2>
+            <p>首列直接放客户名，不需要表头。选择文件后扩展会依次查询并下载结果。</p>
+            <div class="format-list" aria-label="支持的文件格式">
+              <span>.xlsx</span><span>.xls</span><span>.csv</span>
+            </div>
+          </div>
+
+          <div class="excel-process reveal">
+            <div><strong>准备文件</strong><span>首列为客户名</span></div>
+            <div><strong>填写客户</strong><span>不需要表头，一个客户一行</span></div>
+            <div><strong>开始批量查询</strong><span>页面中实时显示进度</span></div>
+            <div><strong>下载结果</strong><span>同时保留展开结果和原始响应</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="guide-section privacy-section">
+        <div class="privacy-copy reveal">
+          <img src="assets/logo.png" alt="" width="72" height="72" />
+          <div>
+            <h2>凭据留在浏览器中</h2>
+            <p>扩展使用当前浏览器会话完成查询，不要求用户复制 Cookie 或 Token。域名配置保存在 Chrome 扩展本地存储中。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="guide-section faq-section" id="faq">
+        <div class="section-heading reveal">
+          <h2>常见问题</h2>
+          <p>遇到问题时，通常只需刷新目标页面或重新加载扩展。</p>
+        </div>
+
+        <div class="faq-list">
+          <details class="reveal">
+            <summary>扩展显示“请确认页面已登录”怎么办？</summary>
+            <p>点击“打开页面”，完成登录并等待客户页面加载，然后再次打开扩展。</p>
+          </details>
+          <details class="reveal">
+            <summary>查询突然返回 401 或 403 怎么办？</summary>
+            <p>当前登录态可能已过期。刷新目标页面，必要时重新登录即可。</p>
+          </details>
+          <details class="reveal">
+            <summary>为什么首次打开设置时两个输入框是空的？</summary>
+            <p>扩展不内置任何域名默认值。首次使用时，需要手动填写“页面域名”和“接口域名”并保存。</p>
+          </details>
+          <details class="reveal">
+            <summary>为什么保存域名时会弹出权限授权？</summary>
+            <p>扩展只有获得用户授权后才能访问填写的 HTTPS 域名。每次配置新域名时，Chrome 都可能请求确认。</p>
+          </details>
+          <details class="reveal">
+            <summary>修改域名后显示“未就绪”怎么办？</summary>
+            <p>修改域名时会主动清除旧的会话认证信息。请点击“打开页面”，完成登录或刷新页面后再次查询。</p>
+          </details>
+          <details class="reveal">
+            <summary>Excel 需要写表头吗？</summary>
+            <p>不需要。首列直接填写客户名，一个客户一行。</p>
+          </details>
+          <details class="reveal">
+            <summary>更新扩展后页面还是旧的怎么办？</summary>
+            <p>打开 Chrome 扩展管理页，在客户快速查询卡片上点击刷新按钮。</p>
+          </details>
+        </div>
+      </section>
+
+      <section class="final-cta">
+        <div class="reveal">
+          <h2>准备好了，开始查询</h2>
+          <p>下载扩展包，按本页步骤安装即可使用。</p>
+        </div>
+        <a class="button" href="downloads/quick-search-extension.zip" download>下载扩展包</a>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <span>客户快速查询</span>
+        <span>域名保存在扩展本地存储中 · 认证信息仅保存在当前浏览器会话中</span>
+      </div>
+    </footer>
+
+    <div class="toast" role="status" aria-live="polite" hidden>已复制</div>
+    <script src="app.js?v=20260805"></script>
+  </body>
+</html>
