@@ -646,6 +646,19 @@ summary:focus-visible {
   gap: 8px;
 }
 
+.settings-mock .field-name i {
+  margin-left: 2px;
+  color: #f53f3f;
+  font-style: normal;
+}
+
+.settings-mock .field-note {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
 .fake-input {
   min-height: 36px;
   padding: 8px 12px;

@@ -170,7 +170,7 @@
         <div class="section-heading reveal">
           <p class="section-kicker">查找</p>
           <h2>查找当前网站</h2>
-          <p>打开网页后点击图标，查找自动开始。</p>
+          <p>打开网页后点击图标，查找自动开始。使用前需在设置中保存 Jev 密钥。</p>
         </div>
 
         <div class="query-flow">
@@ -219,8 +219,8 @@
       <section class="guide-section settings-section" id="settings">
         <div class="section-heading reveal">
           <p class="section-kicker">设置</p>
-          <h2>口令可选</h2>
-          <p>不填写也可以查找，并会打开页面上的联系入口。填写后，会更准确打开「联系我们」「关于我们」。口令由扩展提供方发放，申请步骤见设置页「使用帮助」。</p>
+          <h2>填写口令</h2>
+          <p>查找前必须填写高级查找口令。这是 Jev 密钥，保存后才会开始查找。申请步骤见扩展内「使用帮助」。</p>
         </div>
 
         <div class="settings-layout">
@@ -230,16 +230,17 @@
               <span>使用帮助</span>
             </div>
             <label>
-              高级查找口令（选填）
-              <span class="fake-input">没有可以留空</span>
+              <span class="field-name">高级查找口令<i aria-hidden="true">*</i></span>
+              <span class="fake-input">粘贴密钥</span>
+              <span class="field-note">口令是 Jev 密钥。填写并保存后，才会开始查找。</span>
             </label>
             <span class="popup-primary settings-save">保存</span>
           </div>
 
           <ol class="settings-finish reveal">
             <li><span>1</span><p>点击窗口右上角「设置」。</p></li>
-            <li><span>2</span><p>填入后点击「保存」。</p></li>
-            <li><span>3</span><p>不需要时保持空白。</p></li>
+            <li><span>2</span><p>填入 Jev 密钥，点击「保存」。</p></li>
+            <li><span>3</span><p>未填写时，查找不会开始。</p></li>
           </ol>
         </div>
       </section>
@@ -276,8 +277,8 @@
             <p>该网站已查找且没有结果，不会再次查找。</p>
           </details>
           <details class="reveal">
-            <summary>结果较少</summary>
-            <p>在设置中填写口令后，会继续打开联系页面。口令向扩展提供方获取。</p>
+            <summary>提示填写口令</summary>
+            <p>在设置中填写 Jev 密钥并保存。未填写时不会开始查找。</p>
           </details>
           <details class="reveal">
             <summary>关闭窗口后是否仍在查找</summary>
