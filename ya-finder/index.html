@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="找联系方式 Chrome 扩展使用指南。下载扩展，加载到 Chrome，查出当前网页上的电话、邮箱和二维码。"
+      content="找出当前网页的电话、邮箱和二维码。包含安装、查找、批量查询和口令说明。"
     />
     <meta name="theme-color" content="#f4f7fc" />
-    <title>找联系方式 - 使用指南</title>
+    <title>找联系方式</title>
     <link rel="icon" type="image/png" href="assets/logo.png" />
     <link rel="stylesheet" href="styles.css?v=20261008" />
     <script>document.documentElement.classList.add("js")</script>
@@ -22,7 +22,7 @@
           <img src="assets/logo.png" alt="" width="42" height="42" />
           <span>
             <strong>找联系方式</strong>
-            <small>使用指南</small>
+            <small>使用说明</small>
           </span>
         </a>
 
@@ -47,14 +47,14 @@
     <main id="main-content">
       <section class="hero" id="top">
         <div class="hero-copy reveal">
-          <p class="eyebrow">Chrome 扩展使用指南</p>
-          <h1>点一下图标<br />找出联系方式</h1>
+          <p class="eyebrow">Chrome 扩展</p>
+          <h1>找出网页上的<br />电话和邮箱</h1>
           <p class="hero-intro">
-            打开网页，点工具栏上的「找联系方式」。电话、邮箱、二维码，以及页面上写明的其他联系方式，会出现在弹出的窗口里。
+            点击工具栏图标，列出当前网页的电话、邮箱、二维码，以及页面上的其他联系方式。
           </p>
           <div class="hero-actions">
-            <a class="button" href="downloads/contact-finder-extension.zip" download>下载扩展包</a>
-            <a class="button button-quiet" href="#install">查看安装步骤</a>
+            <a class="button" href="downloads/contact-finder-extension.zip" download>下载扩展</a>
+            <a class="button button-quiet" href="#install">安装说明</a>
           </div>
         </div>
 
@@ -62,7 +62,7 @@
           <div class="preview-frame">
             <div class="preview-topbar">
               <span>找联系方式</span>
-              <span>示意</span>
+              <span>预览</span>
             </div>
             <div class="popup-mock" aria-hidden="true">
               <div class="popup-head">
@@ -89,21 +89,21 @@
               </div>
             </div>
           </div>
-          <figcaption>查完后的窗口示意。电话、邮箱和网址都是例子。</figcaption>
+          <figcaption>查找结果预览。号码与地址为示例。</figcaption>
         </figure>
       </section>
 
       <section class="benefit-strip" aria-label="可以做什么">
-        <div><strong>当前网页</strong><span>点图标就开始查</span></div>
-        <div><strong>一次很多网址</strong><span>每行一个，后台依次查</span></div>
-        <div><strong>不打断浏览</strong><span>要打开的页面在后台标签里</span></div>
+        <div><strong>当前网页</strong><span>点击图标开始查找</span></div>
+        <div><strong>批量网址</strong><span>每行一个，依次查找</span></div>
+        <div><strong>后台进行</strong><span>不切换当前页面</span></div>
       </section>
 
       <section class="guide-section install-section" id="install">
         <div class="section-heading reveal">
-          <p class="section-kicker">第一次安装</p>
-          <h2>把扩展加载到 Chrome</h2>
-          <p>先解压 ZIP，再让 Chrome 选择解压后的文件夹。不要直接选择 ZIP，也不要选到文件夹的上一层。</p>
+          <p class="section-kicker">安装</p>
+          <h2>加载到 Chrome</h2>
+          <p>下载并解压，在扩展页面选择含 manifest.json 的文件夹。</p>
         </div>
 
         <div class="install-layout">
@@ -111,58 +111,56 @@
             <li class="reveal">
               <span class="step-number">1</span>
               <div>
-                <h3>下载 ZIP，并完整解压</h3>
-                <p>下载 <strong>contact-finder-extension.zip</strong>，右键选择「解压」或双击解压，把得到的文件夹放在不会随意删除的位置。</p>
-                <p class="step-tip"><strong>不要这样做：</strong>不要在 ZIP 里直接打开文件，也不要把 ZIP 本身交给 Chrome。</p>
+                <h3>下载并解压</h3>
+                <p>下载 <strong>contact-finder-extension.zip</strong> 并解压。加载时选择文件夹，不选择压缩包。</p>
               </div>
             </li>
             <li class="reveal">
               <span class="step-number">2</span>
               <div>
-                <h3>打开扩展管理</h3>
-                <p>复制 <code>chrome://extensions/</code>，粘贴到 Chrome 地址栏并按回车。这个地址不能像普通网页链接一样直接点开。</p>
+                <h3>打开扩展页面</h3>
+                <p>在地址栏输入 <code>chrome://extensions/</code> 并回车。此地址无法通过网页链接打开。</p>
               </div>
             </li>
             <li class="reveal">
               <span class="step-number">3</span>
               <div>
-                <h3>打开「开发者模式」</h3>
-                <p>在扩展管理页右上角打开「开发者模式」。开关变成蓝色后，左上方会出现「加载已解压的扩展程序」。</p>
+                <h3>开启开发者模式</h3>
+                <p>打开页面右上角的开关。之后会出现「加载已解压的扩展程序」。</p>
               </div>
             </li>
             <li class="reveal">
               <span class="step-number">4</span>
               <div>
-                <h3>选择有 manifest.json 的那一层</h3>
-                <p>点「加载已解压的扩展程序」，选中刚才解压出的文件夹，再点「选择文件夹」。</p>
-                <p class="step-tip"><strong>选对的标志：</strong>打开该文件夹后，第一层就能看到 <code>manifest.json</code>、<code>popup.html</code>。如果只看到另一个同名文件夹，请再进入一层。</p>
+                <h3>加载文件夹</h3>
+                <p>点击「加载已解压的扩展程序」，选择解压后的文件夹。第一层应有 <code>manifest.json</code>。若只有子文件夹，再进入一层。</p>
               </div>
             </li>
             <li class="reveal">
               <span class="step-number">5</span>
               <div>
                 <h3>固定到工具栏</h3>
-                <p>扩展管理页出现「找联系方式」卡片，就是加载成功。点地址栏右侧的扩展菜单，找到它并点图钉，之后可以从工具栏直接打开。</p>
+                <p>出现「找联系方式」即加载成功。在工具栏的扩展菜单中将其固定。</p>
               </div>
             </li>
           </ol>
 
           <div class="install-aside">
             <aside class="copy-card reveal">
-              <span>Chrome 扩展管理地址</span>
+              <span>扩展页面地址</span>
               <code id="extensions-url">chrome://extensions/</code>
-              <button class="copy-button" type="button" data-copy-target="extensions-url" data-copy-message="已复制扩展管理地址">
+              <button class="copy-button" type="button" data-copy-target="extensions-url" data-copy-message="已复制">
                 复制地址
               </button>
             </aside>
 
             <aside class="folder-check reveal" aria-label="扩展文件夹检查">
-              <span class="folder-check-label">选择文件夹前，先看这一层</span>
+              <span class="folder-check-label">文件夹第一层</span>
               <strong>解压后的文件夹 /</strong>
               <code>manifest.json</code>
               <code>popup.html</code>
               <code>background.js</code>
-              <p>第一层能看到 <code>manifest.json</code>，就是 Chrome 要选择的文件夹。</p>
+              <p>包含 <code>manifest.json</code> 时，选择该文件夹。</p>
             </aside>
           </div>
         </div>
@@ -170,59 +168,59 @@
 
       <section class="guide-section" id="use">
         <div class="section-heading reveal">
-          <p class="section-kicker">装好就能用</p>
-          <h2>查当前这个网站</h2>
-          <p>打开要查的网页，再点工具栏图标。当前网站会自动开始查找，不用再填什么。</p>
+          <p class="section-kicker">查找</p>
+          <h2>查找当前网站</h2>
+          <p>打开网页后点击图标，查找自动开始。</p>
         </div>
 
         <div class="query-flow">
           <article class="flow-item reveal">
             <span class="flow-label">打开</span>
-            <h3>先进入网页</h3>
-            <p>地址以 http 或 https 开头的普通网页才能查。新标签页和扩展管理页不行。</p>
+            <h3>进入目标网页</h3>
+            <p>支持普通网页。新标签页和扩展页面无法查找。</p>
           </article>
           <article class="flow-item flow-item-accent reveal">
-            <span class="flow-label">点图标</span>
-            <h3>自动开始查找</h3>
-            <p>窗口打开后就会查。关掉也没关系，工具栏图标会显示进度，再点开就能看结果。</p>
+            <span class="flow-label">查找</span>
+            <h3>点击图标</h3>
+            <p>关闭窗口后，图标继续显示进度。再次打开可查看结果。</p>
           </article>
           <article class="flow-item reveal">
-            <span class="flow-label">看结果</span>
+            <span class="flow-label">结果</span>
             <h3>电话、邮箱、二维码</h3>
-            <p>找到的会分列在窗口里。页面上写明的其他联系方式也会列出来。</p>
+            <p>分类显示。页面上的其他联系方式一并列出。</p>
           </article>
         </div>
 
         <div class="link-note reveal">
-          <strong>在链接上右键</strong>
-          <p>选择「查找这个链接的联系方式」，直接查那个网页。只对 http 和 https 链接有效。</p>
+          <strong>右键链接</strong>
+          <p>选择「查找这个链接的联系方式」，查找该链接对应的网页。</p>
         </div>
       </section>
 
       <section class="guide-section batch-guide" id="batch">
         <div class="batch-layout">
           <div class="batch-copy reveal">
-            <h2>一次贴上很多网址</h2>
-            <p>点窗口里的「批量查找」。每行一个网址或域名，用回车分开，再点「批量查」。</p>
-            <div class="format-list" aria-label="可以怎么写">
+            <h2>批量查找</h2>
+            <p>打开「批量查找」，每行填写一个网址或域名，然后点击「批量查」。</p>
+            <div class="format-list" aria-label="地址格式">
               <span>完整网址</span>
               <span>只写域名</span>
             </div>
           </div>
           <ol class="batch-process reveal">
-            <li><strong>打开批量查找</strong><span>在弹出窗口里点「批量查找」</span></li>
-            <li><strong>每行一个</strong><span>example.com 这样写也可以</span></li>
-            <li><strong>点「批量查」</strong><span>窗口里能看到正在查第几个</span></li>
-            <li><strong>在后台进行</strong><span>不会打断你正在看的网页</span></li>
+            <li><strong>打开批量查找</strong><span>在扩展窗口中</span></li>
+            <li><strong>每行一个地址</strong><span>支持域名，如 example.com</span></li>
+            <li><strong>点击「批量查」</strong><span>窗口显示当前进度</span></li>
+            <li><strong>后台标签</strong><span>当前页面保持不变</span></li>
           </ol>
         </div>
       </section>
 
       <section class="guide-section settings-section" id="settings">
         <div class="section-heading reveal">
-          <p class="section-kicker">一般不用填</p>
-          <h2>高级查找口令是选填的</h2>
-          <p>不填也会查找，并点开页面上的联系入口。填了之后，会更准确地打开「联系我们」「关于我们」这类页面，找得更全。</p>
+          <p class="section-kicker">设置</p>
+          <h2>口令可选</h2>
+          <p>不填写也可以查找，并会打开页面上的联系入口。填写后，会更准确打开「联系我们」「关于我们」。口令由扩展提供方发放，申请步骤见设置页「使用帮助」。</p>
         </div>
 
         <div class="settings-layout">
@@ -239,9 +237,9 @@
           </div>
 
           <ol class="settings-finish reveal">
-            <li><span>1</span><p><strong>点窗口右上角的「设置」</strong>，会打开单独的设置页。</p></li>
-            <li><span>2</span><p><strong>把口令贴进输入框</strong>，再点「保存」。看到「已保存」就完成了。</p></li>
-            <li><span>3</span><p><strong>口令向提供这个工具的人索取。</strong>申请步骤写在设置页的「使用帮助」里。</p></li>
+            <li><span>1</span><p>点击窗口右上角「设置」。</p></li>
+            <li><span>2</span><p>填入后点击「保存」。</p></li>
+            <li><span>3</span><p>不需要时保持空白。</p></li>
           </ol>
         </div>
       </section>
@@ -250,9 +248,9 @@
         <div class="privacy-copy reveal">
           <img src="assets/logo.png" alt="" width="72" height="72" />
           <div>
-            <h2>口令留在你的 Chrome 里</h2>
+            <h2>数据留在本地</h2>
             <p>
-              扩展读取你要查的网页上写明的电话、邮箱、二维码和其他联系方式。要打开的页面在后台标签里。不需要复制 Cookie，也不需要复制登录令牌。
+              扩展读取网页上的电话、邮箱、二维码和其他联系方式。继续打开的页面位于后台标签。口令保存在 Chrome 本地。
             </p>
           </div>
         </div>
@@ -261,62 +259,62 @@
       <section class="guide-section faq-section" id="faq">
         <div class="section-heading reveal">
           <h2>常见问题</h2>
-          <p>多数情况刷新网页，或在扩展管理页里点一次刷新，就能继续用。</p>
+          <p>先确认已打开目标网页。版本未更新时，在扩展页面刷新扩展。</p>
         </div>
 
         <div class="faq-list">
           <details class="reveal">
             <summary>提示「请先打开一个网站，再点图标」</summary>
-            <p>先打开一个 http 或 https 网页。新标签页、Chrome 设置页、扩展管理页本身不能查。</p>
+            <p>当前页不是普通网页。打开目标网站后再点击图标。</p>
           </details>
           <details class="reveal">
-            <summary>提示先关掉开发者工具</summary>
-            <p>这个网站上如果开着开发者工具窗口，先关掉，再点一次图标。</p>
+            <summary>提示关闭开发者工具</summary>
+            <p>目标网页打开了开发者工具。关闭后重新点击图标。</p>
           </details>
           <details class="reveal">
-            <summary>按钮变成「已查过」，不想重新查</summary>
-            <p>这个网站已经查过，而且没有找到联系方式。再点开也不会重新查。</p>
+            <summary>按钮显示「已查过」</summary>
+            <p>该网站已查找且没有结果，不会再次查找。</p>
           </details>
           <details class="reveal">
-            <summary>找到的比较少</summary>
-            <p>不填口令也会查。到设置里填上高级查找口令后，会更准确地打开联系页面。口令向提供这个工具的人索取。</p>
+            <summary>结果较少</summary>
+            <p>在设置中填写口令后，会继续打开联系页面。口令向扩展提供方获取。</p>
           </details>
           <details class="reveal">
-            <summary>关掉窗口之后，还在查吗</summary>
-            <p>还在查。工具栏图标会显示进度：查找中是「…」，出问题是「!」，查完后是找到的条数。再点开图标就能看结果。</p>
+            <summary>关闭窗口后是否仍在查找</summary>
+            <p>仍在查找。图标在查找中显示 …，出错显示 !，完成后显示条数。</p>
           </details>
           <details class="reveal">
-            <summary>批量查找的网址怎么写</summary>
-            <p>每行一个。可以写完整网址，也可以只写域名，比如 example.com。空行会跳过，不是网页地址的也会跳过。</p>
+            <summary>批量网址如何填写</summary>
+            <p>每行一个网址或域名，例如 example.com。空行和非网页地址会跳过。</p>
           </details>
           <details class="reveal">
-            <summary>右键菜单里没有这一项</summary>
-            <p>请在 http 或 https 链接上右键，菜单名是「查找这个链接的联系方式」。先确认扩展已经启用。</p>
+            <summary>右键没有对应菜单</summary>
+            <p>在网页链接上右键。菜单名称为「查找这个链接的联系方式」。</p>
           </details>
           <details class="reveal">
-            <summary>加载时提示找不到清单文件</summary>
-            <p>选择的文件夹第一层要直接看到 manifest.json。如果只看到另一个文件夹，再进去一层。不要选择 ZIP 本身。</p>
+            <summary>提示找不到清单文件</summary>
+            <p>文件夹第一层需要有 manifest.json。不能选择压缩包；若只有子文件夹，再进入一层。</p>
           </details>
           <details class="reveal">
-            <summary>更新之后还是旧的</summary>
-            <p>打开扩展管理页，在「找联系方式」卡片上点刷新。如果换了新的压缩包，先移除旧的，再重新加载解压后的文件夹。</p>
+            <summary>更新后仍是旧版本</summary>
+            <p>在扩展页面点击「找联系方式」的刷新。更换压缩包时，移除旧扩展后重新加载。</p>
           </details>
         </div>
       </section>
 
       <section class="final-cta">
         <div class="reveal">
-          <h2>下载之后按步骤加载</h2>
-          <p>解压，打开开发者模式，选择有 manifest.json 的文件夹。</p>
+          <h2>下载扩展</h2>
+          <p>解压后，在扩展页面加载含 manifest.json 的文件夹。</p>
         </div>
-        <a class="button" href="downloads/contact-finder-extension.zip" download>下载扩展包</a>
+        <a class="button" href="downloads/contact-finder-extension.zip" download>下载扩展</a>
       </section>
     </main>
 
     <footer class="site-footer">
       <div>
         <span>找联系方式</span>
-        <span>扩展 1.0.0 · 口令只保存在你的 Chrome 里</span>
+        <span>1.0.0</span>
       </div>
     </footer>
 
